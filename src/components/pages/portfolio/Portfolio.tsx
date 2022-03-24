@@ -1,9 +1,11 @@
 import { Component } from "react";
+
+import { tns } from "../../../../node_modules/tiny-slider/src/tiny-slider"; // slider
 import Header from "../../header/Header";
 import Social from "../../social/Social";
 import {getPhotos} from "../../../services/service";
 
-import { tns } from "../../../../node_modules/tiny-slider/src/tiny-slider";
+// temp photos
 import image1 from "../../../resources/photos/1.jpg";
 import image2 from "../../../resources/photos/57.jpg";
 import image3 from "../../../resources/photos/DSC0рр4882.jpg";
@@ -11,16 +13,23 @@ import image4 from "../../../resources/photos/DSC04758.jpg";
 import image5 from "../../../resources/photos/DSC05767.jpg";
 import image6 from "../../../resources/photos/DSC06049.jpg";
 
+
+// styles
 import "./portfolio.scss";
 
-//types
+// types
 import { namePages } from "../../app/App";
+import Modal from "../../modal/Modal";
 interface IProps {
     onChangePage: (namePage: namePages) => void
 }
 interface IState {
     listPhotos: {url: string}[],
-    numSlide: string
+    numSlide: string,
+    modal: {
+        isOpenModal: boolean,
+        modalUrl: string
+    }
 }
 
 
@@ -37,7 +46,11 @@ class Portfolio extends Component<IProps, IState> {
                 {url: image5},
                 {url: image6}
             ],
-            numSlide: "01"
+            numSlide: "01",
+            modal: {
+                isOpenModal: false,
+                modalUrl: ""
+            }
         }
     }
 
@@ -126,42 +139,64 @@ class Portfolio extends Component<IProps, IState> {
         }
     }
 
+    onCloseModal = () => {
+        this.setState({
+            modal: {
+                ...this.state.modal,
+                isOpenModal: false
+            }
+        });
+    }
+    onOpenModal = (url: string) => {
+        console.log("done")
+        this.setState({
+            modal: {
+                modalUrl: url,
+                isOpenModal: true
+            }
+        });
+    }
+
     render() {
-        const {listPhotos, numSlide} = this.state;
+        const {listPhotos, numSlide, modal: {modalUrl, isOpenModal}} = this.state;
 
         return(
-            <div className="portfolio">
-                <div className="container">
-                    <Header onChangePage={this.props.onChangePage} mb="40px"/>
-                </div>
-
-                <div className="portfolio__wrapper-photos slider">
-                    {
-                        listPhotos.map((item, index) => {
-                            return (
-                                <div className="portfolio__wrapper-photo" key={"photo" + index}>
-                                    <img className="portfolio__photo" src={item.url} alt="" key={"photo" + index}/>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-
-                <div className="slider__control-container">
-                    <button className="slider__prev-button"></button>
-                    <button className="slider__next-button"></button>
-                </div>
+            <>
+                {isOpenModal ? <Modal url={modalUrl} onCloseModal={this.onCloseModal} /> : null}
                 
-                <div className="slider__counter">
-                    <div className="slider__current">{numSlide}</div>
-                    <div className="slider__counter-divider"></div>
-                    <div className="slider__total">{listPhotos.length > 9 ? listPhotos.length : "0" + listPhotos.length}</div>    
+                <div className="portfolio">
+                    <div className="container">
+                        <Header onChangePage={this.props.onChangePage} mb="40px"/>
+                    </div>
+    
+                    <div className="portfolio__wrapper-photos slider">
+                        {
+                            listPhotos.map((item, index) => {
+                                return (
+                                    <div className="portfolio__wrapper-photo" key={"photo" + index} onClick={() => this.onOpenModal(item.url)}>
+                                        <img className="portfolio__photo" src={item.url} alt="" key={"photo" + index}/>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+    
+                    <div className="slider__control-container">
+                        <button className="slider__prev-button"></button>
+                        <button className="slider__next-button"></button>
+                    </div>
+                    
+                    <div className="slider__counter">
+                        <div className="slider__current">{numSlide}</div>
+                        <div className="slider__counter-divider"></div>
+                        <div className="slider__total">{listPhotos.length > 9 ? listPhotos.length : "0" + listPhotos.length}</div>    
+                    </div>
+                    
+                    <div className="container">
+                        <Social/>
+                    </div>
                 </div>
-                
-                <div className="container">
-                    <Social/>
-                </div>
-            </div>
+            </>
         )
     }
 }

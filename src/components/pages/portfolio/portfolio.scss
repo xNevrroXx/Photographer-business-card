@@ -27,7 +27,7 @@
         margin: 0 auto; 
         transition: 0.2s all;
         &:hover {
-            cursor: url("../../../resources/cursor-zoom.png"), auto;
+            cursor: url("../../../resources/icon-zoom-in.png"), auto;
             transform: scale(1.1);
             max-height: 67vh;
             max-width: 67vw;
