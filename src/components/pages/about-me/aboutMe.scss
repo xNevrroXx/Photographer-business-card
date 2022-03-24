@@ -1,0 +1,29 @@
+@import "../../../style/variables.scss";
+
+.about-me {
+    min-height: 650px;
+    height: 80vh;
+    .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    main {
+        width: 685px;
+        font-family: "Yanone Kaffeesatz";
+        h2 {
+            font-family: "Playfair Display";
+            color: white;
+            margin-bottom: 30px;
+        }
+        p {
+            color: $gray;
+            font-family: inherit;
+            margin-bottom: 30px;
+            font-size: 20px;
+            line-height: 30px;
+            letter-spacing: 1px;
+        }
+    }
+}
