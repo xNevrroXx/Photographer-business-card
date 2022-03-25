@@ -38,14 +38,7 @@ class Portfolio extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            listPhotos: [
-                {url: image1},
-                {url: image2},
-                {url: image3},
-                {url: image4},
-                {url: image5},
-                {url: image6}
-            ],
+            listPhotos: [],
             numSlide: "01",
             modal: {
                 isOpenModal: false,
@@ -57,7 +50,7 @@ class Portfolio extends Component<IProps, IState> {
     componentDidMount() {
         getPhotos("http://localhost:3000/images")
         .then(result => {
-            // this.setState({listPhotos: result}) //временно, пока не получится вернуть оригинальные фото
+            this.setState({listPhotos: result}) //временно, пока не получится вернуть оригинальные фото
         })
         .then(() => {
             const slider = tns({
@@ -71,23 +64,12 @@ class Portfolio extends Component<IProps, IState> {
                 useLocalStorage: false,
                 center: true,
                 gutter: 0,
-                edgePadding: 325,
+                edgePadding: 200,
                 speed: 800,
                 //controls
                 prevButton: ".slider__prev-button",
                 nextButton: ".slider__next-button",
-                nav: false,
-                responsive: {
-                    320: {
-                        edgePadding: 0
-                    },
-                    1300: {
-                        edgePadding: 200
-                    },
-                    1800: {
-                        edgePadding: 300
-                    }
-                }
+                nav: false
             });
         })
 
@@ -192,9 +174,12 @@ class Portfolio extends Component<IProps, IState> {
                         <div className="slider__total">{listPhotos.length > 9 ? listPhotos.length : "0" + listPhotos.length}</div>    
                     </div>
                     
-                    <div className="container">
-                        <Social/>
-                    </div>
+                    
+                    <footer>
+                        <div className="container">
+                            <Social/>
+                        </div>
+                    </footer>
                 </div>
             </>
         )

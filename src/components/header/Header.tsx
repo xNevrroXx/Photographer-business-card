@@ -46,7 +46,7 @@ class Header extends Component<IProps, IState> {
                     <ul>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
-                        <li><a className="header__linkPage" href="#contacts" data-page="contacts">контакты</a></li>
+                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li>
                     </ul>
                 </nav>
             </header>

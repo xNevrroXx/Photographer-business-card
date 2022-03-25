@@ -1,0 +1,14 @@
+.contacts {
+    min-height: 650px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    &__title {
+        font-family: "Playfair Display";
+        color: white;
+        margin-bottom: 20px;
+    }
+}
