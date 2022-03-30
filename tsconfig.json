@@ -20,7 +20,8 @@
     "noEmit": false,
     "jsx": "react-jsx"
   },
+
   "include": [
-    "src"
-  ]
+    "src",
+    "public/script.js"  ]
 }

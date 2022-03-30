@@ -1,3 +1,5 @@
+@import "../../../style/variables.scss";
+
 .contacts {
     min-height: 650px;
     height: 80vh;
@@ -9,6 +11,17 @@
     &__title {
         font-family: "Playfair Display";
         color: white;
+        margin-bottom: 15px;
+        font-size: 40px;
+        line-height: 40px;
+    }
+    &__tout {
+        font-family: "Playfair Display";
+        color: white;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 400;
         margin-bottom: 20px;
+        color: $whiteAlphaText;
     }
 }

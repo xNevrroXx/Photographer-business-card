@@ -14,7 +14,7 @@
         line-height: 30px;
         font-size: 20px;
         font-weight: 600;
-        color:rgba($color: black, $alpha: 0.7);
+        color: $blackAlphaText;
 
         padding: 2px 5px 2px 5px;
         display: block;
@@ -87,7 +87,7 @@
             font-family: "Playfair Display";
             letter-spacing: 1px;
             font-weight: 600;
-            color:rgba($color: white, $alpha: 0.8);
+            color: $whiteAlphaText;
         }
         margin-bottom: 20px;
     }

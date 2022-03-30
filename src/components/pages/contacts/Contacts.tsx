@@ -30,6 +30,11 @@ class Contacts extends Component<IProps> {
 
                 <div className="container">
                     <h1 className="contacts__title">Свяжитесь с нами</h1> 
+                    <div className="contacts__tout">
+                        {/* У вас есть проект, который вы хотели бы обсудить c нами? Напишите ниже, мы бы хотели поговорить. 
+                        <br/> */}
+                        По поводу и "без" готовы вас фотографировать. <br/>Напишите ниже - поможем друг другу сделать красивые фотографии!
+                    </div>
                     
                     <FeedbackForm/>
                 </div>

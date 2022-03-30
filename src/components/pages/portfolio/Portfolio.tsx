@@ -48,9 +48,9 @@ class Portfolio extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        getPhotos("http://localhost:3000/images")
+        getPhotos("images.json")
         .then(result => {
-            this.setState({listPhotos: result}) //временно, пока не получится вернуть оригинальные фото
+            this.setState({listPhotos: result.images}) //временно, пока не получится вернуть оригинальные фото
         })
         .then(() => {
             const slider = tns({
@@ -141,7 +141,7 @@ class Portfolio extends Component<IProps, IState> {
 
     render() {
         const {listPhotos, numSlide, modal: {modalUrl, isOpenModal}} = this.state;
-
+        console.log(listPhotos)
         return(
             <>
                 {isOpenModal ? <Modal url={modalUrl} onCloseModal={this.onCloseModal} /> : null}

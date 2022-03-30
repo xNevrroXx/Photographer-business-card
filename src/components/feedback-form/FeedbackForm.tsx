@@ -1,5 +1,5 @@
-import { ExecFileOptionsWithStringEncoding } from "child_process";
-import { Component, FC } from "react";
+import { Component } from "react";
+import $ from "jquery";
 
 //styles
 import "./FeedbackForm.scss";
@@ -15,7 +15,7 @@ interface IState {
     prefferedLinkMethod: linkMethods,
     name: string,
     email: string,
-    telephone: string,
+    phone: string,
     letter: string
 }
 
@@ -31,7 +31,7 @@ class FeedbackForm extends Component<IProps, IState> {
             prefferedLinkMethod: "telephone",
             name: "",
             email: "",
-            telephone: "",
+            phone: "",
             letter: ""
         }
     }
@@ -39,6 +39,39 @@ class FeedbackForm extends Component<IProps, IState> {
     componentDidMount() {
         if(FeedbackForm.defaultProps.prefferedLinkMethod !== this.props.prefferedLinkMethod)
             this.setState({prefferedLinkMethod: this.props.prefferedLinkMethod})
+
+        //E-mail Ajax Send
+        $("form").on("submit", () => { //Change
+            var formElement = $("form");
+
+            $.ajax({
+                type: "POST",
+                url: "test.php", //Change
+                data: formElement.serialize()
+            }).done(() =>  {
+                console.log(formElement.serialize());
+                alert("Thank you!");
+                setTimeout(() => {
+                    // Done Functions
+                    formElement.trigger("reset");
+                    this.resetForm();
+                }, 1000);
+            }).catch((result) => {
+                console.log("Something went wrong with Ajax", result)
+            });
+
+            return false;
+        });
+    }
+
+    resetForm = () => {
+        this.setState({
+            prefferedLinkMethod: "telephone",
+            name: "",
+            email: "",
+            phone: "",
+            letter: ""
+        })
     }
 
     onChangePreffered = (e: any) => {
@@ -46,9 +79,9 @@ class FeedbackForm extends Component<IProps, IState> {
     }
 
     onValueChange = (e: any) => {
+        
         const nameState: string = e.target.name,
               newValue: any = [e.target.value];
-        
         // if( nameState === "prefferedLinkMethod" ||
         //     nameState === "name" ||
         //     nameState === "email" ||
@@ -65,8 +98,8 @@ class FeedbackForm extends Component<IProps, IState> {
             case "email":
                 this.setState({email: newValue});
                 break;
-            case "telephone":
-                this.setState({telephone: newValue});
+            case "phone":
+                this.setState({phone: newValue});
                 break;
             case "letter":
                 this.setState({letter: newValue});
@@ -82,11 +115,28 @@ class FeedbackForm extends Component<IProps, IState> {
 
 
     render() {
-        const {prefferedLinkMethod, name, email, telephone, letter} = this.state;
+        const {prefferedLinkMethod, name, email, phone, letter} = this.state;
         
         return (
-            <form className="feedback-form" action="" autoComplete="on">
-                <input type="text" name="name" value={name} placeholder="Иван" required onChange={(e) => this.onValueChange(e)}/>
+            <form
+                // action="test.php"
+                // method="POST"
+                className="feedback-form"
+            >
+                {/* Hidden Required Fields*/}
+                <input type="hidden" name="project_name" value="Konstantin Photo" />
+                <input type="hidden" name="admin_email" value="bif27948@uooos.com" />
+                <input type="hidden" name="form_subject" value="Contact page" />
+                {/* <!-- END Hidden Required Fields --> */}
+
+
+                <input
+                    type="text"
+                    name="name"
+                    value={name}
+                    placeholder="Иван"
+                    required onChange={(e) => this.onValueChange(e)}
+                />
 
 
                 <h3>Лучше...?</h3>
@@ -112,10 +162,10 @@ class FeedbackForm extends Component<IProps, IState> {
 
                 <input 
                     type="text" 
-                    name="telephone" 
+                    name="phone" 
                     required={prefferedLinkMethod === "telephone" ? true : false} 
                     placeholder="8(999)999-99-99" 
-                    value={telephone} 
+                    value={phone} 
                     onChange={(e) => this.onValueChange(e)}
                 />
 
@@ -139,7 +189,7 @@ class FeedbackForm extends Component<IProps, IState> {
                     {letter}    
                 </textarea>
 
-                <button>Отправить</button>
+                <button >Отправить</button>
             </form>
         )
     }
