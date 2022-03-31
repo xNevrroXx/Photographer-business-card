@@ -24,8 +24,18 @@ class Header extends Component<IProps, IState> {
     static defaultProps = {
         mb: "90px"
     }
-    state: IState = {
-        visiblePage: "aboutMe"
+
+    componentDidMount() {
+        
+    }
+
+    burgerHandler = (e: any) => {
+        console.log(e)
+        const burger = e.currentTarget;
+        const mobileMenu: any = document.querySelector(".header__menu-less-1000");
+
+        burger.style.right = "-100%";
+        mobileMenu.style.right = "0%";
     }
 
     onChangePage = (e: any) => {
@@ -42,8 +52,21 @@ class Header extends Component<IProps, IState> {
             <header className="header" style={{marginBottom: mb}}>
                 <div className="header__title">Константин Фатеев</div>
 
-                <nav className="header__menu">
-                    <ul>
+                <nav className="header__menu header__menu-desktop">
+                    <ul>                                        
+                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
+                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
+                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li>
+                    </ul>
+                </nav>
+
+                <button className="header__burger" onClick={this.burgerHandler} >
+                    <div className="header__burger-line"></div>
+                    <div className="header__burger-line"></div>
+                    <div className="header__burger-line"></div>    
+                </button>
+                <nav className="header__menu header__menu-less-1000">
+                    <ul>                                        
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li>

@@ -49,6 +49,26 @@ class App extends Component<IProps, IState> {
 		this.setState({visiblePage: namePage})
     }
 
+	onCloseMobileMenu = (e: any) => {
+        const clickedElement = e.target;
+        if( !clickedElement.classList.contains("header__menu-less-1000") &&
+            !clickedElement.classList.contains("header__linkPage") &&
+			!clickedElement.classList.contains("header__burger") && 
+			!clickedElement.classList.contains("header__burger-line")
+			|| 
+			clickedElement.getAttribute("data-page") === this.state.visiblePage
+		)
+		{
+			console.log("yes", clickedElement)
+			const burger : any = document.querySelector(".header__burger");
+        	const mobileMenu: any = document.querySelector(".header__menu-less-1000");
+
+			burger.style.right = "10%";
+			mobileMenu.style.right = "-100%";
+        } 
+
+    }
+
 	render() {
 		const {visiblePage} = this.state;
 
@@ -57,7 +77,7 @@ class App extends Component<IProps, IState> {
 			  portfolio = visiblePage === "portfolio" ? <Portfolio onChangePage={this.onChangePage}/> : null;
 		
 		return (
-			<div className="App">
+			<div className="App" onClick={this.onCloseMobileMenu}>
 				{aboutMe}
 				{contacts}
 				{portfolio}

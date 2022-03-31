@@ -1,29 +1,45 @@
 @import "../../../style/variables.scss";
 
 .about-me {
-    min-height: 650px;
-    height: 80vh;
+    
+    max-height: 780px;
+    min-height: 700px; 
+
     .container {
-        height: 100%;
+        height: inherit;
+        min-height: inherit;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
     main {
         width: 685px;
+        margin-bottom: 20px;
+    }
+    &__title {
+        font-family: "Playfair Display";
+        color: white;
+        font-size: 36px;
+        line-height: 36px;
+        margin-bottom: 30px;
+    }
+    &__description {
+        color: $gray;
+        font-family: inherit;
+        font-size: 20px;
+        line-height: 30px;
+        letter-spacing: 1px;
         font-family: "Yanone Kaffeesatz";
-        h2 {
-            font-family: "Playfair Display";
-            color: white;
-            margin-bottom: 30px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .about-me {
+        main {
+            width: 80vw;
         }
-        p {
-            color: $gray;
-            font-family: inherit;
-            margin-bottom: 30px;
-            font-size: 20px;
-            line-height: 30px;
-            letter-spacing: 1px;
+        &__title {
+            font-size: 34px;
         }
     }
 }

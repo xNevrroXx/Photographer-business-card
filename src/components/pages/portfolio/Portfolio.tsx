@@ -5,15 +5,6 @@ import Header from "../../header/Header";
 import Social from "../../social/Social";
 import {getPhotos} from "../../../services/service";
 
-// temp photos
-import image1 from "../../../resources/photos/1.jpg";
-import image2 from "../../../resources/photos/57.jpg";
-import image3 from "../../../resources/photos/DSC0рр4882.jpg";
-import image4 from "../../../resources/photos/DSC04758.jpg";
-import image5 from "../../../resources/photos/DSC05767.jpg";
-import image6 from "../../../resources/photos/DSC06049.jpg";
-
-
 // styles
 import "./portfolio.scss";
 
@@ -23,9 +14,11 @@ import Modal from "../../modal/Modal";
 interface IProps {
     onChangePage: (namePage: namePages) => void
 }
+
 interface IState {
     listPhotos: {url: string}[],
-    numSlide: string,
+    currentSlide: string,
+    selectorContainerSlider: string,
     modal: {
         isOpenModal: boolean,
         modalUrl: string
@@ -39,7 +32,8 @@ class Portfolio extends Component<IProps, IState> {
 
         this.state = {
             listPhotos: [],
-            numSlide: "01",
+            currentSlide: "01",
+            selectorContainerSlider: '.slider',
             modal: {
                 isOpenModal: false,
                 modalUrl: ""
@@ -54,7 +48,7 @@ class Portfolio extends Component<IProps, IState> {
         })
         .then(() => {
             const slider = tns({
-                container: ".slider",
+                container: this.state.selectorContainerSlider,
                 items: 1,
                 slideBy: 1,
                 autoHeight: false,
@@ -69,10 +63,31 @@ class Portfolio extends Component<IProps, IState> {
                 //controls
                 prevButton: ".slider__prev-button",
                 nextButton: ".slider__next-button",
-                nav: false
+                nav: false,
+                responsive: {
+                    320: {
+                        edgePadding: 20,
+                        gutter: 20,
+                    },
+                    700: {
+                      gutter: 30
+                    },
+                    1000: {
+                        edgePadding: 100,
+                        gutter: 0
+                    },
+                    1200: {
+                        edgePadding: 150,
+                        gutter: 0
+                    },
+                    1750: {
+                        edgePadding: 200,
+                        gutter: 0
+                    }
+                }
             });
         })
-
+        
         this.setListeners();
     }
 
@@ -99,7 +114,8 @@ class Portfolio extends Component<IProps, IState> {
     nextFunction = () => this.onChangeSlide("next");
 
     onChangeSlide = (direction: "prev" | "next") => { // меняет счетчик слайдов
-        let {numSlide, listPhotos} = this.state;
+        console.log()
+        let {currentSlide: numSlide, listPhotos} = this.state;
         switch (direction) {
             case "prev": 
                 if(+numSlide === 1)
@@ -107,7 +123,7 @@ class Portfolio extends Component<IProps, IState> {
                 else
                     numSlide = +numSlide > 10 ? String(+numSlide-1) : ("0" + (+numSlide-1))
 
-                this.setState(({numSlide}));
+                this.setState(({currentSlide: numSlide}));
                 break;
 
             case "next":
@@ -116,7 +132,7 @@ class Portfolio extends Component<IProps, IState> {
                 else
                     numSlide = +numSlide >= 9 ? String(+numSlide+1) : String("0" + (+numSlide+1));
                 
-                this.setState(({numSlide}));
+                this.setState(({currentSlide: numSlide}));
                 break;
         }
     }
@@ -140,7 +156,7 @@ class Portfolio extends Component<IProps, IState> {
     }
 
     render() {
-        const {listPhotos, numSlide, modal: {modalUrl, isOpenModal}} = this.state;
+        const {listPhotos, currentSlide: numSlide, modal: {modalUrl, isOpenModal}} = this.state;
         console.log(listPhotos)
         return(
             <>

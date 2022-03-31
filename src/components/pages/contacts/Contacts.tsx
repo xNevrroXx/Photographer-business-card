@@ -25,7 +25,7 @@ class Contacts extends Component<IProps> {
         return(
             <div className="contacts">
                 <div className="container">
-                    <Header onChangePage={this.props.onChangePage}/>   
+                    <Header onChangePage={this.props.onChangePage} mb={"40px"}/>   
                 </div>
 
                 <div className="container">
