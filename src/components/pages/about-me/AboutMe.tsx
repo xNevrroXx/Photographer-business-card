@@ -23,7 +23,7 @@ class AboutMe extends Component<IProps> {
         return (
             <div className="about-me">
                 <div className="container">
-                    <Header onChangePage={this.props.onChangePage} mb="40px"/>
+                    <Header onChangePage={this.props.onChangePage}/>
 
                     <main>
                         <h2 className="about-me__title">Обо мне</h2>

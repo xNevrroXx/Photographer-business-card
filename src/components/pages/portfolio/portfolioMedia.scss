@@ -1,0 +1,31 @@
+@media screen and (max-height: 900px) {
+    .portfolio {
+        height: 100%;
+        &__wrapper-photos {
+            height: auto;
+        }
+        &__photo {
+            max-width: 100%;
+            max-height: 80vh;
+        }
+        .slider {
+            &__control-container {
+                display: none;
+            }
+            &__counter {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-height: 550px) {
+    .portfolio {
+        header {
+            margin-bottom: 20px;
+        }
+        &__wrapper-photos {
+            margin-bottom: 20px;
+        }
+    }
+}

@@ -7,6 +7,7 @@ import {getPhotos} from "../../../services/service";
 
 // styles
 import "./portfolio.scss";
+import "./portfolioMedia.scss";
 
 // types
 import { namePages } from "../../app/App";
@@ -63,9 +64,12 @@ class Portfolio extends Component<IProps, IState> {
                 //controls
                 prevButton: ".slider__prev-button",
                 nextButton: ".slider__next-button",
-                nav: false,
+                navContainer: ".slider__nav-container",
                 responsive: {
                     320: {
+                        nav: true,
+                        controls: false,
+                        touch: true,
                         edgePadding: 20,
                         gutter: 20,
                     },
@@ -73,6 +77,9 @@ class Portfolio extends Component<IProps, IState> {
                       gutter: 30
                     },
                     1000: {
+                        nav: false,
+                        controls: true,
+                        touch: false,
                         edgePadding: 100,
                         gutter: 0
                     },
@@ -97,24 +104,24 @@ class Portfolio extends Component<IProps, IState> {
 
     setListeners = () => {
         const prevButton = document.querySelector(".slider__prev-button"),
-              nextButton = document.querySelector(".slider__next-button");
+              nextButton = document.querySelector(".slider__next-button"),
+              docElement = document.querySelector(".portfolio");
 
-        prevButton?.addEventListener("click", this.prevFunction);
-        nextButton?.addEventListener("click", this.nextFunction);
+        prevButton?.addEventListener("click", this.onPrevClick);
+        nextButton?.addEventListener("click", this.onNextClick);
     }
     deleteListeners = () => {
         const prevButton = document.querySelector(".slider__prev-button"),
               nextButton = document.querySelector(".slider__next-button");
 
-        prevButton?.removeEventListener("click", this.prevFunction)
-        nextButton?.removeEventListener("click", this.nextFunction);
+        prevButton?.removeEventListener("click", this.onPrevClick)
+        nextButton?.removeEventListener("click", this.onNextClick);
     }
 
-    prevFunction = () => this.onChangeSlide("prev");
-    nextFunction = () => this.onChangeSlide("next");
+    onPrevClick = () => this.onChangeSlide("prev");
+    onNextClick = () => this.onChangeSlide("next");
 
     onChangeSlide = (direction: "prev" | "next") => { // меняет счетчик слайдов
-        console.log()
         let {currentSlide: numSlide, listPhotos} = this.state;
         switch (direction) {
             case "prev": 
@@ -164,7 +171,7 @@ class Portfolio extends Component<IProps, IState> {
                 
                 <div className="portfolio">
                     <div className="container">
-                        <Header onChangePage={this.props.onChangePage} mb="40px"/>
+                        <Header onChangePage={this.props.onChangePage}/>
                     </div>
     
                     <div className="portfolio__wrapper-photos slider">
@@ -182,6 +189,14 @@ class Portfolio extends Component<IProps, IState> {
                     <div className="slider__control-container">
                         <button className="slider__prev-button"></button>
                         <button className="slider__next-button"></button>
+                    </div>
+
+                    <div className="container">
+                        <div className="slider__nav-container" style={{width: listPhotos.length*25 + "px"}}>
+                            {
+                                listPhotos.map(() => <button className="slider__nav-dot"></button> )
+                            }
+                        </div>
                     </div>
                     
                     <div className="slider__counter">

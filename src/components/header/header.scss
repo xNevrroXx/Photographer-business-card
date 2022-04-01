@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 90px;
+    margin-bottom: 30px;
     &__burger {
         display: none;
     }
@@ -90,7 +90,7 @@
             width: 30px;
             height: 20px;
             right: 10%;
-            top: 95px;
+            top: 80px;
             background-color: transparent;
             border: none;
             transition: 0.2s all ;

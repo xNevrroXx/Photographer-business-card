@@ -7,7 +7,7 @@ import "./header.scss";
 import {namePages} from "../app/App";
 interface IProps {
     onChangePage: (namePage: namePages) => void,
-    mb: string //margin-bottom
+    // mb: string //margin-bottom
 }
 interface IState {
     visiblePage: namePages
@@ -21,9 +21,9 @@ class Header extends Component<IProps, IState> {
             visiblePage: "aboutMe"
         }
     }
-    static defaultProps = {
-        mb: "90px"
-    }
+    // static defaultProps = {
+    //     mb: "90px"
+    // }
 
     componentDidMount() {
         
@@ -46,10 +46,10 @@ class Header extends Component<IProps, IState> {
     }
 
     render() {
-        const {mb} = this.props;
+        // const {mb} = this.props;
         
         return (
-            <header className="header" style={{marginBottom: mb}}>
+            <header className="header" /* style={{marginBottom: mb}} */>
                 <div className="header__title">Константин Фатеев</div>
 
                 <nav className="header__menu header__menu-desktop">
