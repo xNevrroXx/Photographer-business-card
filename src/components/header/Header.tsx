@@ -30,7 +30,6 @@ class Header extends Component<IProps, IState> {
     }
 
     burgerHandler = (e: any) => {
-        console.log(e)
         const burger = e.currentTarget;
         const mobileMenu: any = document.querySelector(".header__menu-less-1000");
 

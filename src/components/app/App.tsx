@@ -59,7 +59,6 @@ class App extends Component<IProps, IState> {
 			clickedElement.getAttribute("data-page") === this.state.visiblePage
 		)
 		{
-			console.log("yes", clickedElement)
 			const burger : any = document.querySelector(".header__burger");
         	const mobileMenu: any = document.querySelector(".header__menu-less-1000");
 

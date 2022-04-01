@@ -164,7 +164,7 @@ class Portfolio extends Component<IProps, IState> {
 
     render() {
         const {listPhotos, currentSlide: numSlide, modal: {modalUrl, isOpenModal}} = this.state;
-        console.log(listPhotos)
+
         return(
             <>
                 {isOpenModal ? <Modal url={modalUrl} onCloseModal={this.onCloseModal} /> : null}
@@ -178,7 +178,7 @@ class Portfolio extends Component<IProps, IState> {
                         {
                             listPhotos.map((item, index) => {
                                 return (
-                                    <div className="portfolio__wrapper-photo" key={"photo" + index} onClick={() => this.onOpenModal(item.url)}>
+                                    <div className="portfolio__wrapper-photo" key={"photo-" + index} onClick={() => this.onOpenModal(item.url)}>
                                         <img className="portfolio__photo" src={item.url} alt="" key={"photo" + index}/>
                                     </div>
                                 )
@@ -192,9 +192,13 @@ class Portfolio extends Component<IProps, IState> {
                     </div>
 
                     <div className="container">
-                        <div className="slider__nav-container" style={{width: listPhotos.length*25 + "px"}}>
+                        <div className="slider__nav-container" style={{width: listPhotos.length*30 + "px"}}>
                             {
-                                listPhotos.map(() => <button className="slider__nav-dot"></button> )
+                                listPhotos.map((item, index) => 
+                                    <div className="slider__nav-wrapper-dot" key={"navBtn-" + index}>
+                                        <button className="slider__nav-dot"></button> 
+                                    </div>
+                                )
                             }
                         </div>
                     </div>
