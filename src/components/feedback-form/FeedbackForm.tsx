@@ -40,29 +40,6 @@ class FeedbackForm extends Component<IProps, IState> {
     componentDidMount() {
         if(FeedbackForm.defaultProps.prefferedLinkMethod !== this.props.prefferedLinkMethod)
             this.setState({prefferedLinkMethod: this.props.prefferedLinkMethod})
-
-        //E-mail Ajax Send
-        $("form").on("submit", () => { //Change
-            var formElement = $("form");
-
-            $.ajax({
-                type: "POST",
-                url: "test.php", //Change
-                data: formElement.serialize()
-            }).done(() =>  {
-                console.log(formElement.serialize());
-                alert("Thank you!");
-                setTimeout(() => {
-                    // Done Functions
-                    formElement.trigger("reset");
-                    this.resetForm();
-                }, 1000);
-            }).catch((result) => {
-                console.log("Something went wrong with Ajax", result)
-            });
-
-            return false;
-        });
     }
 
     resetForm = () => {
@@ -73,10 +50,6 @@ class FeedbackForm extends Component<IProps, IState> {
             phone: "",
             letter: ""
         })
-    }
-
-    onChangePreffered = (e: any) => {
-        console.log(e)
     }
 
     onValueChange = (e: any) => {
@@ -114,6 +87,72 @@ class FeedbackForm extends Component<IProps, IState> {
         }
     }
 
+    onSubmitValidate = (e: any) => {
+        e.preventDefault();
+        const   emailInput: any = document.querySelector("input[name='email']"),
+                phoneInput: any = document.querySelector("input[name='phone']");
+
+        let isSend: boolean = true;
+
+        if (this.validatePhone(phoneInput?.value)) {
+            phoneInput.classList.remove("feedback-form__wrong-value");
+
+        } else if (!this.validatePhone(phoneInput?.value)) {
+            phoneInput.classList.add("feedback-form__wrong-value");
+            isSend = false;
+        } 
+        
+        if (this.validateEmail(emailInput?.value)) {
+            emailInput.classList.remove("feedback-form__wrong-value");
+        } else if (!this.validateEmail(emailInput?.value)) {
+            emailInput.classList.add("feedback-form__wrong-value");
+            isSend = false;
+        }
+
+        if(isSend) this.onSubmit();
+    }
+
+    validatePhone = (inputStr: string) => {
+        let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{5}$/im;
+        
+        if(re.test(inputStr)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    validateEmail = (inputStr: string) => {
+        const re = new RegExp(
+            '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+        );
+        
+        if (re.test(inputStr)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    onSubmit = () => {
+        var formElement = $("form");
+
+        $.ajax({
+            type: "POST",
+            url: "test.php", //Change
+            data: formElement.serialize()
+        }).done(() =>  {
+            console.log(formElement.serialize());
+            alert("Thank you!");
+            setTimeout(() => {
+                // Done Functions
+                formElement.trigger("reset");
+                this.resetForm();
+            }, 1000);
+        }).catch((result) => {
+            console.log("Something went wrong with Ajax", result)
+        });
+    }
 
     render() {
         const {prefferedLinkMethod, name, email, phone, letter} = this.state;
@@ -171,8 +210,8 @@ class FeedbackForm extends Component<IProps, IState> {
                 />
 
                 <input 
-                    type="email" 
-                    name="email" 
+                    type="text" 
+                    name="email"
                     required={prefferedLinkMethod === "email" ? true : false} 
                     placeholder="ivanIvanov@gmail.com" 
                     value={email} 
@@ -190,7 +229,7 @@ class FeedbackForm extends Component<IProps, IState> {
                     {letter}    
                 </textarea>
 
-                <button >Отправить</button>
+                <button onClick={this.onSubmitValidate}>Отправить</button>
             </form>
         )
     }

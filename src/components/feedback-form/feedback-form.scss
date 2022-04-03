@@ -19,11 +19,12 @@
         display: block;
         width: 100%;
         height: 50px;
-        // border: 2px solid rgba($color: rgb(140, 140, 140), $alpha: 0.8);
-        // border-radius: 3px;
         border: none;
         border-radius: 5px;
         margin-bottom: 20px;
+    }
+    .feedback-form__wrong-value {
+        border: solid 1px red;
     }
     textarea#letter {
         height: 120px;
