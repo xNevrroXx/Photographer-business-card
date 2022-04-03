@@ -49,7 +49,7 @@
             color:rgba($color: white, $alpha: 0.7);
         }
     }
-    h3 {
+    &__label {
         display: block;
         width: 100%;
         font-size: 25px;
@@ -58,7 +58,7 @@
         font-weight: 600;
         color:rgba($color: white, $alpha: 1);
     }
-    &__wrapper {
+    &__method-links {
         display: flex;
         justify-content: flex-start;
         align-items: baseline;
@@ -69,7 +69,7 @@
         letter-spacing: 1px;
         font-weight: 600;
         color:rgba($color: white, $alpha: 0.8);
-
+        margin-bottom: 20px;
         input {
             width: 40px;
             height: 100%;
@@ -88,7 +88,6 @@
             font-weight: 600;
             color: $whiteAlphaText;
         }
-        margin-bottom: 20px;
     }
 }
 

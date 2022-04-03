@@ -23,29 +23,3 @@
 		border: 3vh solid rgb(46, 46, 46);
     }
 }
-
-@media screen and (max-width: 1100px) {
-	.App {
-		&::before {
-			pointer-events: none;
-			display: block;
-			position: absolute;
-			content: '';
-			left: 0;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			z-index: -1;
-			border: 1.5vh solid rgb(46, 46, 46);
-		}
-		.container {
-			max-width: 85vw;
-		}	
-	}
-}
-
-@media screen and (max-height: 850px) {
-	.App {
-		height: max-content;
-	}
-}

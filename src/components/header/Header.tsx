@@ -1,12 +1,14 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
 // styles
 import "./header.scss";
+import "./header_Media.scss";
 
 // types
 import {namePages} from "../app/App";
 interface IProps {
-    onChangePage: (namePage: namePages) => void,
+    // onChangePage: (namePage: namePages) => void,
     // mb: string //margin-bottom
 }
 interface IState {
@@ -37,12 +39,12 @@ class Header extends Component<IProps, IState> {
         mobileMenu.style.right = "0%";
     }
 
-    onChangePage = (e: any) => {
+/*     onChangePage = (e: any) => {
         const namePage: namePages = e.target.getAttribute("data-page");
 
         this.setState({visiblePage: namePage});
         this.props.onChangePage(namePage);
-    }
+    } */
 
     render() {
         // const {mb} = this.props;
@@ -52,10 +54,13 @@ class Header extends Component<IProps, IState> {
                 <div className="header__title">Константин Фатеев</div>
 
                 <nav className="header__menu header__menu-desktop">
-                    <ul>                                        
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
+                    <ul>
+                        <li><Link to="/AboutMe" className="header__linkPage">обо мне</Link></li>   
+                        <li><Link to="/Portfolio" className="header__linkPage">портфолио</Link></li>         
+                        <li><Link to="/Contacts" className="header__linkPage">контакты</Link></li>
+                        {/* <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li>
+                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li> */}
                     </ul>
                 </nav>
 
@@ -65,10 +70,13 @@ class Header extends Component<IProps, IState> {
                     <div className="header__burger-line"></div>    
                 </button>
                 <nav className="header__menu header__menu-less-1000">
-                    <ul>                                        
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
+                    <ul>      
+                        <li><Link to="/AboutMe" className="header__linkPage">обо мне</Link></li>   
+                        <li><Link to="/Portfolio" className="header__linkPage">портфолио</Link></li>         
+                        <li><Link to="/Contacts" className="header__linkPage">контакты</Link></li>                                  
+                        {/* <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li>
+                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li> */}
                     </ul>
                 </nav>
             </header>

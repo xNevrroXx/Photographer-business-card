@@ -2,7 +2,8 @@ import { Component } from "react";
 import $ from "jquery";
 
 //styles
-import "./FeedbackForm.scss";
+import "./feedback-form.scss";
+import "./feedback-form_Media.scss";
 
 //types
 type linkMethods = "email" | "telephone";
@@ -139,8 +140,8 @@ class FeedbackForm extends Component<IProps, IState> {
                 />
 
 
-                <h3>Лучше...?</h3>
-                <div className="feedback-form__wrapper">
+                <label className="feedback-form__label" htmlFor="method-link" >Лучше...?</label>
+                <div id="method-link" className="feedback-form__method-links">
                     <input 
                         id="radioEmail"
                         type="radio" 

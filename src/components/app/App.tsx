@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 //pages
 import AboutMe from '../pages/about-me/AboutMe';
 import Contacts from '../pages/contacts/Contacts';
+import NotFound from '../pages/not-found/NotFound';
 import Portfolio from '../pages/portfolio/Portfolio';
 
 // styles
 import "./app.scss";
-
+import "./app_Media.scss";
 
 export type namePages = "aboutMe" | "portfolio" | "contacts";
 
@@ -69,18 +71,36 @@ class App extends Component<IProps, IState> {
     }
 
 	render() {
-		const {visiblePage} = this.state;
-
-		const aboutMe = visiblePage === "aboutMe" ? <AboutMe onChangePage={this.onChangePage}/> : null,
-			  contacts = visiblePage === "contacts" ? <Contacts onChangePage={this.onChangePage}/> : null,
-			  portfolio = visiblePage === "portfolio" ? <Portfolio onChangePage={this.onChangePage}/> : null;
+		// const {visiblePage} = this.state;
+		// const aboutMe = visiblePage === "aboutMe" ? <AboutMe onChangePage={this.onChangePage}/> : null,
+		// 	  contacts = visiblePage === "contacts" ? <Contacts onChangePage={this.onChangePage}/> : null,
+		// 	  portfolio = visiblePage === "portfolio" ? <Portfolio onChangePage={this.onChangePage}/> : null;
 		
 		return (
-			<div className="App" onClick={this.onCloseMobileMenu}>
-				{aboutMe}
-				{contacts}
-				{portfolio}
-			</div>
+			<BrowserRouter>
+				<div className="App" onClick={this.onCloseMobileMenu}>
+					{/* {aboutMe}
+					{contacts}
+					{portfolio} */}
+					<Routes>
+						<Route path="/" element={<Navigate to="/AboutMe" />}></Route>
+
+						<Route path="/AboutMe" element={<AboutMe/>} >
+							{/* <AboutMe onChangePage={this.onChangePage}/> */}
+						</Route>
+						<Route path="/Portfolio" element={<Portfolio/>} >
+							{/* <Contacts onChangePage={this.onChangePage}/> */}
+						</Route>
+						<Route path="/Contacts" element={<Contacts/>} >
+							{/* <Portfolio onChangePage={this.onChangePage}/> */}
+						</Route>
+
+						<Route path="*" element={<NotFound/>} >
+							{/* <NotFound/>	 */}
+						</Route>
+					</Routes>
+				</div>
+			</BrowserRouter>
 		);
 	}
 }

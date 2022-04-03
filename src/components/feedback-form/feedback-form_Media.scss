@@ -1,0 +1,48 @@
+@media screen and (max-width: 650px) {
+    .feedback-form {
+        & > input {
+            height: 35px;
+            margin-bottom: 18px;
+        }
+        & > &__label {
+            margin-bottom: 18px;
+        }
+        &__method-links {
+            height: 35px;
+            input {
+                width: 35px;
+            }
+        }
+        button {
+            padding: 4px 3px 4px 3px;
+            height: 35px;
+            width: 130px;
+            font-size: 18px;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .feedback-form {
+        input {
+            height: 30px;
+            margin-bottom: 15px;
+        }
+        & > &__label {
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+        &__method-links {
+            height: 30px;
+            input {
+                width: 30px;
+            }
+        }
+        button {
+            padding: 4px 3px 4px 3px;
+            height: 30px;
+            width: 120px;
+            font-size: 17px;
+        }
+    }
+}

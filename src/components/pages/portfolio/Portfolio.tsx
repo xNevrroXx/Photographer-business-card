@@ -7,13 +7,13 @@ import {getPhotos} from "../../../services/service";
 
 // styles
 import "./portfolio.scss";
-import "./portfolioMedia.scss";
+import "./portfolio_Media.scss";
 
 // types
 import { namePages } from "../../app/App";
 import Modal from "../../modal/Modal";
 interface IProps {
-    onChangePage: (namePage: namePages) => void
+    // onChangePage: (namePage: namePages) => void
 }
 
 interface IState {
@@ -70,26 +70,43 @@ class Portfolio extends Component<IProps, IState> {
                         nav: true,
                         controls: false,
                         touch: true,
-                        edgePadding: 20,
-                        gutter: 20,
+                        edgePadding: 0,
+                        gutter: 0,
                     },
                     700: {
-                      gutter: 30
+                        edgePadding: 50,
+                        gutter: 25
                     },
                     1000: {
                         nav: false,
                         controls: true,
                         touch: false,
                         edgePadding: 100,
-                        gutter: 0
+                        gutter: 50
                     },
                     1200: {
-                        edgePadding: 150,
-                        gutter: 0
+                        edgePadding: 125,
+                        gutter: 50
+                    },
+                    1400: {
+                        edgePadding: 200,
+                        gutter: 40
                     },
                     1750: {
-                        edgePadding: 200,
-                        gutter: 0
+                        edgePadding: 230,
+                        gutter: 50
+                    },
+                    2250: {
+                        edgePadding: 300,
+                        gutter: 50
+                    },
+                    2800: {
+                        edgePadding: 350,
+                        gutter: 60
+                    },
+                    3600: {
+                        edgePadding: 450,
+                        gutter: 80
                     }
                 }
             });
@@ -171,7 +188,7 @@ class Portfolio extends Component<IProps, IState> {
                 
                 <div className="portfolio">
                     <div className="container">
-                        <Header onChangePage={this.props.onChangePage}/>
+                        <Header/>
                     </div>
     
                     <div className="portfolio__wrapper-photos slider">

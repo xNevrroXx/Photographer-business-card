@@ -6,12 +6,13 @@ import Social from "../../social/Social";
 // import signatureImage from "../../../resources/esignature_cocosign.png";
 
 //styles
-import "./aboutMe.scss";
+import "./about-me.scss";
+import "./about-me_Media.scss";
 
 //types
 import { namePages } from "../../app/App";
 interface IProps {
-    onChangePage: (namePage: namePages) => void
+    // onChangePage: (namePage: namePages) => void
 }
 
 class AboutMe extends Component<IProps> {
@@ -23,17 +24,17 @@ class AboutMe extends Component<IProps> {
         return (
             <div className="about-me">
                 <div className="container">
-                    <Header onChangePage={this.props.onChangePage}/>
+                    <Header/>
 
                     <main>
                         <h2 className="about-me__title">Обо мне</h2>
 
                         <div className="about-me__description">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam, dolorem? Accusamus ullam qui voluptatibus facere asperiores, doloremque quod sapiente nobis ab, ex minima dignissimos iste rerum voluptatem consequatur. Necessitatibus, nemo!
-                                Repellendus fugiat omnis, molestiae velit magni blanditiis, consequatur nobis repellat cupiditate earum sed ex voluptatum fuga dolorem, veritatis labore nulla. Corrupti corporis cupiditate quaerat provident eligendi unde a iure ullam.
+                                Привет! Я Константин Фатеев, с большим интересом и эннтузиазмом занимаюсь фотографией. По поводу и без, буду рад провести с вами фотосессию.
+                                <br/>
+                                Я делаю все, чтобы после моей работы оставались только довольные клиенты!
                             <br/><br/>
-                                Esse ad, laudantium harum sint quaerat dicta tempore nostrum minus odit unde tempora quis quisquam quod voluptatum aliquam vero facere eius aut.    Delectus quaerat, molestiae alias sed quo ratione sunt.
-                                Omnis libero cupiditate magni eligendi a unde perspiciatis excepturi ab molestiae quasi nemo natus nam, quis dolor alias, accusamus cum accusantium. Nulla ut quod, cupiditate earum magni enim deleniti quae!
+                                Хотите провести фотосессию - обязательно дайте знать, заполнив эту "форму", или свяжитесь со мной по контактам, расположенным чуть ниже на странице)
                         </div>
                     </main>
 

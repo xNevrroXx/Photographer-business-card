@@ -1,0 +1,63 @@
+//media rules from big large to small
+@media screen and (max-width: 1000px) {
+    .about-me {
+        min-height: 100vh;
+        height: 100%;
+        .container {
+            min-height: 85vh;
+            height: 100%;
+        }
+        main {
+            width: 80vw;
+        }
+        &__title {
+            font-size: 32px;
+            line-height: 32px;
+            margin-bottom: 25px;
+        }
+        &__description {
+            font-size: 19px;
+            line-height: 28px;
+            letter-spacing: 1px;
+        }
+    }
+}
+
+@media screen and (max-height: 900px) {
+    .about-me {
+        min-height: 100vh;
+        height: 100%;
+        .container {
+            min-height: 85vh;
+            height: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .about-me {
+        &__title {
+        font-size: 32px;
+        line-height: 36px;
+        margin-bottom: 30px;
+    }
+        &__description {
+            font-size: 17px;
+            line-height: 27px;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .about-me {
+        &__title {
+        font-size: 24px;
+        line-height: 24px;
+        margin-bottom: 23px;
+    }
+        &__description {
+            font-size: 16px;
+            line-height: 25px;
+        }
+    }
+}
