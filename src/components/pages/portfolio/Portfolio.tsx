@@ -66,7 +66,7 @@ class Portfolio extends Component<IProps, IState> {
                 nextButton: ".slider__next-button",
                 navContainer: ".slider__nav-container",
                 responsive: {
-                    320: {
+                    280: {
                         nav: true,
                         controls: false,
                         touch: true,
@@ -209,7 +209,7 @@ class Portfolio extends Component<IProps, IState> {
                     </div>
 
                     <div className="container">
-                        <div className="slider__nav-container" style={{width: listPhotos.length*30 + "px"}}>
+                        <div className="slider__nav-container" >
                             {
                                 listPhotos.map((item, index) => 
                                     <div className="slider__nav-wrapper-dot" key={"navBtn-" + index}>

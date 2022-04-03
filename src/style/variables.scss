@@ -1,5 +1,10 @@
-$main-color: rgb(255, 231, 203);
-$gray: rgb(143, 143, 143);
-$blackAlphaText: rgba($color: black, $alpha: 0.7);
-$whiteAlphaText: rgba($color: white, $alpha: 0.8);
-$whiteText: white;
+//colors
+$main-color: rgb(0, 0, 0);
+$gray: rgb(84, 84, 84);
+$textBlackAlpha: rgba($color: black, $alpha: 0.7);
+$textWhite: black;
+
+//fonts
+$titles: "Bad Script";
+$main: "Yanone Kaffeesatz";
+$forms: "Playfair Display";

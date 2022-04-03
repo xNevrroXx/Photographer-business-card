@@ -17,10 +17,11 @@
     }
 
     &__photo {
+        object-fit: cover;
         display: block;
         margin: 0 auto;
         max-width: 70vw;                                                
-        max-height: 80%;
+        max-height: 650px;
         
         transition: 0.2s all;
         &:hover {
@@ -91,11 +92,12 @@
         &__nav-container {
             margin: 0 auto;
             display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
             justify-content: space-between;
             margin-bottom: 20px;
         }
         &__nav-wrapper-dot { //for more UX
-            width: 100%;
             display: block;
         }
         &__nav-dot {
@@ -113,12 +115,15 @@
             }
         }
         &__counter {
-            font-size: 18px;
-            font-family: "Playfair Display";
+            // box-shadow: inset 0px 0px 25px 0px rgba($color: #000000, $alpha: 0.2);
+            background: linear-gradient(to right, transparent, rgba($color: rgb(99, 61, 61), $alpha: 0.5), transparent);
+            font-size: 25px;
+            font-family: $forms;
+            font-weight: 400;
             position: absolute;
             top: 19vh;
             left: 18vw;
-            width: 20px;
+            width: 25px;
             z-index: 100;
 
             display: flex;
@@ -128,7 +133,7 @@
         }
         &__current {
             font-family: inherit;
-            color: $main-color
+            color: $main-color;
         }
         &__total {
             font-family: inherit;

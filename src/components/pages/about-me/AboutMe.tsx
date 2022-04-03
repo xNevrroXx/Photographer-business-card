@@ -11,6 +11,7 @@ import "./about-me_Media.scss";
 
 //types
 import { namePages } from "../../app/App";
+import { Link } from "react-router-dom";
 interface IProps {
     // onChangePage: (namePage: namePages) => void
 }
@@ -34,7 +35,7 @@ class AboutMe extends Component<IProps> {
                                 <br/>
                                 Я делаю все, чтобы после моей работы оставались только довольные клиенты!
                             <br/><br/>
-                                Хотите провести фотосессию - обязательно дайте знать, заполнив эту "форму", или свяжитесь со мной по контактам, расположенным чуть ниже на странице)
+                                Хотите провести фотосессию - обязательно дайте знать, заполнив эту <Link to="/Contacts" className="about-me__link-form"><span>форму</span></Link>, или свяжитесь со мной по контактам, расположенным чуть ниже на странице)
                         </div>
                     </main>
 

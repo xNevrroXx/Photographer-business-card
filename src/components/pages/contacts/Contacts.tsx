@@ -5,7 +5,6 @@ import "./contacts.scss";
 import "./contacts_Media.scss";
 
 //types
-import { namePages } from "../../app/App";
 import Header from "../../header/Header";
 import Social from "../../social/Social";
 import FeedbackForm from "../../feedback-form/FeedbackForm";
@@ -29,11 +28,11 @@ class Contacts extends Component<IProps> {
                     <Header/>
 
                     <div className="contacts__main">
-                        <h1 className="contacts__title">Свяжитесь с нами</h1> 
+                        <h1 className="contacts__title">Заполните форму</h1> 
                         <div className="contacts__tout">
                             {/* У вас есть проект, который вы хотели бы обсудить c нами? Напишите ниже, мы бы хотели поговорить. 
                             <br/> */}
-                            По поводу и "без" готовы вас фотографировать. <br/>Напишите ниже - поможем друг другу сделать красивые фотографии!
+                            {/* По поводу и "без" готовы вас фотографировать. <br/>Напишите ниже - поможем друг другу сделать красивые фотографии! */}
                         </div>
                         
                         <FeedbackForm/>

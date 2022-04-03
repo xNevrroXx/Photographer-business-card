@@ -13,6 +13,8 @@
     cursor: url("../../resources/icon-zoom-out-white.png"), auto;
 
     &__image {
+        max-width: 100vw;
+        max-height: 100vh;
         display: block;
         margin: 0 auto;
         cursor: auto;
