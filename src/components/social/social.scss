@@ -2,17 +2,46 @@
 
 .social{
     display: flex;
-    justify-content: space-between;
-    width: 150px;
+    justify-content: flex-start;
     &__wrapper-icon {
+        margin-right: 15px;
         svg {
+            width: 32px;
+            height: 32px;
             transition: 0.3s all;
             fill: rgba($color: $main-color, $alpha: 0.8);
-
             &:hover {
                 transform: scale(1.2);
                 fill: rgba(255, 255, 255, 1);
             }
         }
+        &:nth-last-of-type(2) { //перед номером телефона отступ больше
+            margin-right: 30px;
+        }
+        &:last-of-type {
+            a {
+                font-weight: $main;
+                font-weight: 400;
+                display: flex;
+                align-items: center;
+                transition: 0.3s all;
+                &:hover {
+                    transform: scale(1.2);
+                    svg {
+                        fill: rgba(255, 255, 255, 1);
+                    }
+                    span {
+                        color: rgba(255, 255, 255, 1);
+                    }
+                }
+            }
+            svg {
+                margin-right: 5px;
+            }
+        }
+    }
+    span.social__phone-number {
+        display: block;
+        color: $main-color;
     }
 }

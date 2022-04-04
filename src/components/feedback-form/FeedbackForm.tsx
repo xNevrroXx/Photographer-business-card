@@ -110,6 +110,7 @@ class FeedbackForm extends Component<IProps, IState> {
         }
 
         if(isSend) this.onSubmit();
+        else alert("Повторите ввод данных, пожалуйста");
     }
 
     validatePhone = (inputStr: string) => {
@@ -143,7 +144,7 @@ class FeedbackForm extends Component<IProps, IState> {
             data: formElement.serialize()
         }).done(() =>  {
             console.log(formElement.serialize());
-            alert("Thank you!");
+            alert("Спасибо!");
             setTimeout(() => {
                 // Done Functions
                 formElement.trigger("reset");
