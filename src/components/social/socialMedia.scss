@@ -1,0 +1,12 @@
+@media screen and (max-width: 400px) {
+    .social {
+        flex-wrap: wrap;
+        width: 100%;
+        row-gap: 10px;
+        &__wrapper-icon {
+            &:not(:last-of-type) {
+                margin-right: 40px;
+            }
+        }
+    }
+}

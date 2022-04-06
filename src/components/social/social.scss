@@ -4,7 +4,6 @@
     display: flex;
     justify-content: flex-start;
     &__wrapper-icon {
-        margin-right: 15px;
         svg {
             width: 32px;
             height: 32px;
@@ -14,6 +13,9 @@
                 transform: scale(1.2);
                 fill: rgba(255, 255, 255, 1);
             }
+        }
+        &:not(:last-of-type) {
+            margin-right: 15px;
         }
         &:nth-last-of-type(2) { //перед номером телефона отступ больше
             margin-right: 30px;
@@ -42,6 +44,7 @@
     }
     span.social__phone-number {
         display: block;
+        font-size: 17px;
         color: $main-color;
     }
 }

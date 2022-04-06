@@ -1,12 +1,14 @@
 import { Component } from "react";
 
+//styles
 import "./social.scss";
+import "./socialMedia.scss";
 
 class Social extends Component {
 
     render() {
         return(
-            <div id="contacts" className="social">
+            <div className="social">
                 <div className="social__wrapper-icon">
                     <a href="https://instagram.com/kostyn_f">
                         <svg className="social__instagram-icon" width="32px" height="32px" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" >

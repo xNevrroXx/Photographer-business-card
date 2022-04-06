@@ -19,14 +19,13 @@
             font-size: 19px;
             line-height: 28px;
             letter-spacing: 1px;
+            background: linear-gradient(to right, transparent 1%, rgba($color: white, $alpha: 0.4) 85%, transparent);
         }
     }
 }
 
 @media screen and (max-height: 900px) {
     .about-me {
-        min-height: 100vh;
-        height: 100%;
         .container {
             min-height: 85vh;
             height: 100%;
@@ -36,6 +35,8 @@
 
 @media screen and (max-width: 650px) {
     .about-me {
+        padding-top: 50px;
+        padding-bottom: 40px;
         &__title {
         font-size: 32px;
         line-height: 36px;

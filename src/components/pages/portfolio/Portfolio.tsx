@@ -170,7 +170,6 @@ class Portfolio extends Component<IProps, IState> {
         });
     }
     onOpenModal = (url: string) => {
-        console.log("done")
         this.setState({
             modal: {
                 modalUrl: url,
