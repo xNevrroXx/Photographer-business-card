@@ -9,9 +9,14 @@
             height: 32px;
             transition: 0.3s all;
             fill: rgba($color: $main-color, $alpha: 0.8);
-            &:hover {
-                transform: scale(1.2);
-                fill: rgba(255, 255, 255, 1);
+        }
+        a {
+            height: 32px;
+            &:hover, &:focus {
+                svg {
+                    transform: scale(1.2);
+                    fill: rgba(255, 255, 255, 1);
+                }
             }
         }
         &:not(:last-of-type) {
@@ -26,8 +31,15 @@
                 font-weight: 400;
                 display: flex;
                 align-items: center;
+                column-gap: 5px;
                 transition: 0.3s all;
-                &:hover {
+                span {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                }
+                &:hover, &:focus {
+                    column-gap: 10px;
                     transform: scale(1.2);
                     svg {
                         fill: rgba(255, 255, 255, 1);
@@ -36,9 +48,6 @@
                         color: rgba(255, 255, 255, 1);
                     }
                 }
-            }
-            svg {
-                margin-right: 5px;
             }
         }
     }

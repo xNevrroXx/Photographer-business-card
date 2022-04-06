@@ -60,7 +60,7 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         font-weight: 400;
-        &:hover {
+        &:hover, &:focus {
             color: $main-color;
         }
     }

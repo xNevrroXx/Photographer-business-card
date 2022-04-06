@@ -175,7 +175,7 @@ class FeedbackForm extends Component<IProps, IState> {
                     type="text"
                     name="name"
                     value={name}
-                    placeholder="Иван"
+                    placeholder="Имя"
                     required onChange={(e) => this.onValueChange(e)}
                 />
 
@@ -214,7 +214,7 @@ class FeedbackForm extends Component<IProps, IState> {
                     type="text" 
                     name="email"
                     required={prefferedLinkMethod === "email" ? true : false} 
-                    placeholder="ivanIvanov@gmail.com" 
+                    placeholder="email@mail.com" 
                     value={email} 
                     onChange={(e) => this.onValueChange(e)}
                 />
@@ -223,6 +223,7 @@ class FeedbackForm extends Component<IProps, IState> {
                     name="letter" 
                     id="letter" 
                     cols={30} rows={10} maxLength={300}
+                    placeholder="Здесь что-то от себя..."
                     value={letter} 
                     required={false}
                     onChange={(e) => this.onValueChange(e)}
