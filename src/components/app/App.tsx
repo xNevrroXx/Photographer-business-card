@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import AboutMe from '../pages/about-me/AboutMe';
 import Contacts from '../pages/contacts/Contacts';
 import NotFound from '../pages/not-found/NotFound';
-import Portfolio from '../pages/portfolio/Portfolio';
+import PortfolioCollections from '../pages/portfolio/PortfolioCollections';
 
 // styles
 import "./app.scss";
@@ -84,20 +84,10 @@ class App extends Component<IProps, IState> {
 					{portfolio} */}
 					<Routes>
 						<Route path="/" element={<Navigate to="/AboutMe" />}></Route>
-
-						<Route path="/AboutMe" element={<AboutMe/>} >
-							{/* <AboutMe onChangePage={this.onChangePage}/> */}
-						</Route>
-						<Route path="/Portfolio" element={<Portfolio/>} >
-							{/* <Contacts onChangePage={this.onChangePage}/> */}
-						</Route>
-						<Route path="/Contacts" element={<Contacts/>} >
-							{/* <Portfolio onChangePage={this.onChangePage}/> */}
-						</Route>
-
-						<Route path="*" element={<NotFound/>} >
-							{/* <NotFound/>	 */}
-						</Route>
+						<Route path="/AboutMe" element={<AboutMe/>} ></Route>
+						<Route path="/Portfolio" element={<PortfolioCollections/>}></Route>
+						<Route path="/Contacts" element={<Contacts/>} ></Route>
+						<Route path="*" element={<NotFound/>} ></Route>
 					</Routes>
 				</div>
 			</BrowserRouter>
