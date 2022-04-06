@@ -1,8 +1,19 @@
+@media screen and (max-width: 800px) {
+    .feedback-form {
+        max-width: 80%;
+    }
+}
+
 @media screen and (max-width: 650px) {
     .feedback-form {
+        max-width: 95%;
         & > input {
             height: 35px;
             margin-bottom: 18px;
+            font-size: 16px;
+        }
+        textarea#letter {
+            font-size: 16px;
         }
         & > &__label {
             margin-bottom: 18px;
@@ -24,6 +35,8 @@
 
 @media screen and (max-width: 450px) {
     .feedback-form {
+        max-width: none;
+        width: 100%;
         input {
             height: 30px;
             margin-bottom: 15px;

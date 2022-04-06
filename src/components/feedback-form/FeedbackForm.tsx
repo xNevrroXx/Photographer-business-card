@@ -89,7 +89,8 @@ class FeedbackForm extends Component<IProps, IState> {
 
     onSubmitValidate = (e: any) => {
         e.preventDefault();
-        const   emailInput: any = document.querySelector("input[name='email']"),
+        const   nameInput: any = document.querySelector("input[name='name']"),
+                emailInput: any = document.querySelector("input[name='email']"),
                 phoneInput: any = document.querySelector("input[name='phone']");
 
         let isSend: boolean = true;
@@ -134,6 +135,10 @@ class FeedbackForm extends Component<IProps, IState> {
             return false;
         }
     }
+
+    // validateName = (inputStr: string) => {
+    //     const re: RegExp = /^[a-z]/
+    // }
 
     onSubmit = () => {
         var formElement = $("form");
@@ -180,7 +185,7 @@ class FeedbackForm extends Component<IProps, IState> {
                 />
 
 
-                <label className="feedback-form__label" htmlFor="method-link" >Лучше...?</label>
+                <label className="feedback-form__label" htmlFor="method-link" >Как удобнее</label>
                 <div id="method-link" className="feedback-form__method-links">
                     <input 
                         id="radioEmail"
