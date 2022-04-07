@@ -1,20 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, FC } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { getPhotos } from '../../services/service';
 
 //pages
 import AboutMe from '../pages/about-me/AboutMe';
 import Contacts from '../pages/contacts/Contacts';
 import NotFound from '../pages/not-found/NotFound';
-import PortfolioCollections from '../pages/portfolio/PortfolioCollections';
+import PortfolioCollections from '../pages/portfolio-collections/PortfolioCollections';
 
 // styles
 import "./app.scss";
 import "./app_Media.scss";
 
+//types
+import { collectionPhoto } from '../types/types';
+import PortfolioCollection from '../pages/portfolio-collection/PortfolioCollection';
 export type namePages = "aboutMe" | "portfolio" | "contacts";
-
 interface IState {
-    visiblePage: namePages
+    visiblePage: namePages,
+	collectionsPhoto: collectionPhoto[],
+	isLoading: boolean
 }
 interface IProps {
 
@@ -25,31 +30,40 @@ class App extends Component<IProps, IState> {
 		super(props);
 
 		this.state = {
+			isLoading: false,
+			collectionsPhoto: [],
 			visiblePage: "aboutMe"
 		}
 	}
 
 	componentDidMount() {
-		const localNamePages = localStorage.getItem("namePage");
+		getPhotos("imagesTest.json")
+        .then(result => {
+            this.setState({
+				collectionsPhoto: result.collections,
+				isLoading: true
+			});
+        })
 
-		if(!localNamePages)
-			localStorage.setItem("namePage", "aboutMe");
-		else if(this.isTypeNamePages(localNamePages))
-			this.setState({visiblePage: localNamePages})
+		// const localNamePages = localStorage.getItem("namePage");
+		// if(!localNamePages)
+		// 	localStorage.setItem("namePage", "aboutMe");
+		// else if(this.isTypeNamePages(localNamePages))
+		// 	this.setState({visiblePage: localNamePages})
 	}
 
-	componentDidUpdate(prevProps: IProps, prevState: IState) {
-		if(prevState.visiblePage !== this.state.visiblePage) 
-			localStorage.setItem("namePage", this.state.visiblePage)
-	}
+	// componentDidUpdate(prevProps: IProps, prevState: IState) {
+	// 	if(prevState.visiblePage !== this.state.visiblePage) 
+	// 		localStorage.setItem("namePage", this.state.visiblePage)
+	// }
 	
-	isTypeNamePages = (variable: any): variable is namePages => {
-		return variable === "aboutMe" || "portfolio" || "contacts" ? true : false;
-	}
+	// isTypeNamePages = (variable: any): variable is namePages => {
+	// 	return variable === "aboutMe" || "portfolio" || "contacts" ? true : false;
+	// }
 
-	onChangePage = (namePage: namePages) => {
-		this.setState({visiblePage: namePage})
-    }
+	// onChangePage = (namePage: namePages) => {
+	// 	this.setState({visiblePage: namePage})
+    // }
 
 	onCloseMobileMenu = (e: any) => {
         const clickedElement = e.target;
@@ -64,29 +78,26 @@ class App extends Component<IProps, IState> {
 			const burger : any = document.querySelector(".header__burger");
         	const mobileMenu: any = document.querySelector(".header__menu-less-1000");
 
-			burger.style.right = "10%";
+			burger.style.right = "10%";	
 			mobileMenu.style.right = "-100%";
         } 
 
     }
 
 	render() {
-		// const {visiblePage} = this.state;
-		// const aboutMe = visiblePage === "aboutMe" ? <AboutMe onChangePage={this.onChangePage}/> : null,
-		// 	  contacts = visiblePage === "contacts" ? <Contacts onChangePage={this.onChangePage}/> : null,
-		// 	  portfolio = visiblePage === "portfolio" ? <Portfolio onChangePage={this.onChangePage}/> : null;
+		const {isLoading, collectionsPhoto} = this.state;
 		
 		return (
 			<BrowserRouter>
 				<div className="App" onClick={this.onCloseMobileMenu}>
-					{/* {aboutMe}
-					{contacts}
-					{portfolio} */}
 					<Routes>
-						<Route path="/" element={<Navigate to="/AboutMe" />}></Route>
-						<Route path="/AboutMe" element={<AboutMe/>} ></Route>
-						<Route path="/Portfolio" element={<PortfolioCollections/>}></Route>
-						<Route path="/Contacts" element={<Contacts/>} ></Route>
+						<Route path="/" element={<Navigate to="/AboutMe" />} />
+						<Route path="/AboutMe" element={<AboutMe/>}  />
+						<Route path="/Portfolio" element={<PortfolioCollections/>} />
+						<Route path="/Contacts" element={<Contacts/>} />
+						
+						<Route path="/Portfolio/:collectionName" element={<PortfolioCollection collectionsPhoto={collectionsPhoto}/>}/>
+						{/* <Route path="/Portfolio/:collectionName" element={(props: any) => (<PortfolioCollection collectionsPhoto={collectionsPhoto} {...props}/>)}/> */}
 						<Route path="*" element={<NotFound/>} ></Route>
 					</Routes>
 				</div>
@@ -94,5 +105,10 @@ class App extends Component<IProps, IState> {
 		);
 	}
 }
+
+// const View: FC = () => {
+
+// 	return 
+// }
 
 export default App;

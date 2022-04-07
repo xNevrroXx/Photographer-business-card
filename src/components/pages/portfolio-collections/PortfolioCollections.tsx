@@ -8,20 +8,18 @@ import Modal from "../../modal/Modal";
 // styles
 import "./portfolio-collections.scss";
 import "./portfolio-collections_Media.scss";
+import { Link } from "react-router-dom";
+import { collectionPhoto } from "../../types/types";
 
 // types
 interface IProps {
     // onChangePage: (namePage: namePages) => void
 }
 
-type collectionsPhoto = {
-    name: string,
-    mainImgUrl: string,
-    imagesUrls: string 
-}[];
+
 
 interface IState {
-    collectionsPhoto: collectionsPhoto;
+    collectionsPhoto: collectionPhoto[];
     currentSlide: string,
     selectorContainerSlider: string,
     // modal: {
@@ -96,17 +94,21 @@ class PortfolioCollections extends Component<IProps, IState> {
                                         фотоколлекции
                                     </h2>
                                 </div>
-                                
+
                                 {
                                     collectionsPhoto.map((collection, index) => {
                                         return (
-                                            <div className="portfolio-collections__wrapper-collection" key={"collection-" + index}>
+                                            <Link 
+                                                to={`/Portfolio/${collection.nameUrl}`} 
+                                                className="portfolio-collections__wrapper-collection"
+                                                key={`collection-${index}`}
+                                            >
                                                 <div className="portfolio-collections__darkening"></div>
                                                 <h3 className="portfolio-collections__title-collection">{collection.name}</h3>
                                                 <video autoPlay muted loop playsInline className="portfolio-collections__wrapper-video">
                                                     <source src={collection.mainImgUrl}/>
                                                 </video>
-                                            </div>
+                                            </Link>
                                         )
                                     })
                                 }

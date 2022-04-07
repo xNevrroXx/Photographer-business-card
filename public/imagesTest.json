@@ -2,8 +2,39 @@
     "collections": [
         {
             "name": "Аня, Кофе, Много кофе",
+            "nameUrl": "AnnaCoffee",
             "mainImgUrl": "./content/Coffee.mp4",
-            "imagesUrls": [
+            "images": [
+                {
+                    "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
+                },
+                {
+                    "url": "https://img1.goodfon.ru/original/2560x1080/a/1f/gory-andy-dolina-travy-reka.jpg"
+                },
+                {
+                    "url": "https://images.hdqwalls.com/download/apple-mountains-lu-2560x1080.jpg"
+                },
+                {
+                    "url": "https://images.hdqwalls.com/download/canada-mountains-forests-parks-4k-hk-2560x1080.jpg"
+                },
+                {
+                    "url": "https://i.pinimg.com/originals/eb/68/a0/eb68a0995e1e193675131efb11b2fc3f.jpg"
+                },
+                {
+                    "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
+                },
+                {
+                    "url": "https://img1.goodfon.ru/original/2560x1080/a/1f/gory-andy-dolina-travy-reka.jpg"
+                },
+                {
+                    "url": "https://images.hdqwalls.com/download/apple-mountains-lu-2560x1080.jpg"
+                },
+                {
+                    "url": "https://images.hdqwalls.com/download/canada-mountains-forests-parks-4k-hk-2560x1080.jpg"
+                },
+                {
+                    "url": "https://i.pinimg.com/originals/eb/68/a0/eb68a0995e1e193675131efb11b2fc3f.jpg"
+                },
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
                 },
@@ -27,8 +58,9 @@
         
         {
             "name": "Меня зовут Любовь",
+            "nameUrl": "Lubov",
             "mainImgUrl": "./content/myNameIsLove.mp4",
-            "imagesUrls": [
+            "image": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
                 },
@@ -52,8 +84,9 @@
         
         {
             "name": "Привет из 90-х",
+            "nameUrl": "Nineties",
             "mainImgUrl": "./content/90-e.mp4",
-            "imagesUrls": [
+            "image": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
                 },
@@ -77,8 +110,9 @@
         
         {
             "name": "Один дома",
+            "nameUrl": "aloneAtHome",
             "mainImgUrl": "./content/aloneAtHome.mp4",
-            "imagesUrls": [
+            "image": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
                 },
@@ -102,8 +136,9 @@
         
         {
             "name": "Can't falling in love with ME",
+            "nameUrl": "loveYourself",
             "mainImgUrl": "./content/loveYourself.mp4",
-            "imagesUrls": [
+            "image": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
                 },
