@@ -89,22 +89,30 @@ class PortfolioCollections extends Component<IProps, IState> {
                     <div className="container">
                         <Header/>
 
-                        <div className="portfolio-collections__wrapper-collections">
-                            {
-                                collectionsPhoto.map((collection, index) => {
-                                    return (
-                                        <div className="portfolio-collections__wrapper-collection" key={"collection-" + index}>
-                                            <div className="portfolio-collections__darkening"></div>
-                                            <h3 className="portfolio-collections__title-collection">{collection.name}</h3>
-                                            {/* <img className="portfolio-collections__collection-image" src={collection.mainImgUrl} alt={collection.name + " photo"}/> */}
-                                            <video autoPlay muted loop className="portfolio-collections__wrapper-video">
-                                                <source src={collection.mainImgUrl}/>    
-                                            </video>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
+                        <main>
+                            <div className="portfolio-collections__wrapper-collections">
+                                <div className="portfolio-collections__wrapper-title">
+                                    <h2 className="portfolio-collections__title">
+                                        фотоколлекции
+                                    </h2>
+                                </div>
+                                
+                                {
+                                    collectionsPhoto.map((collection, index) => {
+                                        return (
+                                            <div className="portfolio-collections__wrapper-collection" key={"collection-" + index}>
+                                                <div className="portfolio-collections__darkening"></div>
+                                                <h3 className="portfolio-collections__title-collection">{collection.name}</h3>
+                                                <video autoPlay muted loop playsInline className="portfolio-collections__wrapper-video">
+                                                    <source src={collection.mainImgUrl}/>
+                                                </video>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                {/* <div className="portfolio-collections__decorate-corner"></div> */}
+                            </div>
+                        </main>
 
                         <footer>
                             <Social/>

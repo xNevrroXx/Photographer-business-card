@@ -2,7 +2,7 @@
     "collections": [
         {
             "name": "Аня, Кофе, Много кофе",
-            "mainImgUrl": "./content/videoBg.mp4",
+            "mainImgUrl": "./content/Coffee.mp4",
             "imagesUrls": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
@@ -27,7 +27,7 @@
         
         {
             "name": "Меня зовут Любовь",
-            "mainImgUrl": "./content/videoBg.mp4",
+            "mainImgUrl": "./content/myNameIsLove.mp4",
             "imagesUrls": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
@@ -52,7 +52,7 @@
         
         {
             "name": "Привет из 90-х",
-            "mainImgUrl": "./content/videoBg.mp4",
+            "mainImgUrl": "./content/90-e.mp4",
             "imagesUrls": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
@@ -77,7 +77,7 @@
         
         {
             "name": "Один дома",
-            "mainImgUrl": "./content/videoBg.mp4",
+            "mainImgUrl": "./content/aloneAtHome.mp4",
             "imagesUrls": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
@@ -102,7 +102,7 @@
         
         {
             "name": "Can't falling in love with ME",
-            "mainImgUrl": "./content/videoBg.mp4",
+            "mainImgUrl": "./content/loveYourself.mp4",
             "imagesUrls": [
                 {
                     "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"

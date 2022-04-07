@@ -20,6 +20,7 @@
     &__wrapper-collection {
         position: relative;
         overflow: hidden;
+        height: 300px;
         flex: 1 1 calc((100% / 3) - 10px);
         &:hover {
             .portfolio-collections__title-collection {
@@ -51,7 +52,7 @@
     &__wrapper-video {
         width: 100%;
         height: 100%;
-        object-fit: fill;
+        object-fit: cover;
     }
     &__darkening {
         position: absolute;
@@ -60,6 +61,45 @@
         opacity: .65;
         width: 100%;
         height: 100%;
+        font-size: 22px;
         transition: 0.3s all ease-out;
     }
+    &__wrapper-title {
+        position: fixed;
+        width: 180px;
+        height: 50px;
+        z-index: 100;
+        letter-spacing: 1px;
+        font-weight: 200;
+        top: 30%;
+        display: block;
+        transform: rotateZ(-90deg);
+    }
+    &__title {
+        display: block;
+        transform: translateY(-140px);
+    }
+    // &__decorate-corner {
+    //     display: block;
+    //     width: max-content;
+    //     position: absolute;
+    //     bottom: 80px;
+    //     right: 0px;
+    //     transform: rotateZ(-90deg);
+    //     &::before, &::after {
+    //         content: "";
+    //         display: block;
+    //         border-radius: 10px;
+    //         background-color: rgba($color: #e6d348, $alpha: 1)
+    //     }
+    //     &::after {
+    //         width: 50px;
+    //         height: 5px;
+    //     }
+    //     &::before {
+    //         transform: translateY(6px);
+    //         width: 5px;
+    //         height: 50px;
+    //     }
+    // }
 }
