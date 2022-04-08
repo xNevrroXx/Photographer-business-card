@@ -1,15 +1,15 @@
 import { Component } from "react";
 
-import Header from "../../header/Header";
-import Social from "../../social/Social";
-import {getPhotos} from "../../../services/service";
-import Modal from "../../modal/Modal";
+import Header from "../../components/header/Header";
+import Social from "../../components/social/Social";
+import {getPhotos} from "../../services/service";
+import Modal from "../../components/modal/Modal";
 
 // styles
 import "./portfolio-collections.scss";
 import "./portfolio-collections_Media.scss";
 import { Link } from "react-router-dom";
-import { collectionPhoto } from "../../types/types";
+import { collectionPhoto } from "../../components/types/types";
 
 // types
 interface IProps {

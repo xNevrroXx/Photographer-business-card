@@ -5,9 +5,9 @@ import "./contacts.scss";
 import "./contacts_Media.scss";
 
 //types
-import Header from "../../header/Header";
-import Social from "../../social/Social";
-import FeedbackForm from "../../feedback-form/FeedbackForm";
+import Header from "../../components/header/Header";
+import Social from "../../components/social/Social";
+import FeedbackForm from "../../components/feedback-form/FeedbackForm";
 interface IProps {
     // onChangePage: (namePage: namePages) => void
 }

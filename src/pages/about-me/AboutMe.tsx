@@ -1,16 +1,16 @@
 import { Component } from "react";
-import Header from "../../header/Header";
-import Social from "../../social/Social";
+import Header from "../../components/header/Header";
+import Social from "../../components/social/Social";
 
 //images
-import photo from "../../../resources/own-photo/500x500.png";
+import photo from "../../resources/own-photo/500x500.png";
 
 //styles
 import "./about-me.scss";
 import "./about-me_Media.scss";
 
 //types
-import { namePages } from "../../app/App";
+import { namePages } from "../../components/app/App";
 import { Link } from "react-router-dom";
 interface IProps {
     // onChangePage: (namePage: namePages) => void

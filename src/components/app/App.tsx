@@ -1,12 +1,12 @@
 import React, { Component, FC } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate, useParams } from 'react-router-dom';
 import { getPhotos } from '../../services/service';
 
 //pages
-import AboutMe from '../pages/about-me/AboutMe';
-import Contacts from '../pages/contacts/Contacts';
-import NotFound from '../pages/not-found/NotFound';
-import PortfolioCollections from '../pages/portfolio-collections/PortfolioCollections';
+import AboutMe from '../../pages/about-me/AboutMe';
+import Contacts from '../../pages/contacts/Contacts';
+import NotFound from '../../pages/not-found/NotFound';
+import PortfolioCollections from '../../pages/portfolio-collections/PortfolioCollections';
 
 // styles
 import "./app.scss";
@@ -14,7 +14,7 @@ import "./app_Media.scss";
 
 //types
 import { collectionPhoto } from '../types/types';
-import PortfolioCollection from '../pages/portfolio-collection/PortfolioCollection';
+import PortfolioCollection from '../../pages/portfolio-collection/PortfolioCollection';
 export type namePages = "aboutMe" | "portfolio" | "contacts";
 interface IState {
     visiblePage: namePages,
@@ -96,7 +96,7 @@ class App extends Component<IProps, IState> {
 						<Route path="/Portfolio" element={<PortfolioCollections/>} />
 						<Route path="/Contacts" element={<Contacts/>} />
 						
-						<Route path="/Portfolio/:collectionName" element={<PortfolioCollection collectionsPhoto={collectionsPhoto}/>}/>
+						<Route path="/Portfolio/:collectionName" element={(<PortfolioCollection/>)}/>
 						{/* <Route path="/Portfolio/:collectionName" element={(props: any) => (<PortfolioCollection collectionsPhoto={collectionsPhoto} {...props}/>)}/> */}
 						<Route path="*" element={<NotFound/>} ></Route>
 					</Routes>
