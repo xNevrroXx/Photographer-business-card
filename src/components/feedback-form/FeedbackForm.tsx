@@ -4,6 +4,7 @@ import $ from "jquery";
 //styles
 import "./feedback-form.scss";
 import "./feedback-form_Media.scss";
+import Validate from "../../services/validateClass";
 
 //types
 type linkMethods = "email" | "telephone";
@@ -93,19 +94,35 @@ class FeedbackForm extends Component<IProps, IState> {
                 emailInput: any = document.querySelector("input[name='email']"),
                 phoneInput: any = document.querySelector("input[name='phone']");
 
+        const validate: Validate = new Validate;
         let isSend: boolean = true;
 
-        if (this.validatePhone(phoneInput?.value)) {
-            phoneInput.classList.remove("feedback-form__wrong-value");
+        if(validate.validateName(nameInput.value)) {
+            nameInput.classList.remove("feedback-form__wrong-value");
+        } else if(nameInput.required || nameInput.value.length > 0) {
+            nameInput.classList.add("feedback-form__wrong-value");
+            isSend = false;
+        } else {
+            nameInput.classList.add("feedback-form__wrong-value");
+            isSend = false;
+        }
 
-        } else if (!this.validatePhone(phoneInput?.value)) {
+        if (validate.validatePhone(phoneInput.value)) {
+            phoneInput.classList.remove("feedback-form__wrong-value");
+        } else if(phoneInput.required || phoneInput.value.length > 0) {
             phoneInput.classList.add("feedback-form__wrong-value");
             isSend = false;
-        } 
+        } else {
+            phoneInput.classList.add("feedback-form__wrong-value");
+            isSend = false;
+        }
         
-        if (this.validateEmail(emailInput?.value)) {
+        if (validate.validateEmail(emailInput.value)) {
             emailInput.classList.remove("feedback-form__wrong-value");
-        } else if (!this.validateEmail(emailInput?.value)) {
+        } else if(emailInput.required || emailInput.value.length > 0) {
+            emailInput.classList.add("feedback-form__wrong-value");
+            isSend = false;
+        } else {
             emailInput.classList.add("feedback-form__wrong-value");
             isSend = false;
         }
@@ -114,27 +131,7 @@ class FeedbackForm extends Component<IProps, IState> {
         else alert("Повторите ввод данных, пожалуйста");
     }
 
-    validatePhone = (inputStr: string) => {
-        let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{5}$/im;
-        
-        if(re.test(inputStr)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    validateEmail = (inputStr: string) => {
-        const re = new RegExp(
-            '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
-        );
-        
-        if (re.test(inputStr)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     // validateName = (inputStr: string) => {
     //     const re: RegExp = /^[a-z]/
