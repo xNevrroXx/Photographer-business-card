@@ -25,18 +25,24 @@ const PortfolioCollection: FC = () => {
             const collectionsPhotoTemp: collectionPhoto[] = result.collections;
             
             setCollectionsPhoto(collectionsPhotoTemp);
-        });
+        }); 
 
-        setHorizontalWheel("main");
+        const element = document.querySelector("main");
+        if(element) {
+            const horizontalWheel = (e: any) => setHorizontalWheel.call(null, e, 100, element);
+
+            element.addEventListener("wheel", horizontalWheel);
+            return () => element.removeEventListener("wheel", horizontalWheel);
+        }
     }, [])
 
     useEffect(() => {
         if(collectionsPhoto != null) {
-            const collectionTemp = collectionsPhoto.find(element => element.nameUrl == nameUrl);
+            const collectionTemp = collectionsPhoto.find(element => element.nameUrl == nameUrl);    
             const subtitlesTemp: string[] = [];
     
             if(collectionTemp != undefined) {
-                for(let i = 0; i < collectionTemp.images.length; i++) {
+                for(let i = 0; i < collectionTemp.images.length/2; i++) {
                     subtitlesTemp.push(collectionTemp.name)
                 }
                 
@@ -63,7 +69,7 @@ const PortfolioCollection: FC = () => {
                 <Header/>
             </div>
 
-            <main style={mainStyle}>
+            <main>
                 {
                     listSubtitles.length > 0 ? (
                         <div className="portfolio-collection__list-subtitle">
@@ -97,7 +103,10 @@ const PortfolioCollection: FC = () => {
                 {
                     listSubtitles.length > 0 ? (
                         <div className="portfolio-collection__list-subtitle">
-                            {listSubtitles.map((subtitle, index) => <div className="portfolio-collection__subtitle" style={{width: `calc(100% / ${listSubtitles.length})`}} key={`downSubtitle-${index}`}>{subtitle}</div>)}
+                            {
+                                listSubtitles.map((subtitle, index) => 
+                                    <div className="portfolio-collection__subtitle" style={{width: `calc(100% / ${listSubtitles.length})`}} key={`downSubtitle-${index}`}>{subtitle}</div>
+                                )}
                         </div>
                     ) : null    
                 }
@@ -111,3 +120,7 @@ const PortfolioCollection: FC = () => {
 }
 
 export default PortfolioCollection;
+
+function e(element: HTMLElement | null, e: any) {
+    throw new Error("Function not implemented.");
+}

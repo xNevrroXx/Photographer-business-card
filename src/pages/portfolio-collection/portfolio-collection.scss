@@ -3,17 +3,19 @@
     height: 100vh;
     padding-top: 65px;
     padding-bottom: 50px;
-    // overflow-y: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     main {
-        height: 70vh;
+        width: 100vw;
+        overflow-x: scroll;
         display: flex;
         flex-direction: column;
-        align-content: center;
-        justify-content: space-between;
+        height: max-content;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
     &__list-subtitle {
         width: 100%;
@@ -39,15 +41,6 @@
     &__subtitle {
         font-size: 22px;
         display: block;
-    }
-    &__wrapper-photos {
-        width: 100%;
-        // display: grid;
-        // grid-template-rows: repeat(3, 200px);
-        // grid-template-columns: 400px 400px 400px;
-        // grid-gap: 2px;
-        // transition: .2s all;
-        display: flex;
     }
     &__photo {
         display: block;

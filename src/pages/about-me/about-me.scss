@@ -14,9 +14,13 @@
     main {
         height: 100%;
         display: flex;
+        // justify-content: flex-start
         flex-direction: column;
         justify-content: center;
     }
+    // header {
+    //     margin-bottom: 90px;
+    // }
     &__tech-wrapper {
         display: flex;
         justify-content: flex-start;
