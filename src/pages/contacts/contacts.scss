@@ -15,14 +15,15 @@
         margin-bottom: 30px;
     }
     &__title {
-        font-family: "Bad Script";
+        font-family: $titles;
         color: $textWhite;
         font-size: 33px;
+        font-weight: 400;
         line-height: 33px;
-        margin-bottom: 15px;
+        margin-bottom: 30px;
     }
     &__tout {
-        font-family: "Playfair Display";
+        // font-family: $tout;
         color: $textWhite;
         font-size: 20px;
         line-height: 28px;

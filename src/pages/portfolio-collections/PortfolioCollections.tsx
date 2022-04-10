@@ -105,7 +105,7 @@ class PortfolioCollections extends Component<IProps, IState> {
                                             >
                                                 <div className="portfolio-collections__darkening"></div>
                                                 <h3 className="portfolio-collections__title-collection">{collection.name}</h3>
-                                                <video autoPlay muted loop playsInline className="portfolio-collections__wrapper-video">
+                                                <video autoPlay muted loop disablePictureInPicture playsInline className="portfolio-collections__wrapper-video">
                                                     <source src={collection.mainImgUrl}/>
                                                 </video>
                                             </Link>

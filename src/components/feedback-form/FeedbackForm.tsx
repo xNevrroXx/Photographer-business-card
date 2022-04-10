@@ -185,11 +185,11 @@ class FeedbackForm extends Component<IProps, IState> {
                 />
 
 
-                <label className="feedback-form__label" htmlFor="method-link" >Как удобнее</label>
+                <label className="feedback-form__label" htmlFor="method-link" >Как удобнее ответить?</label>
                 <div id="method-link" className="feedback-form__method-links">
                     <input 
                         id="radioEmail"
-                        type="radio" 
+                        type="radio"
                         name="radioEmail" 
                         checked={prefferedLinkMethod === "email"} 
                         onChange={(e) => this.onValueChange(e)} 

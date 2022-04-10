@@ -1,4 +1,4 @@
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
     .social {
         flex-wrap: wrap;
         width: 100%;
@@ -7,6 +7,13 @@
             &:not(:last-of-type) {
                 margin-right: 40px;
             }
+        }
+        &__copyright-symbol {
+            font-size: 20px;
+            line-height: 15px;
+        }
+        &__copyright-description {
+            font-size: 15px;
         }
     }
 }

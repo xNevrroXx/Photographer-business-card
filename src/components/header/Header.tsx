@@ -51,7 +51,7 @@ class Header extends Component<IProps, IState> {
         
         return (
             <header className="header" /* style={{marginBottom: mb}} */>
-                <div className="header__title">Константин Фатеев</div>
+                <div className="header__title">Фатеев</div>
 
                 <nav className="header__menu header__menu-desktop">
                     <ul>

@@ -2,7 +2,13 @@
 
 .social{
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    &__tech-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        row-gap: 10px;
+    }
     &__wrapper-icon {
         svg {
             width: 32px;
@@ -55,5 +61,28 @@
         display: block;
         font-size: 19px;
         color: $main-color;
+    }
+    &__wrapper-copyright {
+        flex-wrap: nowrap;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 400;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__copyright-symbol {
+        font-family: inherit;
+        display: block;
+        line-height: 30px;
+        font-size: 30px;
+        margin-right: 5px;
+    }
+    &__copyright-description {
+        font-size: 20px;
+        letter-spacing: -1.5px;
+        font-family: inherit;
+        display: block;
+        margin: auto;
+        width: max-content
     }
 }
