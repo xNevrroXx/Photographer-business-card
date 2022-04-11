@@ -1,38 +1,36 @@
 function setHorizontalWheel(
-    {e, speedWheel = 3, element, sprayingTime = 15}: 
-    {e: any, speedWheel: number, element: HTMLElement, sprayingTime?: number}) 
+    {e, element, sprayingTime = 15}: 
+    {e: any, element: HTMLElement, sprayingTime?: number}) 
     {
     e.preventDefault();
-    console.log("true");
-    let spraySpeedWheel: number = speedWheel/100*30;
     let isBack: boolean = false;
     
-    const looping = (spraySpeedWheel: number) => setTimeout(() => {
-        var delta: number = Math.max(-1, Math.min(1, e.wheelDelta));
+    const looping = () => setTimeout(() => {
+        
+        let delta = e.deltaY || e.detail || e.wheelDelta;
+        if(e.deltaY) delta = e.deltaY;
+        else if(e.detail) delta = -e.detail;
+        else if(e.wheelDelta) delta = -e.wheelDelta;
 
         element.scrollBy({
-            left: -delta * spraySpeedWheel,
-            // behavior: 'smooth'
+            left: delta*0.2,
             });
 
-        if(isBack) --spraySpeedWheel
-        else if(++spraySpeedWheel >= speedWheel) {
-            isBack = true;
-        }
-        console.log("spraySpeedWheel: ", spraySpeedWheel);
+        // console.log("spraySpeedWheel: ", spraySpeedWheel);
 
         if(--sprayingTime <= 0) return;
 
-        looping(spraySpeedWheel);
+        looping();
     }, sprayingTime)
 
-    looping(spraySpeedWheel);
+    looping();
 }
 
 function setLoopHorizontalWheel(element: HTMLElement, side: "left" | "right", maxTranslateX: number, startTraslateX: number) {
     let totalTranslate: number = startTraslateX;
     let delta: 1 | -1 = side == "right" ? 1 : -1;
-    console.log("max: ", maxTranslateX, "     start: ", startTraslateX);
+
+    // console.log("max: ", maxTranslateX, "     start: ", startTraslateX);
     const looping = () => setTimeout(() => {
         if(maxTranslateX >=totalTranslate && side == "left") {
             side = "right";
