@@ -93,10 +93,10 @@ class App extends Component<IProps, IState> {
 					<Routes>
 						<Route path="/" element={<Navigate to="/AboutMe" />} />
 						<Route path="/AboutMe" element={<AboutMe/>}  />
-						<Route path="/Portfolio" element={<PortfolioCollections/>} />
+						<Route path="/Portfolio" element={<PortfolioCollections urlJson="/imagesTestOther.json"/>} />
 						<Route path="/Contacts" element={<Contacts/>} />
 						
-						<Route path="/Portfolio/:collectionName" element={(<PortfolioCollection/>)}/>
+						<Route path="/Portfolio/:collectionName" element={(<PortfolioCollection urlJson="/imagesTestOther.json"/>)}/>
 						{/* <Route path="/Portfolio/:collectionName" element={(props: any) => (<PortfolioCollection collectionsPhoto={collectionsPhoto} {...props}/>)}/> */}
 						<Route path="*" element={<NotFound/>} ></Route>
 					</Routes>

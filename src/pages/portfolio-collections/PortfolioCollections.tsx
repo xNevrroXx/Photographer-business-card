@@ -13,7 +13,7 @@ import { collectionPhoto } from "../../components/types/types";
 
 // types
 interface IProps {
-    // onChangePage: (namePage: namePages) => void
+    urlJson: string;
 }
 
 
@@ -45,7 +45,7 @@ class PortfolioCollections extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        getPhotos("imagesTest.json")
+        getPhotos(this.props.urlJson)
         .then(result => {
             this.setState({collectionsPhoto: result.collections});
         })

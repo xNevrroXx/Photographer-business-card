@@ -14,7 +14,11 @@ import { collectionPhoto } from "../../components/types/types";
 import { setHorizontalWheel, setLoopHorizontalWheel} from "../../components/horizontalWheelFunc/horizontalWheel";
 import createCollage from "../../components/collagePhotoPlugin/collagePhotoPlugin";
 
-const PortfolioCollection: FC = () => {
+interface IProps {
+    urlJson: string
+}
+
+const PortfolioCollection: FC<IProps> = ({urlJson}) => {
     const [collectionObj, setCollectionObj] = useState<collectionPhoto>(),
           [listSubtitles, setListSubtitles] = useState<string[]>([]),
           [collectionsPhoto, setCollectionsPhoto] = useState<collectionPhoto[]>([]),
@@ -25,7 +29,7 @@ const PortfolioCollection: FC = () => {
     let collageContainer: HTMLElement | null;
 
     useEffect(() => {
-        getPhotos("/imagesTest.json")
+        getPhotos(urlJson)
         .then((result: {collections: collectionPhoto[]}) => {
             const collectionsPhotoTemp: collectionPhoto[] = result.collections;
             
@@ -57,17 +61,6 @@ const PortfolioCollection: FC = () => {
             setStyleCollageContainer({
                 width: window.getComputedStyle(document.querySelector(".collage")!).width,
             });
-            
-            
-            (function() {
-                const element: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
-                if(element) {
-                    const onHorizontalWheel = (e: any) => setHorizontalWheel.call(null, {e: e, speedWheel: 10, element: element, sprayingTime: 11});
-                    element.addEventListener("wheel", onHorizontalWheel);
-                    
-                    return () => element.removeEventListener("wheel", onHorizontalWheel);
-                }
-            }());
         }
     }, [collectionObj])
 
@@ -82,12 +75,37 @@ const PortfolioCollection: FC = () => {
                 width: `${getNumFromStr(coumputedWidthCollageContainer) / listSubtitles.length + "px"}`
             });
 
+
+            
+            (function() {
+                const element: any = document.querySelector(".portfolio-collection__wrapper-collage");
+                if(element) {
+                    const onHorizontalWheel = (e: any) => setHorizontalWheel.call(null, {e: e, element: element, sprayingTime: 9});
+                    element.addEventListener("wheel", onHorizontalWheel);
+                    
+                    if (element.addEventListener) {
+                        if ('onwheel' in document) {
+                          // IE9+, FF17+, Ch31+
+                          element.addEventListener("wheel", onHorizontalWheel);
+                        } else if ('onmousewheel' in document) {
+                          // устаревший вариант события
+                          element.addEventListener("mousewheel", onHorizontalWheel);
+                        } else {
+                          // Firefox < 17
+                          element.addEventListener("MozMousePixelScroll", onHorizontalWheel);
+                        }
+                      } else { // IE8-
+                        element.attachEvent("onmousewheel", onHorizontalWheel);
+                      }
+
+                    return () => element.removeEventListener("wheel", onHorizontalWheel);
+                }
+            }());
+
             (function(){
                 const elements: NodeListOf<HTMLElement> | null = document.querySelectorAll(".portfolio-collection__list-subtitles");
                 
                 elements.forEach((element, index) => {
-                    // console.log(styleCollageContainer.width == typeof ""); 
-                    // console.log("2222222222 ---        width: ", typeof styleCollageContainer.width, "   str: ", (typeof ""), "    and together: ", styleCollageContainer.width == typeof "");
                     if(window.innerWidth > getNumFromStr(styleCollageContainer.width)) return;
                     if(index == 0) setLoopHorizontalWheel(element, "left", -(getNumFromStr(styleCollageContainer.width) - window.innerWidth), 0);
                     else setLoopHorizontalWheel(element, "right", 0, -(getNumFromStr(styleCollageContainer.width) - window.innerWidth));
