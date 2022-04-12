@@ -142,7 +142,7 @@ class FeedbackForm extends Component<IProps, IState> {
 
         $.ajax({
             type: "POST",
-            url: "test.php", //Change
+            url: "mailer.php", //Change
             data: formElement.serialize()
         }).done(() =>  {
             console.log(formElement.serialize());

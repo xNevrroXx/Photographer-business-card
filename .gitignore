@@ -10,8 +10,10 @@
 
 # production
 /build
-/public/photos
+/public/content
 
+# php SMTP security
+mailer.php
 
 # misc
 .DS_Store
