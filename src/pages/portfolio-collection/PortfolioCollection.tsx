@@ -1,4 +1,4 @@
-import { CSSProperties, FC, useEffect, useState } from "react";
+import { CSSProperties, FC, PointerEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Header from "../../components/header/Header";
@@ -11,7 +11,7 @@ import "./portfolio-collection.scss";
 
 //types
 import { collectionPhoto } from "../../components/types/types";
-import { setHorizontalWheel, setLoopHorizontalWheel} from "../../components/horizontalWheelFunc/horizontalWheel";
+import { setHorizontalWheel, setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setHorizontalTapWheelListener } from "../../components/horizontalWheelFunc/horizontalWheel";
 import createCollage from "../../components/collagePhotoPlugin/collagePhotoPlugin";
 
 interface IProps {
@@ -26,7 +26,6 @@ const PortfolioCollection: FC<IProps> = ({urlJson}) => {
           [styleCollageContainer, setStyleCollageContainer] = useState<any>({});
 
     const nameUrl = useParams().collectionName;
-    let collageContainer: HTMLElement | null;
 
     useEffect(() => {
         getPhotos(urlJson)
@@ -57,6 +56,7 @@ const PortfolioCollection: FC<IProps> = ({urlJson}) => {
         if(collectionObj != null) {
             createCollage({
                 selectorContainer: ".portfolio-collection__wrapper-photos",
+                widthColumn: "550px"
             });
             setStyleCollageContainer({
                 width: window.getComputedStyle(document.querySelector(".collage")!).width,
@@ -65,9 +65,10 @@ const PortfolioCollection: FC<IProps> = ({urlJson}) => {
     }, [collectionObj])
 
     useEffect(() => {
-        collageContainer = document.querySelector(".collage");
+        const collageContainer: HTMLElement | null = document.querySelector(".collage"),
+              wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
 
-        if(collageContainer && styleCollageContainer.width) {
+        if(collageContainer && styleCollageContainer.width && wrapperCollage) {
             const coumputedWidthCollageContainer: any = styleCollageContainer.width;
 
             setStyleSubtitles({
@@ -75,45 +76,22 @@ const PortfolioCollection: FC<IProps> = ({urlJson}) => {
                 width: `${getNumFromStr(coumputedWidthCollageContainer) / listSubtitles.length + "px"}`
             });
 
-
-            
-            (function() {
-                const element: any = document.querySelector(".portfolio-collection__wrapper-collage");
-                if(element) {
-                    const onHorizontalWheel = (e: any) => setHorizontalWheel.call(null, {e: e, element: element, sprayingTime: 9});
-                    element.addEventListener("wheel", onHorizontalWheel);
-                    
-                    if (element.addEventListener) {
-                        if ('onwheel' in document) {
-                          // IE9+, FF17+, Ch31+
-                          element.addEventListener("wheel", onHorizontalWheel);
-                        } else if ('onmousewheel' in document) {
-                          // устаревший вариант события
-                          element.addEventListener("mousewheel", onHorizontalWheel);
-                        } else {
-                          // Firefox < 17
-                          element.addEventListener("MozMousePixelScroll", onHorizontalWheel);
-                        }
-                      } else { // IE8-
-                        element.attachEvent("onmousewheel", onHorizontalWheel);
-                      }
-
-                    return () => element.removeEventListener("wheel", onHorizontalWheel);
-                }
-            }());
-
-            (function(){
-                const elements: NodeListOf<HTMLElement> | null = document.querySelectorAll(".portfolio-collection__list-subtitles");
-                
-                elements.forEach((element, index) => {
-                    if(window.innerWidth > getNumFromStr(styleCollageContainer.width)) return;
-                    if(index == 0) setLoopHorizontalWheel(element, "left", -(getNumFromStr(styleCollageContainer.width) - window.innerWidth), 0);
-                    else setLoopHorizontalWheel(element, "right", 0, -(getNumFromStr(styleCollageContainer.width) - window.innerWidth));
-                })
-            }())
+            setListenerDesktopHorizontalWheel(wrapperCollage);
+            setHorizontalTapWheelListener({element: wrapperCollage, sensetivity: 20, sprayingTime: 5, ratio: 5});
+            setLoopWheelSubtitles();
         }
     }, [styleCollageContainer])
-    
+
+    const setLoopWheelSubtitles = () => {
+        const elements: NodeListOf<HTMLElement> | null = document.querySelectorAll(".portfolio-collection__list-subtitles");
+                
+        elements.forEach((element, index) => {
+            if(window.innerWidth > getNumFromStr(styleCollageContainer.width)) return;
+            if(index == 0) setLoopHorizontalWheel(element, "left", -(getNumFromStr(styleCollageContainer.width) - window.innerWidth), 0);
+            else setLoopHorizontalWheel(element, "right", 0, -(getNumFromStr(styleCollageContainer.width) - window.innerWidth));
+        })
+    }
+
     return (
         <div className="portfolio-collection">
             <div className="container">
@@ -191,7 +169,3 @@ const PortfolioCollection: FC<IProps> = ({urlJson}) => {
 }
 
 export default PortfolioCollection;
-
-function e(element: HTMLElement | null, e: any) {
-    throw new Error("Function not implemented.");
-}
