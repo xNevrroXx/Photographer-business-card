@@ -14,6 +14,7 @@ class Modal extends Component<IProps> {
         super(props);
     }
 
+    // key
     componentDidMount() {
         document.addEventListener("keydown", this.onKeyCloseModal);
     }
@@ -27,9 +28,10 @@ class Modal extends Component<IProps> {
             this.props.onCloseModal();
     }
 
-    onClickCloseModal = (e: any) => {
-        if(e.target.classList[0] === "my-modal")
-            this.props.onCloseModal();
+
+    // click
+    onClickCloseModal = () => {
+        this.props.onCloseModal();
     }
 
     render() {
@@ -38,7 +40,7 @@ class Modal extends Component<IProps> {
         return (
             <div 
                 className="my-modal"
-                onClick={(e) => this.onClickCloseModal(e)}    
+                onClick={this.onClickCloseModal}    
             >
                 <img className="my-modal__image" src={url} alt="zoomed photo" />    
             </div>

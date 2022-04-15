@@ -13,7 +13,7 @@ function getNumFromStr(str: string) {
 
 function createRandomString(
     {lengthStr = 10, validCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"}: 
-    {validCharacters?: string, lengthStr: number}): string
+    {lengthStr?: number, validCharacters?: string} ): string
 {
     let result = '';
     

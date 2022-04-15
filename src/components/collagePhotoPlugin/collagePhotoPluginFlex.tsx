@@ -2,14 +2,16 @@
 import "./collage-photo-plugin.scss";
 
 //types
+type responsiveArguments = {
+    heightRow?: string,
+    widthColumn?: string,
+    countColumns?: number,
+    countRows?: number,
+    rowGap?: number
+}
+
 type responsive = {
-    [resolution: number]: {
-        heightRow?: string,
-        widthColumn?: string,
-        countColumns?: number,
-        countRows?: number,
-        rowGap?: number
-    }
+    [resolution: number]: responsiveArguments;
 }
 
 interface Arguments {
@@ -30,64 +32,65 @@ function createCollage(
     // main logic
     checkFailures();
     addClassContainer();
+    getNeedfulResponsiveProps();
 
     const containerElement: HTMLElement | null = document.querySelector(selectorContainer),
           childElements: NodeListOf<HTMLElement> = document.querySelectorAll(`${selectorContainer} > *`);
     
-    setResponsiveWidthCollageContainer();
+    setWidthCollageContainer();
     
     return true; // сигнал: коллаж создан
 
+    
     // functions
     function addClassContainer() { // for using styles
         const element = document.querySelector(selectorContainer);
         element?.classList.add("collage");
     }
-    function setResponsiveWidthCollageContainer() {
+    function setWidthCollageContainer() {
         let countRowsNum: number;  
         if(countRows == "auto") countRowsNum = 2;
         else countRowsNum = +countRows;
         
         let width: string = '';
-        let viewWidthDevice = window.innerWidth ? window.innerWidth : window.screen.width;
-
-        let keysLessWidth: number[] = [];
-        let propsLessWidth: responsive = {};
-        // if(responsive) {
-        //     //test
-        //     viewWidthDevice = 1500;
-        //     responsive = {
-        //         500: {
-        //             countColumns: 500,
-        //             countRows: 2
-        //         },
-        //         800: {
-        //             countRows: 50,
-        //             heightRow: "500px"
-        //         }
-        //     }
-        //     for(let i = 0; i < viewWidthDevice; i++) {
-        //         if(responsive.hasOwnProperty(i)) {
-        //             keysLessWidth.push(i);
-        //             propsLessWidth[i] = responsive[i];
-        //         };
-        //     }
-        //     console.log("objLessWidth: ", propsLessWidth);
-        //     console.log("lessWidthKeys: ", keysLessWidth);
-
-        //     if(keysLessWidth.length > 0) {
-        //         let needfulResponsiveProps: responsive;
-
-        //         // Object.keys(/* someObj */).length;
-        //     }
-        // }
         
-        if(keysLessWidth.length == 0) { //if there are not responsive property with number(width) less than current viewWidthDevice 
+        // if(keysLessWidth.length == 0) { //if there are not responsive property with number(width) less than current viewWidthDevice 
             width = `calc((${widthColumn}*${+(childElements.length / countRowsNum).toFixed()}) + (${+(childElements.length / countRowsNum).toFixed() * columnGap + 3}px))`;
-        }
+        // }
 
         containerElement!.style.width = width;
     } 
+    function getNeedfulResponsiveProps() {
+        let viewWidthDevice: number = window.innerWidth ? window.innerWidth : window.screen.width;
+        let propsLessWidth: responsive = {};
+        let needfulResponsiveProps: responsiveArguments = {};
+
+        if(responsive) {
+            for(let i = 0; i < viewWidthDevice; i++) {
+                if(responsive.hasOwnProperty(i)) {
+                    propsLessWidth[i] = responsive[i];
+                };
+            }
+
+            if(Object.keys(propsLessWidth).length > 0) {
+                for (const keyOneResponsiveWidth in propsLessWidth) { // enumeration all responsive appropriate properties  
+                    const oneWidthResponsiveObj: responsiveArguments = propsLessWidth[keyOneResponsiveWidth];
+                    
+                    needfulResponsiveProps = {...needfulResponsiveProps, ...oneWidthResponsiveObj};
+                }
+
+                assignToParams();
+            }
+        }
+        
+        function assignToParams() {
+            if(needfulResponsiveProps.countColumns) countColumns = needfulResponsiveProps.countColumns.toString();
+            if(needfulResponsiveProps.countRows) countRows = needfulResponsiveProps.countRows.toString();
+            if(needfulResponsiveProps.heightRow) heightRow = needfulResponsiveProps.heightRow;
+            if(needfulResponsiveProps.rowGap) rowGap = needfulResponsiveProps.rowGap;
+            if(needfulResponsiveProps.widthColumn) widthColumn = needfulResponsiveProps.widthColumn;
+        }
+    }
     function checkFailures() { //
         // add no use tag!!!!!!!!!!!!!!!! add no use ZERO numbers !!!!!!!!!!!!!!!!!!!!!! responsive props должны следовать от меньшего к большему
         if(selectorContainer.length == 0 || selectorContainer === "collage") {
@@ -105,4 +108,4 @@ function createCollage(
     }
 }
 
-export default createCollage;
+export {createCollage as createCollageFlex};

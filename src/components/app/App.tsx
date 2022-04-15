@@ -19,7 +19,8 @@ export type namePages = "aboutMe" | "portfolio" | "contacts";
 interface IState {
     visiblePage: namePages,
 	collectionsPhoto: collectionPhoto[],
-	isLoading: boolean
+	isLoading: boolean,
+	urlJson: string
 }
 interface IProps {
 
@@ -32,38 +33,20 @@ class App extends Component<IProps, IState> {
 		this.state = {
 			isLoading: false,
 			collectionsPhoto: [],
-			visiblePage: "aboutMe"
+			visiblePage: "aboutMe",
+			urlJson: "/imagesTest.json"
 		}
 	}
 
 	componentDidMount() {
-		getPhotos("imagesTest.json")
+		getPhotos(this.state.urlJson)
         .then(result => {
             this.setState({
 				collectionsPhoto: result.collections,
 				isLoading: true
 			});
         })
-
-		// const localNamePages = localStorage.getItem("namePage");
-		// if(!localNamePages)
-		// 	localStorage.setItem("namePage", "aboutMe");
-		// else if(this.isTypeNamePages(localNamePages))
-		// 	this.setState({visiblePage: localNamePages})
 	}
-
-	// componentDidUpdate(prevProps: IProps, prevState: IState) {
-	// 	if(prevState.visiblePage !== this.state.visiblePage) 
-	// 		localStorage.setItem("namePage", this.state.visiblePage)
-	// }
-	
-	// isTypeNamePages = (variable: any): variable is namePages => {
-	// 	return variable === "aboutMe" || "portfolio" || "contacts" ? true : false;
-	// }
-
-	// onChangePage = (namePage: namePages) => {
-	// 	this.setState({visiblePage: namePage})
-    // }
 
 	onCloseMobileMenu = (e: any) => {
         const clickedElement = e.target;
@@ -85,7 +68,7 @@ class App extends Component<IProps, IState> {
     }
 
 	render() {
-		const {isLoading, collectionsPhoto} = this.state;
+		const {isLoading, urlJson, collectionsPhoto} = this.state;
 		
 		return (
 			<BrowserRouter>
@@ -93,11 +76,10 @@ class App extends Component<IProps, IState> {
 					<Routes>
 						<Route path="/" element={<Navigate to="/AboutMe" />} />
 						<Route path="/AboutMe" element={<AboutMe/>}  />
-						<Route path="/Portfolio" element={<PortfolioCollections urlJson="/imagesTestOther.json"/>} />
+						<Route path="/Portfolio" element={<PortfolioCollections collectionsPhoto={collectionsPhoto} urlJson={urlJson} />} />
 						<Route path="/Contacts" element={<Contacts/>} />
 						
-						<Route path="/Portfolio/:collectionName" element={(<PortfolioCollection urlJson="/imagesTestOther.json"/>)}/>
-						{/* <Route path="/Portfolio/:collectionName" element={(props: any) => (<PortfolioCollection collectionsPhoto={collectionsPhoto} {...props}/>)}/> */}
+						<Route path="/Portfolio/:collectionName" element={(<PortfolioCollection collectionsPhotoProp={collectionsPhoto} urlJson={urlJson} />)}/>
 						<Route path="*" element={<NotFound/>} ></Route>
 					</Routes>
 				</div>

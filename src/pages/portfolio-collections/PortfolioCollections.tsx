@@ -13,15 +13,16 @@ import { collectionPhoto } from "../../components/types/types";
 
 // types
 interface IProps {
-    urlJson: string;
+    collectionsPhoto: collectionPhoto[];
+    urlJson: string
 }
 
 
 
 interface IState {
-    collectionsPhoto: collectionPhoto[];
     currentSlide: string,
     selectorContainerSlider: string,
+    collectionsPhoto: collectionPhoto[]
     // modal: {
     //     isOpenModal: boolean,
     //     modalUrl: string
@@ -34,9 +35,9 @@ class PortfolioCollections extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            collectionsPhoto: [],
             currentSlide: "01",
             selectorContainerSlider: '.slider',
+            collectionsPhoto: []
             // modal: {
             //     isOpenModal: false,
             //     modalUrl: ""
@@ -45,44 +46,26 @@ class PortfolioCollections extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        getPhotos(this.props.urlJson)
-        .then(result => {
-            this.setState({collectionsPhoto: result.collections});
-        })
+        if(this.props.collectionsPhoto.length == 0) 
+        {
+            getPhotos(this.props.urlJson)
+            .then((result: {collections: collectionPhoto[]}) => {
+                const collectionsPhotoTemp: collectionPhoto[] = result.collections;
 
-        // document.addEventListener("mousemove", function(e: any) {
-        //     if(e.target != null && e.target.classList.contains("portfolio-collections__darkening"))
-        //         e.target.style.opacity = 0.8;
-        //     else {
-
-        //     }
-        // })
+                this.setState({collectionsPhoto: collectionsPhotoTemp});
+            }); 
+        }
+        else 
+        {
+            this.setState({collectionsPhoto: this.props.collectionsPhoto});
+        }
     }
 
-    // onCloseModal = () => {
-    //     this.setState({
-    //         modal: {
-    //             ...this.state.modal,
-    //             isOpenModal: false
-    //         }
-    //     });
-    // }
-    // onOpenModal = (url: string) => {
-    //     this.setState({
-    //         modal: {
-    //             modalUrl: url,
-    //             isOpenModal: true
-    //         }
-    //     });
-    // }
-
     render() {
-        const {collectionsPhoto} = this.state;
+        const {collectionsPhoto} = this.props;
 
         return(
-            <>
-                {/* {isOpenModal ? <Modal url={modalUrl} onCloseModal={this.onCloseModal} /> : null} */}
-                
+            <>                
                 <div className="portfolio-collections">
                     <div className="container">
                         <Header/>

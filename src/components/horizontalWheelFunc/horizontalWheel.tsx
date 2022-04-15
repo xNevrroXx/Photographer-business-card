@@ -64,11 +64,7 @@ interface argumentsTapWheel {
     ratio?: number
 }
 
-function setHorizontalTapWheelListener(
-    {element, sensetivity = 20, sprayingTime = 10, ratio = 5}: argumentsTapWheel 
-    ) 
-    {let iterator: number = 0;
-
+function setListenerTapHorizontalWheel( {element, sensetivity = 20, sprayingTime = 10, ratio = 5}: argumentsTapWheel ) {
     const startValues = {
         sprayingTime: sprayingTime
     }
@@ -101,8 +97,6 @@ function setHorizontalTapWheelListener(
     }
     
     function moveWheelPointer(e: PointerEvent) {
-        
-        /* temp */iterator++;
         touchPosition = {
             x: e.clientX,
             y: e.clientY
@@ -207,4 +201,4 @@ function setLoopHorizontalWheel(element: HTMLElement, side: "left" | "right", ma
     looping();
 }
 
-export {setHorizontalWheel, setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setHorizontalTapWheelListener};
+export {setHorizontalWheel, setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel};
