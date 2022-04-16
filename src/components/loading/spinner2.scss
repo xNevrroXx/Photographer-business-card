@@ -1,0 +1,47 @@
+  .circle__svg {
+    animation: animate 6s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+  }
+  
+  .circle__svg text {
+    font-size: 20px;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+  
+  .circle__svg svg {
+    position: absolute;
+    top: -125px;
+    left: -125px;
+    right: 0;
+    bottom: 0;
+    width: 450px;
+    height: 450px;
+  }
+  
+  @keyframes animate {
+    0% {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+    25% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+      transform: rotate(360deg);
+    }
+  }

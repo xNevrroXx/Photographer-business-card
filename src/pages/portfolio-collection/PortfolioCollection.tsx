@@ -5,15 +5,19 @@ import Header from "../../components/header/Header";
 import Social from "../../components/social/Social";
 import { getPhotos } from "../../services/service";
 import { getNumFromStr } from "../../components/collagePhotoPlugin/techFunctions";
+import {Spinner} from "../../components/loading/Spinner";
 
 //styles
 import "./portfolio-collection.scss";
+import "./portfolio-collection_Media.scss";
 
 //types
 import { collectionPhoto } from "../../components/types/types";
-import { setHorizontalWheel, setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
+import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
 import {createCollageGrid} from "../../components/collagePhotoPlugin/collagePhotoPluginGrid";
 import Modal from "../../components/modal/Modal";
+import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoPluginFlex";
+import { Spinner2 } from "../../components/loading/Spinner2";
 
 interface IProps {
     collectionsPhotoProp: collectionPhoto[];
@@ -26,12 +30,14 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
           [listSubtitles, setListSubtitles] = useState<string[]>([]),
           [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "none"}),
           [styleCollageContainer, setStyleCollageContainer] = useState<any>({}),
-          [zoomImage, setZoomImage] = useState<{isOpen: boolean, urlImage: string}>({isOpen: false, urlImage: ""});
+          [zoomImage, setZoomImage] = useState<{isOpen: boolean, urlImage: string}>({isOpen: false, urlImage: ""}),
+          [isContentReady, setIsContentReady] = useState<boolean>(false),
+          [isSetLoopWheel, setIsSetLoopWheel] = useState<boolean>(false);
 
     const nameUrl = useParams().collectionName;
 
     useEffect(() => {
-        if(collectionsPhotoProp.length == 0) 
+        if(collectionsPhotoProp.length == 0)
         {
             getPhotos(urlJson)
             .then((result: {collections: collectionPhoto[]}) => {
@@ -43,6 +49,12 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         else 
         {
             setCollectionsPhoto(collectionsPhotoProp);
+        }
+
+        const wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
+        if(wrapperCollage) {
+            setListenerDesktopHorizontalWheel(wrapperCollage);
+            setListenerTapHorizontalWheel({element: wrapperCollage, sensetivity: 20, sprayingTime: 5, ratio: 5});
         }
     }, [])
 
@@ -64,22 +76,58 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
  
     useEffect(() => {
         if(collectionObj != null) {
-            createCollageGrid({
+            createCollageFlex({
                 selectorContainer: ".portfolio-collection__wrapper-photos",
-                widthColumn: "550px"
-            });
-            setStyleCollageContainer({
-                width: window.getComputedStyle(document.querySelector(".collage")!).width,
+                responsive: {
+                    300: {
+                        heightRow: "150px",
+                        rowGap: 5,
+                        columnGap: 0,
+                        countRows: 2
+                    },
+                    500: {
+                        heightRow: "220px",
+                        rowGap: 0,
+                        columnGap: 0,
+                        countRows: 2
+                    },
+                    800: {
+                        heightRow: "220px",
+                        rowGap: 0,
+                        columnGap: 0,
+                        countRows: 2
+                    },
+                    1000: {
+                        heightRow: "250px",
+                        rowGap: 5,
+                        columnGap: 8,
+                        // countColumns: "auto-fit",
+                        countRows: 2
+                    },
+                    1500: {
+                        heightRow: "300px",
+                        rowGap: 5,
+                        columnGap: 2,
+                        // countColumns: "auto-fit",
+                        countRows: 2
+                    }
+                }
             });
 
+            const collageWrapper = document.querySelector(".portfolio-collection__wrapper-photos");
+            collageWrapper!.addEventListener("transitionend", () => {
+                setStyleCollageContainer({
+                    width: window.getComputedStyle(document.querySelector(".collage")!).width,
+                });
+            })
         }
     }, [collectionObj])
 
     useEffect(() => {
-        const collageContainer: HTMLElement | null = document.querySelector(".collage"),
-              wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
+        const collageContainer: HTMLElement | null = document.querySelector(".collage");
+            //   wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
 
-        if(collageContainer && styleCollageContainer.width && wrapperCollage) {
+        if(collageContainer && styleCollageContainer.width) {
             const coumputedWidthCollageContainer: any = styleCollageContainer.width;
 
             setStyleSubtitles({
@@ -87,9 +135,12 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                 width: `${getNumFromStr(coumputedWidthCollageContainer) / listSubtitles.length + "px"}`
             });
 
-            setListenerDesktopHorizontalWheel(wrapperCollage);
-            setListenerTapHorizontalWheel({element: wrapperCollage, sensetivity: 20, sprayingTime: 5, ratio: 5});
-            setLoopWheelSubtitles();
+            if(getNumFromStr(coumputedWidthCollageContainer) > window.innerWidth && getNumFromStr(coumputedWidthCollageContainer) > 1000 && !isSetLoopWheel) {
+                setIsSetLoopWheel(true);
+                setLoopWheelSubtitles();
+            }
+            
+            animateDisappear();
         }
     }, [styleCollageContainer])
 
@@ -103,6 +154,17 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         })
     }
 
+
+    function animateDisappear() {
+        const spinner: HTMLElement | null = document.querySelector(".spinner");
+
+        if(spinner) {
+            spinner.style.opacity = "0";
+            setTimeout(() => {
+                setIsContentReady(true);
+            }, 1000);
+        }
+    }
     const onCloseModal = () => {
         setZoomImage({
             ...zoomImage,
@@ -126,9 +188,6 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         function checkCoincidence(e: any) {
             const pointUp = {x: e.clientX, y: e.clientY};
 
-            console.log("url: ", url)
-            console.log("pointDown: ", pointDown)
-            console.log("pointUp: ", pointUp)
             if(pointUp.x == pointDown.x && pointUp.y == pointDown.y && url) {
                 console.log(true)
                 onOpenModal(url);
@@ -148,70 +207,74 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                     <Header/>
                 </div>
 
+                {
+                    isContentReady == false ? <Spinner2 textProp="ищу фотографии" /> : null
+                }
 
-                <main className="portfolio-collection__wrapper-list-subtitles" >
+                <div style={isContentReady ? {transition: "opacity 0.2s"} : {opacity: "0", height: 0, zIndex: -100}}>  
+                    <main className="portfolio-collection__wrapper-list-subtitles" >
+                        {
+                            listSubtitles.length > 0 ? (
+                                <div className="portfolio-collection__list-subtitles" style={{width: styleCollageContainer.width}}>
+                                    {
+                                        listSubtitles.map((subtitle, index) => 
+                                            <div
+                                                className="portfolio-collection__wrapper-subtitle" 
+                                                style={styleSubtitles}
+                                                key={`upSubtitle-${index}`}
+                                            >
+                                                <div className="portfolio-collection__subtitle">
+                                                    {subtitle}
+                                                </div>
+                                            </div>
+                                        )}
+                                </div>
+                            ) : null
+                        }
+                    </main>
+                    <main className="portfolio-collection__wrapper-collage" >
+                        {
+                            collectionObj != undefined ? (
+                                <div className="portfolio-collection__wrapper-photos"
+                                    style={styleCollageContainer}
+                                >
+                                    {
+                                        collectionObj.images.map((image, index) => (
+                                            <div
+                                                className="portfolio-collection__wrapper-photo"
+                                                key={`image-${index}`}
+                                                data-url-image={image.url}
+                                                onPointerDown={setListenerPointerUpZoomImage}    
+                                                >
+                                                <img src={image.url} alt={collectionObj.name} className="portfolio-collection__photo" />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            ) : null
+                        }
+                    </main>
+                    <main className="portfolio-collection__wrapper-list-subtitles portfolio-collection__wrapper-list-subtitles_left">
                     {
                         listSubtitles.length > 0 ? (
                             <div className="portfolio-collection__list-subtitles" style={{width: styleCollageContainer.width}}>
                                 {
                                     listSubtitles.map((subtitle, index) => 
-                                        <div
-                                            className="portfolio-collection__wrapper-subtitle" 
-                                            style={styleSubtitles}
-                                            key={`upSubtitle-${index}`}
-                                        >
+                                    <div 
+                                        className="portfolio-collection__wrapper-subtitle" 
+                                        style={styleSubtitles}
+                                        key={`downSubtitle-${index}`}
+                                    >
                                             <div className="portfolio-collection__subtitle">
                                                 {subtitle}
                                             </div>
                                         </div>
                                     )}
                             </div>
-                        ) : null
+                        ) : null    
                     }
-                </main>          
-
-                <main className="portfolio-collection__wrapper-collage" >
-                    {
-                        collectionObj != undefined ? (
-                            <div className="portfolio-collection__wrapper-photos"
-                                style={styleCollageContainer}
-                            >
-                                {
-                                    collectionObj.images.map((image, index) => (
-                                        <div
-                                            className="portfolio-collection__wrapper-photo"
-                                            key={`image-${index}`}
-                                            data-url-image={image.url}
-                                            onPointerDown={setListenerPointerUpZoomImage}    
-                                            >
-                                            <img src={image.url} alt={collectionObj.name} className="portfolio-collection__photo" />
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        ) : null
-                    }
-                </main>
-                <main className="portfolio-collection__wrapper-list-subtitles portfolio-collection__wrapper-list-subtitles_left">
-                {
-                    listSubtitles.length > 0 ? (
-                        <div className="portfolio-collection__list-subtitles" style={{width: styleCollageContainer.width}}>
-                            {
-                                listSubtitles.map((subtitle, index) => 
-                                <div 
-                                    className="portfolio-collection__wrapper-subtitle" 
-                                    style={styleSubtitles}
-                                    key={`downSubtitle-${index}`}
-                                >
-                                        <div className="portfolio-collection__subtitle">
-                                            {subtitle}
-                                        </div>
-                                    </div>
-                                )}
-                        </div>
-                    ) : null    
-                }
-                </main>
+                    </main>
+                </div>
 
                 <div className="container">
                     <Social/>

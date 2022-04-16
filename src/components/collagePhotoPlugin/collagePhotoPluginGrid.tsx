@@ -1,13 +1,13 @@
-// import { CSSProperties } from "react";
-import "./collage-photo-plugin-grid.scss";
+import { getNumFromStr } from "./techFunctions";
 
 //types
 type responsiveArguments = {
     heightRow?: string,
     widthColumn?: string,
-    countColumns?: number,
-    countRows?: number,
-    rowGap?: number
+    countColumns?: string,
+    countRows?: string,
+    rowGap?: number,
+    columnGap?: number
 }
 
 type responsive = {
@@ -27,7 +27,7 @@ interface Arguments {
 
 // there is no adaptability yet
 function createCollage( 
-    {selectorContainer, heightRow = "400px", widthColumn = "400px", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
+    {selectorContainer, heightRow = "400px", widthColumn = "400px", countColumns = "auto-fit", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
     {
     // main logic
     checkFailures();
@@ -37,7 +37,7 @@ function createCollage(
     const containerElement: HTMLElement | null = document.querySelector(selectorContainer),
           childElements: NodeListOf<HTMLElement> = document.querySelectorAll(`${selectorContainer} > *`);
     
-    setWidthCollageContainer();
+    setStylesCollageContainer();
     
     return true; // сигнал: коллаж создан
 
@@ -47,19 +47,27 @@ function createCollage(
         const element = document.querySelector(selectorContainer);
         element?.classList.add("collage");
     }
-    function setWidthCollageContainer() {
+    function setStylesCollageContainer() {
+        let viewWidthDevice: number = window.innerWidth ? window.innerWidth : window.screen.width;
         let countRowsNum: number;  
         if(countRows == "auto") countRowsNum = 2;
         else countRowsNum = +countRows;
         
-        let width: string = '';
-        
-        // if(keysLessWidth.length == 0) { //if there are not responsive property with number(width) less than current viewWidthDevice 
-            width = `calc((${widthColumn}*${+(childElements.length / countRowsNum).toFixed()}) + (${+(childElements.length / countRowsNum).toFixed() * columnGap + 3}px))`;
-        // }
+        let width: number = getNumFromStr(widthColumn) * +(childElements.length / countRowsNum).toFixed() + +(childElements.length / countRowsNum).toFixed() * columnGap + 3;
 
-        containerElement!.style.width = width;
-    } 
+
+        if(containerElement) {
+            containerElement.style.cssText = `
+                display: grid;
+                width: ${width}px;
+                gap: ${rowGap}px ${columnGap}px;
+                justify-content: start;
+                grid-template-rows: repeat(${countRowsNum}, ${heightRow});
+                grid-template-columns: repeat(${countColumns}, ${widthColumn});
+                touch-action: none;
+            `;
+        }
+    }
     function getNeedfulResponsiveProps() {
         let viewWidthDevice: number = window.innerWidth ? window.innerWidth : window.screen.width;
         let propsLessWidth: responsive = {};

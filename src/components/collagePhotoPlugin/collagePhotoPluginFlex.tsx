@@ -1,5 +1,5 @@
-// import { CSSProperties } from "react";
-import "./collage-photo-plugin.scss";
+import { resolve } from "node:path/win32";
+import { getNumFromStr } from "./techFunctions";
 
 //types
 type responsiveArguments = {
@@ -7,7 +7,8 @@ type responsiveArguments = {
     widthColumn?: string,
     countColumns?: number,
     countRows?: number,
-    rowGap?: number
+    rowGap?: number,
+    columnGap?: number
 }
 
 type responsive = {
@@ -26,8 +27,8 @@ interface Arguments {
 }
 
 // there is no adaptability yet
-function createCollage( 
-    {selectorContainer, heightRow = "400px", widthColumn = "400px", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
+function createCollageFlex(
+    {selectorContainer, heightRow = "400px", widthColumn = "711px", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
     {
     // main logic
     checkFailures();
@@ -36,9 +37,10 @@ function createCollage(
 
     const containerElement: HTMLElement | null = document.querySelector(selectorContainer),
           childElements: NodeListOf<HTMLElement> = document.querySelectorAll(`${selectorContainer} > *`);
-    
-    setWidthCollageContainer();
-    
+    let arrComputedWidthElements: string[] = [];
+
+    setStylesChildsElements();
+
     return true; // сигнал: коллаж создан
 
     
@@ -47,19 +49,65 @@ function createCollage(
         const element = document.querySelector(selectorContainer);
         element?.classList.add("collage");
     }
-    function setWidthCollageContainer() {
+    function setStylesCollageContainer() {
         let countRowsNum: number;  
         if(countRows == "auto") countRowsNum = 2;
         else countRowsNum = +countRows;
-        
-        let width: string = '';
-        
-        // if(keysLessWidth.length == 0) { //if there are not responsive property with number(width) less than current viewWidthDevice 
-            width = `calc((${widthColumn}*${+(childElements.length / countRowsNum).toFixed()}) + (${+(childElements.length / countRowsNum).toFixed() * columnGap + 3}px))`;
-        // }
 
-        containerElement!.style.width = width;
+        const averageWidthChild = getAverageFromArr(); 
+        const width = +(averageWidthChild * (childElements.length+1) / countRowsNum).toFixed() + +(childElements.length / countRowsNum).toFixed() * columnGap;
+
+        // console.log("arrComputedWidthElements: ", arrComputedWidthElements);
+        // console.log("averageWidthChild: ", averageWidthChild)
+        // console.log("widthContainer: ", width)
+        if(containerElement) {
+            containerElement.style.cssText = `
+                display: flex;
+                flex-wrap: wrap;
+                width: ${width}px;
+                height: calc(${heightRow} * ${countRowsNum} + ${countRowsNum * rowGap - rowGap}px);
+                gap: ${rowGap}px ${columnGap}px;
+                justify-content: flex-start;
+                touch-action: none;
+            `;
+
+            // grid-template-rows: repeat(${countRowsNum}, ${heightRow});
+            // grid-template-columns: repeat(${countColumns}, ${widthColumn});
+
+        }
     } 
+    function getAverageFromArr(): number {
+        let sum: number = 0;
+        for (let i = 0; i < arrComputedWidthElements.length; i++) {
+            sum += getNumFromStr(arrComputedWidthElements[i]);
+        }
+
+        return sum / arrComputedWidthElements.length;
+    }
+
+    function setStylesChildsElements() {
+        for (let i=0; i < childElements.length; i++) {
+            const element: HTMLElement = childElements[i];
+
+            const transitionEndFunc = () => {
+                const computedWidth: string = window.getComputedStyle(element!).width;
+                arrComputedWidthElements.push(computedWidth);
+                
+                if(i == childElements.length-1) {
+                    setStylesCollageContainer();
+                }
+
+                element.removeEventListener("transitionend", transitionEndFunc);
+            }
+            
+            element.addEventListener("transitionend", transitionEndFunc);
+
+            setTimeout(() => {
+                element.style.height = heightRow;
+            }, 3000);
+        }
+    }
+
     function getNeedfulResponsiveProps() {
         let viewWidthDevice: number = window.innerWidth ? window.innerWidth : window.screen.width;
         let propsLessWidth: responsive = {};
@@ -108,4 +156,4 @@ function createCollage(
     }
 }
 
-export {createCollage as createCollageFlex};
+export default createCollageFlex;

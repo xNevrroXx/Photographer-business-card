@@ -1,0 +1,28 @@
+@import "../../style/variables.scss";
+
+.spinner {
+    display: block;
+    margin: auto;
+    textPath {
+        font-family: monospace;
+    }
+}
+
+// .disk {
+//     position: relative; 
+//     background: #4a9266;
+//     width: 30%;
+//     padding: 15% 0; border-radius: 50%;  /* адаптивный круг */
+//     margin: 10% auto;
+//     font: 4.5vmin monospace; 
+
+//     b {
+//         position: absolute;
+//         left: 50%; /* все буквы ставим в одну точку*/
+//         width: 0; /* убираем отступ */
+//     }
+//     b:nth-of-type(-n+6) {
+//         bottom: 50%; /* отступ от центра по радиусу */
+//         padding-bottom: 50%; /* отступ от центра круга */
+//       }
+//   }

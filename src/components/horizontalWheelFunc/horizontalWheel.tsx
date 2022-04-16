@@ -22,7 +22,6 @@ function setHorizontalWheel(
             }
             else if(sprayingCoefficient++ > maxCoefficient) maxCoefficient = 0;
 
-            console.log(sprayingCoefficient)
             looping();
         }, sprayingTime)
     }
@@ -169,31 +168,32 @@ function setListenerTapHorizontalWheel( {element, sensetivity = 20, sprayingTime
 
 
 // universal
-function setLoopHorizontalWheel(element: HTMLElement, side: "left" | "right", maxTranslateX: number, startTraslateX: number) {
-    let totalTranslate: number = startTraslateX;
+function setLoopHorizontalWheel(element: HTMLElement, side: "left" | "right", maxTranslateX: number, startTranslateX: number) {
+    let totalTranslate: number = startTranslateX;
     let delta: 1 | -1 = side == "right" ? 1 : -1;
 
+    // console.log(element, side, maxTranslateX, startTranslateX);
     // console.log("max: ", maxTranslateX, "     start: ", startTraslateX);
     const looping = () => setTimeout(() => {
         if(maxTranslateX >=totalTranslate && side == "left") {
             side = "right";
-            maxTranslateX = startTraslateX
+            maxTranslateX = startTranslateX
             delta = 1;
 
-            maxTranslateX = startTraslateX + maxTranslateX;
-            startTraslateX = maxTranslateX - startTraslateX;
-            maxTranslateX = maxTranslateX - startTraslateX;
+            maxTranslateX = startTranslateX + maxTranslateX;
+            startTranslateX = maxTranslateX - startTranslateX;
+            maxTranslateX = maxTranslateX - startTranslateX;
         }
         else if(maxTranslateX <= totalTranslate && side == "right") {
             side = "left";
             delta = -1;
             
-            maxTranslateX = startTraslateX + maxTranslateX;
-            startTraslateX = maxTranslateX - startTraslateX;
-            maxTranslateX = maxTranslateX - startTraslateX;
+            maxTranslateX = startTranslateX + maxTranslateX;
+            startTranslateX = maxTranslateX - startTranslateX;
+            maxTranslateX = maxTranslateX - startTranslateX;
         }
 
-        totalTranslate += 1 * delta;
+        totalTranslate += delta;
         element.style.transform = `translateX(${totalTranslate}px)`;
         looping();
     }, 26)
