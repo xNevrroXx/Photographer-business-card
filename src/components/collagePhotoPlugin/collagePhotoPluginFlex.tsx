@@ -56,7 +56,7 @@ function createCollageFlex(
 
         const averageWidthChild = getAverageFromArr(); 
         const width = +(averageWidthChild * (childElements.length+1) / countRowsNum).toFixed() + +(childElements.length / countRowsNum).toFixed() * columnGap;
-
+        
         // console.log("arrComputedWidthElements: ", arrComputedWidthElements);
         // console.log("averageWidthChild: ", averageWidthChild)
         // console.log("widthContainer: ", width)

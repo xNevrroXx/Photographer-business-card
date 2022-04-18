@@ -1,6 +1,6 @@
 import React, { Component, FC } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, useParams } from 'react-router-dom';
-import { getPhotos } from '../../services/service';
+import { getData } from '../../services/service';
 
 //pages
 import AboutMe from '../../pages/about-me/AboutMe';
@@ -39,7 +39,7 @@ class App extends Component<IProps, IState> {
 	}
 
 	componentDidMount() {
-		getPhotos(this.state.urlJson)
+		getData(this.state.urlJson)
         .then(result => {
             this.setState({
 				collectionsPhoto: result.collections,

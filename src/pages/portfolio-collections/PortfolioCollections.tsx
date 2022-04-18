@@ -2,7 +2,7 @@ import { Component } from "react";
 
 import Header from "../../components/header/Header";
 import Social from "../../components/social/Social";
-import {getPhotos} from "../../services/service";
+import {getData} from "../../services/service";
 import Modal from "../../components/modal/Modal";
 
 // styles
@@ -48,7 +48,7 @@ class PortfolioCollections extends Component<IProps, IState> {
     componentDidMount() {
         if(this.props.collectionsPhoto.length == 0) 
         {
-            getPhotos(this.props.urlJson)
+            getData(this.props.urlJson)
             .then((result: {collections: collectionPhoto[]}) => {
                 const collectionsPhotoTemp: collectionPhoto[] = result.collections;
 

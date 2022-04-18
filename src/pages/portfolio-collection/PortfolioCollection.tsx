@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import Header from "../../components/header/Header";
 import Social from "../../components/social/Social";
-import { getPhotos } from "../../services/service";
+import { cacheImages, getData } from "../../services/service";
 import { getNumFromStr } from "../../components/collagePhotoPlugin/techFunctions";
 import {Spinner} from "../../components/loading/Spinner";
 
@@ -26,6 +26,7 @@ interface IProps {
 
 const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
     const [collectionsPhoto, setCollectionsPhoto] = useState<collectionPhoto[]>([]),
+          [isLoading, setIsLoading] = useState<boolean>(false),
           [collectionObj, setCollectionObj] = useState<collectionPhoto>(),
           [listSubtitles, setListSubtitles] = useState<string[]>([]),
           [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "none"}),
@@ -39,15 +40,16 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
     useEffect(() => {
         if(collectionsPhotoProp.length == 0)
         {
-            getPhotos(urlJson)
+            getData(urlJson)
             .then((result: {collections: collectionPhoto[]}) => {
                 const collectionsPhotoTemp: collectionPhoto[] = result.collections;
 
                 setCollectionsPhoto(collectionsPhotoTemp);
-            }); 
+            });
         }
         else 
         {
+
             setCollectionsPhoto(collectionsPhotoProp);
         }
 
@@ -70,6 +72,14 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                 
                 setCollectionObj(collectionTemp);
                 setListSubtitles(subtitlesTemp);
+
+                
+                cacheImages(collectionTemp.images)
+                    .catch(console.log)
+                    .finally(() => {
+                        console.log("by the way, all photos loaded!");
+                        setIsLoading(true);
+                    })
             }
         }
     }, [collectionsPhoto])  
@@ -121,7 +131,7 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                 });
             })
         }
-    }, [collectionObj])
+    }, [isLoading])
 
     useEffect(() => {
         const collageContainer: HTMLElement | null = document.querySelector(".collage");
