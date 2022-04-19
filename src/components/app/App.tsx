@@ -1,5 +1,5 @@
-import React, { Component, FC } from 'react';
-import { BrowserRouter, Route, Routes, Navigate, useParams } from 'react-router-dom';
+import { Component } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { getData } from '../../services/service';
 
 //pages
@@ -7,14 +7,15 @@ import AboutMe from '../../pages/about-me/AboutMe';
 import Contacts from '../../pages/contacts/Contacts';
 import NotFound from '../../pages/not-found/NotFound';
 import PortfolioCollections from '../../pages/portfolio-collections/PortfolioCollections';
+import { collectionPhoto } from '../types/types';
+import PortfolioCollection from '../../pages/portfolio-collection/PortfolioCollection';
+import { RedirectToCollection } from '../../pages/portfolio-collection/PortfolioCollectionClass';
 
 // styles
 import "./app.scss";
 import "./app_Media.scss";
 
 //types
-import { collectionPhoto } from '../types/types';
-import PortfolioCollection from '../../pages/portfolio-collection/PortfolioCollection';
 export type namePages = "aboutMe" | "portfolio" | "contacts";
 interface IState {
     visiblePage: namePages,
@@ -76,10 +77,12 @@ class App extends Component<IProps, IState> {
 					<Routes>
 						<Route path="/" element={<Navigate to="/AboutMe" />} />
 						<Route path="/AboutMe" element={<AboutMe/>}  />
-						<Route path="/Portfolio" element={<PortfolioCollections collectionsPhoto={collectionsPhoto} urlJson={urlJson} />} />
+						<Route path="/PhotoCollections" element={<PortfolioCollections collectionsPhoto={collectionsPhoto} urlJson={urlJson} />} />
 						<Route path="/Contacts" element={<Contacts/>} />
 						
-						<Route path="/Portfolio/:collectionName" element={(<PortfolioCollection collectionsPhotoProp={collectionsPhoto} urlJson={urlJson} />)}/>
+						{/* <Route path="/PhotoCollections/:collectionName" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto} urlJson={urlJson} />}/> */}
+						<Route path="/PhotoCollections/:nameCollection" element={<RedirectToCollection collectionsPhotoProp={collectionsPhoto} urlJson={urlJson} />} /> TEST
+
 						<Route path="*" element={<NotFound/>} ></Route>
 					</Routes>
 				</div>

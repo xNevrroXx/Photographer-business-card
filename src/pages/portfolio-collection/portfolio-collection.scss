@@ -50,19 +50,19 @@
         z-index: 10;
     }
     &__wrapper-photos {
-        width: 100vw;
+        width: 100px;
         transition: width 0.1s;
     }
     &__wrapper-photo {
         height: 100px;
-        max-width: 100vw;
+        width: 100vw;
         transition: width 1ms;
         width: max-content;
         z-index: 10;
         transition: 0.2s all;
         &:hover {
             cursor: url("../../resources/icon-zoom-in.png"), auto;
-            z-index: 15;
+            z-index: 15;    
             transform: scale(1.05);
         }
     }
@@ -70,5 +70,24 @@
         z-index: 10;
         height: 100%;
         object-fit: cover;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .portfolio-collection {
+        min-height: 100vh;
+        height: 100%;
+        .portfolio-collection__wrapper-photos {
+            width: 100%;
+            align-content: center;
+            justify-content: center;
+        }
+        &__photo {
+            width: 100%;
+            height: auto;
+        }
+        &__wrapper-photo {
+            height: auto;
+        }
     }
 }

@@ -82,7 +82,7 @@ class PortfolioCollections extends Component<IProps, IState> {
                                     collectionsPhoto.map((collection, index) => {
                                         return (
                                             <Link 
-                                                to={`/Portfolio/${collection.nameUrl}`} 
+                                                to={`/PhotoCollections/${collection.nameUrl}`} 
                                                 className="portfolio-collections__wrapper-collection"
                                                 key={`collection-${index}`}
                                             >

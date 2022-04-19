@@ -29,11 +29,12 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
           [isLoading, setIsLoading] = useState<boolean>(false),
           [collectionObj, setCollectionObj] = useState<collectionPhoto>(),
           [listSubtitles, setListSubtitles] = useState<string[]>([]),
-          [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "none"}),
-          [styleCollageContainer, setStyleCollageContainer] = useState<any>({}),
+          [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "flex", width: "max-content"}),
+          [styleCollageContainer, setStyleCollageContainer] = useState<{width: string}>({width: ""}),
           [zoomImage, setZoomImage] = useState<{isOpen: boolean, urlImage: string}>({isOpen: false, urlImage: ""}),
           [isContentReady, setIsContentReady] = useState<boolean>(false),
-          [isSetLoopWheel, setIsSetLoopWheel] = useState<boolean>(false);
+          [isSetLoopWheel, setIsSetLoopWheel] = useState<boolean>(false),
+          [collageWrapper, setCollageWrapper] = useState<HTMLElement>()
 
     const nameUrl = useParams().collectionName;
 
@@ -49,35 +50,38 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         }
         else 
         {
-
             setCollectionsPhoto(collectionsPhotoProp);
         }
 
         const wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
+        setCollageWrapper(document.querySelector(".portfolio-collection__wrapper-photos") as HTMLElement);
         if(wrapperCollage) {
             setListenerDesktopHorizontalWheel(wrapperCollage);
             setListenerTapHorizontalWheel({element: wrapperCollage, sensetivity: 20, sprayingTime: 5, ratio: 5});
         }
+
+        console.log("mount")
     }, [])
+
+    // useEffect(() => {
+    //     // if(collageWrapper) {
+    //     //     console.log("once!")
+    //     //     collageWrapper.addEventListener("transitionend", transitionEndFunc);
+    //     // }
+    // }, [collageWrapper])
 
     useEffect(() => {
         if(collectionsPhoto != null) {
-            const collectionTemp = collectionsPhoto.find(element => element.nameUrl == nameUrl);    
-            const subtitlesTemp: string[] = [];
-    
-            if(collectionTemp != undefined) {
-                for(let i = 0; i < collectionTemp.images.length; i++) {
-                    subtitlesTemp.push(collectionTemp.name)
-                }
-                
-                setCollectionObj(collectionTemp);
-                setListSubtitles(subtitlesTemp);
+            console.log(1)
 
+            const collectionTemp = collectionsPhoto.find(element => element.nameUrl == nameUrl);
+    
+            if(collectionTemp != undefined) {                
+                setCollectionObj(collectionTemp);
                 
                 cacheImages(collectionTemp.images)
                     .catch(console.log)
                     .finally(() => {
-                        console.log("by the way, all photos loaded!");
                         setIsLoading(true);
                     })
             }
@@ -86,6 +90,8 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
  
     useEffect(() => {
         if(collectionObj != null) {
+            console.log(2);
+
             createCollageFlex({
                 selectorContainer: ".portfolio-collection__wrapper-photos",
                 responsive: {
@@ -93,13 +99,13 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                         heightRow: "150px",
                         rowGap: 5,
                         columnGap: 0,
-                        countRows: 2
+                        widthColumn: "80vw"
                     },
                     500: {
                         heightRow: "220px",
                         rowGap: 0,
                         columnGap: 0,
-                        countRows: 2
+                        widthColumn: "80vw"
                     },
                     800: {
                         heightRow: "220px",
@@ -123,17 +129,34 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                     }
                 }
             });
+        
+            let subtitlesTemp: string[] = [collectionObj.name];
+            if(window.innerWidth > 800) {
+                for(let i = 0; i < collectionObj.images.length; i++) {
+                    subtitlesTemp[i] = collectionObj.name;
+                }
+            }
+            setListSubtitles(subtitlesTemp);
 
-            const collageWrapper = document.querySelector(".portfolio-collection__wrapper-photos");
-            collageWrapper!.addEventListener("transitionend", () => {
-                setStyleCollageContainer({
-                    width: window.getComputedStyle(document.querySelector(".collage")!).width,
-                });
-            })
+            if(collageWrapper) {
+                collageWrapper.addEventListener("transitionend", transitionEndFunc);
+            }
         }
     }, [isLoading])
 
+    const transitionEndFunc = () => {
+        const widthCollageContainer = window.getComputedStyle(collageWrapper!).width;
+        if(widthCollageContainer != styleCollageContainer.width) {
+            setStyleCollageContainer({
+                width: widthCollageContainer,
+            })
+        }
+
+        collageWrapper?.removeEventListener("transitionend", transitionEndFunc);
+    };
+
     useEffect(() => {
+        console.log(3)
         const collageContainer: HTMLElement | null = document.querySelector(".collage");
             //   wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
 
@@ -149,7 +172,6 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                 setIsSetLoopWheel(true);
                 setLoopWheelSubtitles();
             }
-            
             animateDisappear();
         }
     }, [styleCollageContainer])
@@ -163,7 +185,6 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
             else setLoopHorizontalWheel(element, "right", 0, -(getNumFromStr(styleCollageContainer.width) - window.innerWidth));
         })
     }
-
 
     function animateDisappear() {
         const spinner: HTMLElement | null = document.querySelector(".spinner");
@@ -199,7 +220,6 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
             const pointUp = {x: e.clientX, y: e.clientY};
 
             if(pointUp.x == pointDown.x && pointUp.y == pointDown.y && url) {
-                console.log(true)
                 onOpenModal(url);
             }
 
@@ -244,11 +264,11 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                     </main>
                     <main className="portfolio-collection__wrapper-collage" >
                         {
-                            collectionObj != undefined ? (
-                                <div className="portfolio-collection__wrapper-photos"
-                                    style={styleCollageContainer}
-                                >
-                                    {
+                            <div className="portfolio-collection__wrapper-photos"
+                                style={styleCollageContainer}
+                            >
+                                {
+                                    collectionObj != undefined ? (
                                         collectionObj.images.map((image, index) => (
                                             <div
                                                 className="portfolio-collection__wrapper-photo"
@@ -259,9 +279,9 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                                                 <img src={image.url} alt={collectionObj.name} className="portfolio-collection__photo" />
                                             </div>
                                         ))
-                                    }
-                                </div>
-                            ) : null
+                                    ) : null
+                                }
+                            </div>
                         }
                     </main>
                     <main className="portfolio-collection__wrapper-list-subtitles portfolio-collection__wrapper-list-subtitles_left">

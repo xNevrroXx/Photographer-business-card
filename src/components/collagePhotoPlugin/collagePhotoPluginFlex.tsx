@@ -28,7 +28,7 @@ interface Arguments {
 
 // there is no adaptability yet
 function createCollageFlex(
-    {selectorContainer, heightRow = "400px", widthColumn = "711px", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
+    {selectorContainer, heightRow = "400px", widthColumn = "auto", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
     {
     // main logic
     checkFailures();
@@ -53,15 +53,17 @@ function createCollageFlex(
         let countRowsNum: number;  
         if(countRows == "auto") countRowsNum = 2;
         else countRowsNum = +countRows;
-
-        const averageWidthChild = getAverageFromArr(); 
-        const width = +(averageWidthChild * (childElements.length+1) / countRowsNum).toFixed() + +(childElements.length / countRowsNum).toFixed() * columnGap;
         
         // console.log("arrComputedWidthElements: ", arrComputedWidthElements);
         // console.log("averageWidthChild: ", averageWidthChild)
         // console.log("widthContainer: ", width)
         if(containerElement) {
-            containerElement.style.cssText = `
+            const averageWidthChild = getAverageFromArr(); 
+            const width = +(averageWidthChild * (childElements.length+1) / countRowsNum).toFixed() + +(childElements.length / countRowsNum).toFixed() * columnGap;
+
+            if(countRows != "auto") 
+            {
+                containerElement.style.cssText = `
                 display: flex;
                 flex-wrap: wrap;
                 width: ${width}px;
@@ -69,8 +71,21 @@ function createCollageFlex(
                 gap: ${rowGap}px ${columnGap}px;
                 justify-content: flex-start;
                 touch-action: none;
-            `;
-
+                `;
+            }
+            else {
+                console.log(widthColumn)
+                containerElement.style.cssText = `
+                display: flex;
+                flex-direction: column;
+                width: 100vw;
+                height: max-content;
+                flex: 1 1 ${widthColumn};
+                gap: ${rowGap}px ${columnGap}px;
+                align-items: center;
+                touch-action: none;
+                `;
+            }
             // grid-template-rows: repeat(${countRowsNum}, ${heightRow});
             // grid-template-columns: repeat(${countColumns}, ${widthColumn});
 
@@ -86,25 +101,35 @@ function createCollageFlex(
     }
 
     function setStylesChildsElements() {
-        for (let i=0; i < childElements.length; i++) {
-            const element: HTMLElement = childElements[i];
-
-            const transitionEndFunc = () => {
-                const computedWidth: string = window.getComputedStyle(element!).width;
-                arrComputedWidthElements.push(computedWidth);
-                
-                if(i == childElements.length-1) {
-                    setStylesCollageContainer();
+        if(countRows != "auto" ) {
+            for (let i=0; i < childElements.length; i++) {
+                const element: HTMLElement = childElements[i];
+    
+                const transitionEndFunc = () => {
+                    const computedWidth: string = window.getComputedStyle(element!).width;
+                    arrComputedWidthElements.push(computedWidth);
+                    
+                    if(i == childElements.length-1) {
+                        setStylesCollageContainer();
+                    }
+    
+                    element.removeEventListener("transitionend", transitionEndFunc);
                 }
-
-                element.removeEventListener("transitionend", transitionEndFunc);
+                
+                element.addEventListener("transitionend", transitionEndFunc);
+    
+                setTimeout(() => {
+                    element.style.height = heightRow;
+                }, 3000);
             }
-            
-            element.addEventListener("transitionend", transitionEndFunc);
+        }
+        else {
+            for (let i = 0; i < childElements.length; i++) {
+                const element = childElements[i];
 
-            setTimeout(() => {
-                element.style.height = heightRow;
-            }, 3000);
+                element.style.width = widthColumn;
+            }
+            setStylesCollageContainer();
         }
     }
 
