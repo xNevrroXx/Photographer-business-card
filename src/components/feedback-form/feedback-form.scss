@@ -8,11 +8,11 @@
     width: 600px;
     color: white;
     input, textarea#letter, button {
-        font-family: $forms;
+        font-family: $main;
         letter-spacing: 1px;
         line-height: 30px;
         font-size: 20px;
-        font-weight: 600;
+        font-weight: 400;
         color: $textBlackAlpha;
 
         padding: 2px 5px 2px 5px;
@@ -50,25 +50,23 @@
         display: block;
         width: 100%;
         font-size: 23px;
-        font-family: $forms;
+        font-family: $main;
         letter-spacing: 1px;
-        font-weight: 600;
+        font-weight: 400;
         color: $textBlackAlpha;
     }
     &__method-links {
         display: flex;
         justify-content: flex-start;
-        align-items: baseline;
+        align-items: center;
         height: 50px;
         width: 100%;
 
-        font-family: $forms;
-        letter-spacing: 1px;
-        font-weight: 600;
         color:rgba($color: white, $alpha: 0.8);
         margin-bottom: 20px;
         input {
-            width: 40px;
+            transform: translateY(10px);
+            width: 30px;
             height: 100%;
             margin-right: 20px;
         }
@@ -80,7 +78,7 @@
             margin-right: 50px;
             font-size: 20px;
             transition: 0.15s all;
-            font-family: $forms;
+            font-family: $main;
             letter-spacing: 1px;
             font-weight: 400;
             color: $textBlackAlpha;

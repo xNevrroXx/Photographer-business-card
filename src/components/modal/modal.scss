@@ -1,9 +1,10 @@
 .my-modal {
+    height: 100%;
     z-index: 1000;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     top: 0;
     left: 0;
@@ -13,10 +14,10 @@
     cursor: url("../../resources/icon-zoom-out-white.png"), auto;
 
     &__image {
+        position: fixed;
         max-width: 100vw;
         max-height: 100vh;
         display: block;
         margin: 0 auto;
-        cursor: auto;
     }
 }

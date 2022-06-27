@@ -23,3 +23,16 @@
 		height: max-content;
 	}
 }
+
+
+
+@media only screen
+	and (device-width : 375px)
+	and (device-height : 812px)
+	and (-webkit-device-pixel-ratio : 3) {
+	.App {
+		-webkit-overflow-scrolling: touch;
+
+	}
+}
+

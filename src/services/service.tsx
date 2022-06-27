@@ -1,4 +1,4 @@
-const getPhotos = async (url: string) => {
+const getData = async (url: string) => {
     const result = await fetch(url);
 
     if(!result.ok) {
@@ -8,4 +8,19 @@ const getPhotos = async (url: string) => {
     return result.json();
 }
 
-export {getPhotos};
+const cacheImages = async (arrayUrls: {url: string}[]) => {
+    const promises = await arrayUrls.map(({url}) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = url;
+        })
+    })
+
+    return Promise.all(promises);
+}
+
+
+export {getData};
+export {cacheImages};

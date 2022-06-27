@@ -10,7 +10,11 @@
 
 # production
 /build
+
+/public/content/photo
+
 /public/content
+
 
 # php SMTP security
 mailer.php

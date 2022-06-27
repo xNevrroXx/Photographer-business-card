@@ -1,22 +1,175 @@
 {
-    "images": [
+    "collections": [
         {
-            "url": "https://bestwallpapers.in/wp-content/uploads/2018/05/aurora-nature-lake-mountain-water-reflection-4k-wallpaper-2560x1080.jpg"
+            "name": "Аня, Кофе, Много кофе",
+            "nameUrl": "AnnaCoffee",
+            "mainImgUrl": "./content/Coffee.mp4",
+            "images": [
+                {
+                    "url": "/content/photo/photo_1.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_2.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_3.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_4.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_5.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_6.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_7.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_8.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_9.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_10.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_11.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_12.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_13.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_14.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_15.jpg"
+                }
+            ]
         },
+        
         {
-            "url": "https://img1.goodfon.ru/original/2560x1080/a/1f/gory-andy-dolina-travy-reka.jpg"
+            "name": "They call me Love",
+            "nameUrl": "They call me Love",
+            "mainImgUrl": "./content/myNameIsLove.mp4",
+            "images": [                {
+                    "url": "/content/photo/photo_1.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_2.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_3.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_4.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_5.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_6.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_7.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_8.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_9.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_10.jpg"
+                }
+            ]
         },
+        
         {
-            "url": "https://images.hdqwalls.com/download/apple-mountains-lu-2560x1080.jpg"
+            "name": "Привет из 90-х",
+            "nameUrl": "Nineties",
+            "mainImgUrl": "./content/90-e.mp4",
+            "images": [                {
+                    "url": "/content/photo/photo_1.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_2.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_3.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_4.jpg"
+                }
+            ]
         },
+        
         {
-            "url": "https://images.hdqwalls.com/download/canada-mountains-forests-parks-4k-hk-2560x1080.jpg"
+            "name": "Один дома",
+            "nameUrl": "aloneAtHome",
+            "mainImgUrl": "./content/aloneAtHome.mp4",
+            "images": [                {
+                    "url": "/content/photo/photo_1.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_2.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_3.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_4.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_5.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_6.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_7.jpg"
+                }
+            ]
         },
+        
         {
-            "url": "https://i.pinimg.com/originals/eb/68/a0/eb68a0995e1e193675131efb11b2fc3f.jpg"
-        },
-        {
-            "url": "https://a-static.besthdwallpaper.com/dzerkal-ne-vidobrazhennya-priroda-shpalery-2560x1080-30711_14.jpg"
+            "name": "Can't falling in love with ME",
+            "nameUrl": "loveYourself",
+            "mainImgUrl": "./content/loveYourself.mp4",
+            "images": [                
+                {
+                    "url": "/content/photo/photo_1.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_2.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_3.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_4.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_5.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_6.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_7.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_8.jpg"
+                },
+                {
+                    "url": "/content/photo/photo_9.jpg"
+                }
+            ]
         }
     ]
 }

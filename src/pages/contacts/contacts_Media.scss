@@ -1,0 +1,46 @@
+@media screen and (max-width: 910px) {
+    .contacts {
+        min-height: 100vh;
+        height: 100%;
+        .container {
+            min-height: 85vh;
+            height: 100%;
+        }
+        &__title {
+            font-size: 34px;
+        }
+        &__tout {
+            font-size: 18px;
+        }
+    }
+}
+
+@media screen and (max-height: 900px) {
+    .contacts {
+        min-height: 100vh;
+        height: 100%;
+        .container {
+            min-height: 85vh;
+            height: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .contacts {
+        &__title {
+            font-size: 28px;
+        }
+        &__tout {
+            font-size: 16px;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .contacts {
+        &__title {
+            font-size: 24px;
+        }
+    }
+}

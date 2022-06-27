@@ -1,0 +1,34 @@
+@import "../../style/variables.scss";
+
+.contacts {
+    height: 100vh;
+
+    padding-top: 65px;
+    padding-bottom: 50px;
+    .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;    
+    }
+    .feedback-form {
+        margin-bottom: 30px;
+    }
+    &__title {
+        font-family: $titles;
+        color: $textWhite;
+        font-size: 33px;
+        font-weight: 400;
+        line-height: 33px;
+        margin-bottom: 30px;
+    }
+    &__tout {
+        // font-family: $tout;
+        color: $textWhite;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        color: $textWhite;
+    }
+}

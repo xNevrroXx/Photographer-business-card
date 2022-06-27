@@ -51,12 +51,12 @@ class Header extends Component<IProps, IState> {
         
         return (
             <header className="header" /* style={{marginBottom: mb}} */>
-                <div className="header__title">Константин Фатеев</div>
+                <div className="header__title">Фатеев</div>
 
                 <nav className="header__menu header__menu-desktop">
                     <ul>
                         <li><Link to="/AboutMe" className="header__linkPage">обо мне</Link></li>   
-                        <li><Link to="/Portfolio" className="header__linkPage">портфолио</Link></li>         
+                        <li><Link to="/PhotoCollections" className="header__linkPage">фотоколлекции</Link></li>         
                         <li><Link to="/Contacts" className="header__linkPage">контакты</Link></li>
                         {/* <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
@@ -72,7 +72,7 @@ class Header extends Component<IProps, IState> {
                 <nav className="header__menu header__menu-less-1000">
                     <ul>      
                         <li><Link to="/AboutMe" className="header__linkPage">обо мне</Link></li>   
-                        <li><Link to="/Portfolio" className="header__linkPage">портфолио</Link></li>         
+                        <li><Link to="/PhotoCollections" className="header__linkPage">фотоколлекции</Link></li>         
                         <li><Link to="/Contacts" className="header__linkPage">контакты</Link></li>                                  
                         {/* <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
                         <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
