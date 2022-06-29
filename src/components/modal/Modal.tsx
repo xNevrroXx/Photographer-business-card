@@ -1,51 +1,30 @@
-import { Component, FC } from "react";
-
 //styles
 import "./modal.scss";
 
 //types
-interface IProps {
-    url: string,
-    onCloseModal: () => void
-}
+import { IPropsZoomedPhoto } from "../../interfaces/interfaces";
 
-class Modal extends Component<IProps> {
-    constructor(props: IProps) {
-        super(props);
-    }
-
-    // key
-    componentDidMount() {
-        document.addEventListener("keydown", this.onKeyCloseModal);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener("keydown", this.onKeyCloseModal);
-    }
-
-    onKeyCloseModal = (e: any) => {
+const Modal = ({url, onCloseModal}: IPropsZoomedPhoto) => {
+    const onKeyCloseModal = (e: any) => {
         if(e.code === "Escape") 
-            this.props.onCloseModal();
+            onCloseModal();
     }
 
 
     // click
-    onClickCloseModal = () => {
-        this.props.onCloseModal();
+    const onClickCloseModal = () => {
+        onCloseModal();
     }
 
-    render() {
-        const {url} = this.props;
-
-        return (
-            <div 
-                className="my-modal"
-                onClick={this.onClickCloseModal}    
-            >
-                <img className="my-modal__image" src={url} alt="zoomed photo" />    
-            </div>
-        )
-    }
+    return (
+        <div 
+            className="my-modal"
+            onClick={onClickCloseModal}
+            onKeyDown={onKeyCloseModal}
+        >
+            <img className="my-modal__image" src={url} alt="zoomed photo" />    
+        </div>
+    )
 }
 
 export default Modal;

@@ -2,37 +2,9 @@ import { FC, useEffect, useState } from "react";
 import "./spinner2.scss";
 
 //types
-interface IProps {
-    textProp: string
-}
-type charData = {
-    char: string,
-    firstOffsetChar: number
-}
+import { IPropsSpinner } from "../../interfaces/interfaces";
 
-const Spinner2: FC<IProps> = ({textProp}) => {
-    const [chars, setChars] = useState<charData[]>([]);
-    let [coefficient, setCoefficient] = useState<number>(0);
-
-    useEffect(() => {
-        let space = 0;
-        let wasSpace = false;
-        let letterSpacing = 0;
-        for (let i = 0; i < textProp.length; i++) {
-            const char = textProp[i];
-
-            if(char == " ") wasSpace = true;
-            if(wasSpace) {
-                wasSpace = false;
-                space += 3;
-                // setChars( chars.push({char: char, firstOffsetChar: i+letterSpacing+space}) );
-            }
-
-            chars.push({char: char, firstOffsetChar: i+letterSpacing+space})
-            // letterSpacing += 3;
-        }
-    }, [])
-    
+const Spinner2: FC<IPropsSpinner> = ({textProp}) => {
     return (
         <div className="circle__svg spinner" style={{transitionProperty: "opacity, transform", transition: "2s"}}>
             <svg x="0px" y="0px" width="300px" height="300px" viewBox="0 0 300 300" enableBackground="new 0 0 200 300" xmlSpace="preserve">

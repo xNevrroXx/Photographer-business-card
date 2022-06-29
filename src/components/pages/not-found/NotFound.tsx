@@ -1,12 +1,13 @@
-import Header from '../../components/header/Header';
+import Header from '../../header/Header';
 
 import "./not-found.scss";
 
-function NotFound() {
+const NotFound = () => {
    return (
       <div className="not-found-page">
          <div className="container">
-            <Header/>
+            <Header />
+            
             <h3>404 - Page not Found</h3>
          </div>
       </div>

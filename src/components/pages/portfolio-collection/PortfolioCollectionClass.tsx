@@ -2,36 +2,36 @@ import { Component, CSSProperties, FC, PointerEvent, useEffect, useState } from 
 import { useParams } from "react-router-dom";
 
 // components
-import Header from "../../components/header/Header";
-import Social from "../../components/social/Social";
-import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
-import Modal from "../../components/modal/Modal";
-import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoPluginFlex";
-import { Spinner2 } from "../../components/loading/Spinner2";
-import { cacheImages, getData } from "../../services/service";
-import { getNumFromStr } from "../../components/collagePhotoPlugin/techFunctions";
+import Header from "../../header/Header";
+import Social from "../../social/Social";
+import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../horizontalWheelFunc/horizontalWheel";
+import Modal from "../../modal/Modal";
+import createCollageFlex from "../../collagePhotoPlugin/collagePhotoPluginFlex";
+import { Spinner2 } from "../../loading/Spinner2";
+import { cacheImages, getData } from "../../../services/service";
+import { getNumFromStr } from "../../collagePhotoPlugin/techFunctions";
 
 // styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
 
 // types
-import { collectionPhoto } from "../../components/types/types";
+import { TCollectionPhoto } from "../../../interfaces/interfaces";
 interface IPropsRedirect {
-    collectionsPhotoProp: collectionPhoto[],
+    collectionsPhotoProp: TCollectionPhoto[],
     urlJson: string,
 }
 interface IPropsComponent {
     nameCollection: string,
-    collectionsPhoto: collectionPhoto[],
+    collectionsPhoto: TCollectionPhoto[],
     urlJson: string,
 }
 interface IStateComponent {
     collageWrapper: HTMLElement | undefined
 
     data: {
-        collectionsPhoto: collectionPhoto[],
-        needfulCollection: collectionPhoto | undefined,
+        collectionsPhoto: TCollectionPhoto[],
+        needfulCollection: TCollectionPhoto | undefined,
     }
 
     forRender: {
@@ -102,8 +102,8 @@ class PortfolioCollection extends Component<IPropsComponent, IStateComponent>{
         if(this.props.collectionsPhoto.length == 0)
         {
             getData(this.props.urlJson)
-            .then((result: {collections: collectionPhoto[]}) => {
-                const collectionsPhotoTemp: collectionPhoto[] = result.collections;
+            .then((result: {collections: TCollectionPhoto[]}) => {
+                const collectionsPhotoTemp: TCollectionPhoto[] = result.collections;
 
                 this.setState({
                     data: {
@@ -393,11 +393,10 @@ class PortfolioCollection extends Component<IPropsComponent, IStateComponent>{
             <>
                 {zoomImage.isOpen ? <Modal url={zoomImage.urlImage} onCloseModal={this.onCloseModal} /> : null}
     
-                <div className="portfolio-collection">
+                <div className="portfolio-collection">  
                     <div className="container">
-                        <Header/>
+                        <Header />
                     </div>
-    
                     {
                         isContentReady == false ? <Spinner2 textProp="ищу фотографии" /> : null
                     }

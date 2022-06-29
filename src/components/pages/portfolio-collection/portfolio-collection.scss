@@ -61,7 +61,7 @@
         z-index: 10;
         transition: 0.2s all;
         &:hover {
-            cursor: url("../../resources/icon-zoom-in.png"), auto;
+            cursor: url("../../../resources/icon-zoom-in.png"), auto;
             z-index: 15;    
             transform: scale(1.05);
         }

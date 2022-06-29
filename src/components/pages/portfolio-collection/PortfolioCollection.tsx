@@ -1,33 +1,33 @@
 import { CSSProperties, FC, PointerEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Header from "../../components/header/Header";
-import Social from "../../components/social/Social";
-import { cacheImages, getData } from "../../services/service";
-import { getNumFromStr } from "../../components/collagePhotoPlugin/techFunctions";
-import {Spinner} from "../../components/loading/Spinner";
+import Header from "../../header/Header";
+import Social from "../../social/Social";
+import { cacheImages, getData } from "../../../services/service";
+import { getNumFromStr } from "../../collagePhotoPlugin/techFunctions";
+import {Spinner} from "../../loading/Spinner";
 
 //styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
 
 //types
-import { collectionPhoto } from "../../components/types/types";
-import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
-import {createCollageGrid} from "../../components/collagePhotoPlugin/collagePhotoPluginGrid";
-import Modal from "../../components/modal/Modal";
-import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoPluginFlex";
-import { Spinner2 } from "../../components/loading/Spinner2";
+import { TCollectionPhoto } from "../../../interfaces/interfaces";
+import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../horizontalWheelFunc/horizontalWheel";
+import {createCollageGrid} from "../../collagePhotoPlugin/collagePhotoPluginGrid";
+import Modal from "../../modal/Modal";
+import createCollageFlex from "../../collagePhotoPlugin/collagePhotoPluginFlex";
+import { Spinner2 } from "../../loading/Spinner2";
 
 interface IProps {
-    collectionsPhotoProp: collectionPhoto[];
+    collectionsPhotoProp: TCollectionPhoto[];
     urlJson: string;
 }
 
 const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
-    const [collectionsPhoto, setCollectionsPhoto] = useState<collectionPhoto[]>([]),
+    const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>([]),
           [isLoading, setIsLoading] = useState<boolean>(false),
-          [collectionObj, setCollectionObj] = useState<collectionPhoto>(),
+          [collectionObj, setCollectionObj] = useState<TCollectionPhoto>(),
           [listSubtitles, setListSubtitles] = useState<string[]>([]),
           [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "flex", width: "max-content"}),
           [styleCollageContainer, setStyleCollageContainer] = useState<{width: string}>({width: ""}),
@@ -42,8 +42,8 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         if(collectionsPhotoProp.length == 0)
         {
             getData(urlJson)
-            .then((result: {collections: collectionPhoto[]}) => {
-                const collectionsPhotoTemp: collectionPhoto[] = result.collections;
+            .then((result: {collections: TCollectionPhoto[]}) => {
+                const collectionsPhotoTemp: TCollectionPhoto[] = result.collections;
 
                 setCollectionsPhoto(collectionsPhotoTemp);
             });
@@ -234,9 +234,8 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
 
             <div className="portfolio-collection">
                 <div className="container">
-                    <Header/>
+					<Header />
                 </div>
-
                 {
                     isContentReady == false ? <Spinner2 textProp="ищу фотографии" /> : null
                 }
