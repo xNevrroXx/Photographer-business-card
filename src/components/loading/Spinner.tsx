@@ -55,7 +55,7 @@ const Spinner: FC<IProps> = ({textProp}) => {
             <defs>
                 <path d="M35,35m-23,0a23,23 0 1,1 46,0a23,23 0 1,1 -46,0" fill="lightpink" id="tophalf"/>
             </defs>
-            <text /* style={{transform: `rotate(${coefficient}deg)`}} */>
+            <text /* styles={{transform: `rotate(${coefficient}deg)`}} */>
                 {
                     chars.map((charData, index) => (
                         <textPath 
@@ -72,12 +72,12 @@ const Spinner: FC<IProps> = ({textProp}) => {
             </svg>
 
             {/* <div className="disk">
-                <b style={{transform: "rotate(345deg)"}}>П</b>
-                <b style={{transform: "rotate(351deg)"}}>р</b>
-                <b style={{transform: "rotate(357deg)"}}>и</b>
-                <b style={{transform: "rotate(3deg)"}}>в</b>
-                <b style={{transform: "rotate(9deg)"}}>е</b>
-                <b style={{transform: "rotate(15deg)"}}>т</b>
+                <b styles={{transform: "rotate(345deg)"}}>П</b>
+                <b styles={{transform: "rotate(351deg)"}}>р</b>
+                <b styles={{transform: "rotate(357deg)"}}>и</b>
+                <b styles={{transform: "rotate(3deg)"}}>в</b>
+                <b styles={{transform: "rotate(9deg)"}}>е</b>
+                <b styles={{transform: "rotate(15deg)"}}>т</b>
             </div> */}
         </div>
     )

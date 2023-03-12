@@ -1,4 +1,4 @@
-@import "../../style/variables.scss";
+@import "../../styles/variables";
 
 @media screen and (max-width: 1000px) {
     .header {
@@ -27,7 +27,7 @@
         &__burger {
             display: flex;
         }
-        &__linkPage {
+        &__link-page {
             font-size: 32px;
             font-weight: 400;
         }        
@@ -44,7 +44,7 @@
             font-size: 35px;
         }
         
-        &__linkPage {
+        &__link-page {
             font-size: 32px;
         }
     }
@@ -56,7 +56,7 @@
             font-size: 28px;
         }
         
-        &__linkPage {
+        &__link-page {
             font-size: 24px;
         }
     }

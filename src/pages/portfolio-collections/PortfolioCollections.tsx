@@ -1,112 +1,74 @@
-import { Component } from "react";
-
+import { FC, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+// own modules
 import Header from "../../components/header/Header";
 import Social from "../../components/social/Social";
 import {getData} from "../../services/service";
-import Modal from "../../components/modal/Modal";
-
 // styles
 import "./portfolio-collections.scss";
 import "./portfolio-collections_Media.scss";
-import { Link } from "react-router-dom";
-import { collectionPhoto } from "../../components/types/types";
-
 // types
+import { TCollectionPhoto } from "../../components/types/types";
+
 interface IProps {
-    collectionsPhoto: collectionPhoto[];
-    urlJson: string
+    collectionsPhotoProp: TCollectionPhoto[]
 }
 
+const PortfolioCollections: FC<IProps> = ({collectionsPhotoProp}) => {
+    const [collectionsPhoto, setCollectionsPhoto] = useState(collectionsPhotoProp);
 
-
-interface IState {
-    currentSlide: string,
-    selectorContainerSlider: string,
-    collectionsPhoto: collectionPhoto[]
-    // modal: {
-    //     isOpenModal: boolean,
-    //     modalUrl: string
-    // }
-}
-
-
-class PortfolioCollections extends Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-
-        this.state = {
-            currentSlide: "01",
-            selectorContainerSlider: '.slider',
-            collectionsPhoto: []
-            // modal: {
-            //     isOpenModal: false,
-            //     modalUrl: ""
-            // }
-        }
-    }
-
-    componentDidMount() {
-        if(this.props.collectionsPhoto.length == 0) 
+    useEffect(() => {
+        if(collectionsPhoto.length == 0)
         {
-            getData(this.props.urlJson)
-            .then((result: {collections: collectionPhoto[]}) => {
-                const collectionsPhotoTemp: collectionPhoto[] = result.collections;
-
-                this.setState({collectionsPhoto: collectionsPhotoTemp});
-            }); 
+            getData(import.meta.env.VITE_JSON_URL)
+                .then((result: {collections: TCollectionPhoto[]}) => {
+                    const response: TCollectionPhoto[] = result.collections;
+                    setCollectionsPhoto(response);
+                });
         }
-        else 
-        {
-            this.setState({collectionsPhoto: this.props.collectionsPhoto});
-        }
-    }
+    }, [collectionsPhoto])
 
-    render() {
-        const {collectionsPhoto} = this.props;
+    const collectionsPhotoElems = useMemo(() =>
+        collectionsPhoto.map((collection, index) => {
+            return (
+                <Link
+                    to={`/photo-collections/${collection.nameUrl}`}
+                    className="portfolio-collections__wrapper-collection"
+                    key={`collection-${index}`}
+                >
+                    <div className="portfolio-collections__darkening"></div>
+                    <h3 className="portfolio-collections__title-collection">{collection.name}</h3>
+                    <video autoPlay muted loop disablePictureInPicture playsInline className="portfolio-collections__wrapper-video">
+                        <source src={collection.mainImgUrl}/>
+                    </video>
+                </Link>
+            )
+        }), [collectionsPhoto])
+    return(
+        <>
+            <div className="portfolio-collections">
+                <div className="container">
+                    <Header/>
 
-        return(
-            <>                
-                <div className="portfolio-collections">
-                    <div className="container">
-                        <Header/>
-
-                        <main>
-                            <div className="portfolio-collections__wrapper-collections">
-                                <div className="portfolio-collections__wrapper-title">
-                                    <h2 className="portfolio-collections__title">
-                                        фотоколлекции
-                                    </h2>
-                                </div>
-
-                                {
-                                    collectionsPhoto.map((collection, index) => {
-                                        return (
-                                            <Link 
-                                                to={`/PhotoCollections/${collection.nameUrl}`} 
-                                                className="portfolio-collections__wrapper-collection"
-                                                key={`collection-${index}`}
-                                            >
-                                                <div className="portfolio-collections__darkening"></div>
-                                                <h3 className="portfolio-collections__title-collection">{collection.name}</h3>
-                                                <video autoPlay muted loop disablePictureInPicture playsInline className="portfolio-collections__wrapper-video">
-                                                    <source src={collection.mainImgUrl}/>
-                                                </video>
-                                            </Link>
-                                        )
-                                    })
-                                }
-                                {/* <div className="portfolio-collections__decorate-corner"></div> */}
+                    <main>
+                        <div className="portfolio-collections__wrapper-collections">
+                            <div className="portfolio-collections__wrapper-title">
+                                <h2 className="portfolio-collections__title">
+                                    фотоколлекции
+                                </h2>
                             </div>
-                        </main>
 
-                        <footer>
-                            <Social/>
-                        </footer>
-                    </div>
+                            {collectionsPhotoElems}
+                        </div>
+                    </main>
+
+                    <footer>
+                        <Social/>
+                    </footer>
                 </div>
-            </>
-        )
-    }
+            </div>
+        </>
+    )
 }
 
 export default PortfolioCollections;

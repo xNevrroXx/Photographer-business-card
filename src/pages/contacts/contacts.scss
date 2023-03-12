@@ -1,4 +1,4 @@
-@import "../../style/variables.scss";
+@import "../../styles/variables";
 
 .contacts {
     height: 100vh;
@@ -24,7 +24,6 @@
     }
     &__tout {
         // font-family: $tout;
-        color: $textWhite;
         font-size: 20px;
         line-height: 28px;
         font-weight: 400;

@@ -12,7 +12,7 @@ import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
 
 //types
-import { collectionPhoto } from "../../components/types/types";
+import { TCollectionPhoto } from "../../components/types/types";
 import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
 import {createCollageGrid} from "../../components/collagePhotoPlugin/collagePhotoPluginGrid";
 import Modal from "../../components/modal/Modal";
@@ -20,14 +20,14 @@ import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoP
 import { Spinner2 } from "../../components/loading/Spinner2";
 
 interface IProps {
-    collectionsPhotoProp: collectionPhoto[];
+    collectionsPhotoProp: TCollectionPhoto[];
     urlJson: string;
 }
 
 const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
-    const [collectionsPhoto, setCollectionsPhoto] = useState<collectionPhoto[]>([]),
+    const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>([]),
           [isLoading, setIsLoading] = useState<boolean>(false),
-          [collectionObj, setCollectionObj] = useState<collectionPhoto>(),
+          [collectionObj, setCollectionObj] = useState<TCollectionPhoto>(),
           [listSubtitles, setListSubtitles] = useState<string[]>([]),
           [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "flex", width: "max-content"}),
           [styleCollageContainer, setStyleCollageContainer] = useState<{width: string}>({width: ""}),
@@ -42,8 +42,8 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         if(collectionsPhotoProp.length == 0)
         {
             getData(urlJson)
-            .then((result: {collections: collectionPhoto[]}) => {
-                const collectionsPhotoTemp: collectionPhoto[] = result.collections;
+            .then((result: {collections: TCollectionPhoto[]}) => {
+                const collectionsPhotoTemp: TCollectionPhoto[] = result.collections;
 
                 setCollectionsPhoto(collectionsPhotoTemp);
             });

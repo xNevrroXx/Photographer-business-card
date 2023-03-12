@@ -1,87 +1,47 @@
-import { Component } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
-
 // styles
 import "./header.scss";
 import "./header_Media.scss";
 
-// types
-import {namePages} from "../app/App";
-interface IProps {
-    // onChangePage: (namePage: namePages) => void,
-    // mb: string //margin-bottom
-}
-interface IState {
-    visiblePage: namePages
-}
 
-class Header extends Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
+const Header: FC = () => {
 
-        this.state = {
-            visiblePage: "aboutMe"
-        }
-    }
-    // static defaultProps = {
-    //     mb: "90px"
-    // }
+    const onOpen = (event: any) => {
+        const burger = event.currentTarget;
+        const mobileMenu: HTMLElement | null = document.querySelector(".header__menu-less-1000");
 
-    componentDidMount() {
-        
-    }
-
-    burgerHandler = (e: any) => {
-        const burger = e.currentTarget;
-        const mobileMenu: any = document.querySelector(".header__menu-less-1000");
-
+        if (!burger || !mobileMenu) throw new Error("burger and mobileMenu are required");
         burger.style.right = "-100%";
         mobileMenu.style.right = "0%";
     }
 
-/*     onChangePage = (e: any) => {
-        const namePage: namePages = e.target.getAttribute("data-page");
+    return (
+        <header className="header" /* styles={{marginBottom: mb}} */>
+            <div className="header__title">Фатеев</div>
 
-        this.setState({visiblePage: namePage});
-        this.props.onChangePage(namePage);
-    } */
+            <nav className="header__menu header__menu-desktop">
+                <ul>
+                    <li><Link to="/about-me" className="header__link-page">обо мне</Link></li>
+                    <li><Link to="/photo-collections" className="header__link-page">фотоколлекции</Link></li>
+                    <li><Link to="/contacts" className="header__link-page">контакты</Link></li>
+                </ul>
+            </nav>
 
-    render() {
-        // const {mb} = this.props;
-        
-        return (
-            <header className="header" /* style={{marginBottom: mb}} */>
-                <div className="header__title">Фатеев</div>
-
-                <nav className="header__menu header__menu-desktop">
-                    <ul>
-                        <li><Link to="/AboutMe" className="header__linkPage">обо мне</Link></li>   
-                        <li><Link to="/PhotoCollections" className="header__linkPage">фотоколлекции</Link></li>         
-                        <li><Link to="/Contacts" className="header__linkPage">контакты</Link></li>
-                        {/* <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li> */}
-                    </ul>
-                </nav>
-
-                <button className="header__burger" onClick={this.burgerHandler} >
-                    <div className="header__burger-line"></div>
-                    <div className="header__burger-line"></div>
-                    <div className="header__burger-line"></div>    
-                </button>
-                <nav className="header__menu header__menu-less-1000">
-                    <ul>      
-                        <li><Link to="/AboutMe" className="header__linkPage">обо мне</Link></li>   
-                        <li><Link to="/PhotoCollections" className="header__linkPage">фотоколлекции</Link></li>         
-                        <li><Link to="/Contacts" className="header__linkPage">контакты</Link></li>                                  
-                        {/* <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="aboutMe">обо мне</a></li>
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="portfolio">портфолио</a></li>
-                        <li><a className="header__linkPage" href="#" onClick={(e) => this.onChangePage(e)} data-page="contacts">контакты</a></li> */}
-                    </ul>
-                </nav>
-            </header>
-        )
-    }
+            <button className="header__burger" onClick={onOpen} >
+                <div className="header__burger-line"></div>
+                <div className="header__burger-line"></div>
+                <div className="header__burger-line"></div>
+            </button>
+            <nav className="header__menu header__menu-less-1000">
+                <ul>
+                    <li><Link to="/about-me" className="header__link-page">обо мне</Link></li>
+                    <li><Link to="/photo-collections" className="header__link-page">фотоколлекции</Link></li>
+                    <li><Link to="/contacts" className="header__link-page">контакты</Link></li>
+                </ul>
+            </nav>
+        </header>
+    )
 }
 
 export default Header;

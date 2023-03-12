@@ -1,4 +1,4 @@
-@import "../../style/variables.scss";
+@import "../../styles/variables";
 
 .header {
     position: relative;
@@ -48,7 +48,7 @@
     &__menu-less-1000 {
         display: none;
     }
-    &__linkPage {
+    &__link-page {
         background: linear-gradient(to right, transparent 1%, rgba($color: white, $alpha: 0.1), transparent);
         text-align: center;
         display: block;

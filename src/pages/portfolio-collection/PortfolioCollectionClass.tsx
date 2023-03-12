@@ -16,22 +16,22 @@ import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
 
 // types
-import { collectionPhoto } from "../../components/types/types";
+import { TCollectionPhoto } from "../../components/types/types";
 interface IPropsRedirect {
-    collectionsPhotoProp: collectionPhoto[],
+    collectionsPhotoProp: TCollectionPhoto[],
     urlJson: string,
 }
 interface IPropsComponent {
     nameCollection: string,
-    collectionsPhoto: collectionPhoto[],
+    collectionsPhoto: TCollectionPhoto[],
     urlJson: string,
 }
 interface IStateComponent {
     collageWrapper: HTMLElement | undefined
 
     data: {
-        collectionsPhoto: collectionPhoto[],
-        needfulCollection: collectionPhoto | undefined,
+        collectionsPhoto: TCollectionPhoto[],
+        needfulCollection: TCollectionPhoto | undefined,
     }
 
     forRender: {
@@ -102,8 +102,8 @@ class PortfolioCollection extends Component<IPropsComponent, IStateComponent>{
         if(this.props.collectionsPhoto.length == 0)
         {
             getData(this.props.urlJson)
-            .then((result: {collections: collectionPhoto[]}) => {
-                const collectionsPhotoTemp: collectionPhoto[] = result.collections;
+            .then((result: {collections: TCollectionPhoto[]}) => {
+                const collectionsPhotoTemp: TCollectionPhoto[] = result.collections;
 
                 this.setState({
                     data: {

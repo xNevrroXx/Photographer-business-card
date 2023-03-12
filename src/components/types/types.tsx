@@ -1,4 +1,4 @@
-export type collectionPhoto = {
+export type TCollectionPhoto = {
     nameUrl: string,
     name: string,
     mainImgUrl: string,

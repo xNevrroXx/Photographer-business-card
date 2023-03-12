@@ -1,8 +1,10 @@
+import {FC} from "react";
+// styles
+import "./not-found.scss";
+// own modules
 import Header from '../../components/header/Header';
 
-import "./not-found.scss";
-
-function NotFound() {
+const  NotFound: FC = () => {
    return (
       <div className="not-found-page">
          <div className="container">

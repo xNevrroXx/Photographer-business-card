@@ -1,0 +1,1 @@
+export type IRoutes = "aboutMe" | "portfolio" | "contacts";
