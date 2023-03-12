@@ -1,7 +1,7 @@
 import { getNumFromStr } from "./techFunctions";
 
 //types
-type responsiveArguments = {
+type TResponsiveParameter = {
     heightRow?: string,
     widthColumn?: string,
     countColumns?: number,
@@ -10,11 +10,11 @@ type responsiveArguments = {
     columnGap?: number
 }
 
-type responsive = {
-    [resolution: number]: responsiveArguments;
+type TResponsiveParameters = {
+    [resolution: number]: TResponsiveParameter;
 }
 
-interface Arguments {
+interface TParameters {
     selectorContainer: string, 
     heightRow?: string, 
     widthColumn?: string, 
@@ -22,12 +22,13 @@ interface Arguments {
     countRows?: string, 
     columnGap?: number, 
     rowGap?: number, 
-    responsive?: responsive
+    responsive?: TResponsiveParameters,
+    callback?: Function
 }
 
 // there is no adaptability yet
 function createCollageFlex(
-    {selectorContainer, heightRow = "400px", widthColumn = "auto", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive}: Arguments): boolean
+    {selectorContainer, heightRow = "400px", widthColumn = "auto", countColumns = "auto", countRows = "auto", columnGap = 5, rowGap = 0, responsive, callback}: TParameters): boolean
     {
     // main logic
     checkFailures();
@@ -38,9 +39,11 @@ function createCollageFlex(
           childElements: NodeListOf<HTMLElement> = document.querySelectorAll(`${selectorContainer} > *`);
     let arrComputedWidthElements: string[] = [];
 
-    setStylesChildsElements();
+    setStylesChildElements();
 
-    return true; // сигнал: коллаж создан
+    if (callback) callback();
+
+    return true;
 
     
     // functions
@@ -52,10 +55,7 @@ function createCollageFlex(
         let countRowsNum: number;  
         if(countRows == "auto") countRowsNum = 2;
         else countRowsNum = +countRows;
-        
-        // console.log("arrComputedWidthElements: ", arrComputedWidthElements);
-        // console.log("averageWidthChild: ", averageWidthChild)
-        // console.log("widthContainer: ", width)
+
         if(containerElement) {
             const averageWidthChild = getAverageFromArr(); 
             const width = +(averageWidthChild * (childElements.length+1) / countRowsNum).toFixed() + +(childElements.length / countRowsNum).toFixed() * columnGap;
@@ -73,7 +73,6 @@ function createCollageFlex(
                 `;
             }
             else {
-                console.log(widthColumn)
                 containerElement.style.cssText = `
                 display: flex;
                 flex-direction: column;
@@ -85,8 +84,6 @@ function createCollageFlex(
                 touch-action: none;
                 `;
             }
-            // grid-template-rows: repeat(${countRowsNum}, ${heightRow});
-            // grid-template-columns: repeat(${countColumns}, ${widthColumn});
 
         }
     } 
@@ -99,7 +96,7 @@ function createCollageFlex(
         return sum / arrComputedWidthElements.length;
     }
 
-    function setStylesChildsElements() {
+    function setStylesChildElements() {
         if(countRows != "auto" ) {
             for (let i=0; i < childElements.length; i++) {
                 const element: HTMLElement = childElements[i];
@@ -134,8 +131,8 @@ function createCollageFlex(
 
     function getNeedfulResponsiveProps() {
         let viewWidthDevice: number = window.innerWidth ? window.innerWidth : window.screen.width;
-        let propsLessWidth: responsive = {};
-        let needfulResponsiveProps: responsiveArguments = {};
+        let propsLessWidth: TResponsiveParameters = {};
+        let needfulResponsiveProps: TResponsiveParameter = {};
 
         if(responsive) {
             for(let i = 0; i < viewWidthDevice; i++) {
@@ -146,7 +143,7 @@ function createCollageFlex(
 
             if(Object.keys(propsLessWidth).length > 0) {
                 for (const keyOneResponsiveWidth in propsLessWidth) { // enumeration all responsive appropriate properties  
-                    const oneWidthResponsiveObj: responsiveArguments = propsLessWidth[keyOneResponsiveWidth];
+                    const oneWidthResponsiveObj: TResponsiveParameter = propsLessWidth[keyOneResponsiveWidth];
                     
                     needfulResponsiveProps = {...needfulResponsiveProps, ...oneWidthResponsiveObj};
                 }

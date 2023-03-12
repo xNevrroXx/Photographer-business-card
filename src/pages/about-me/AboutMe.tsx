@@ -1,13 +1,14 @@
-import {Component, FC} from "react";
+import { FC} from "react";
+import { Link } from "react-router-dom";
+// own modules
 import Header from "../../components/header/Header";
 import Social from "../../components/social/Social";
-//images
+//photos
 import photo from "../../resources/own-photo/500x500.png";
 //styles
 import "./about-me.scss";
 import "./about-me_Media.scss";
-//types
-import { Link } from "react-router-dom";
+
 
 const AboutMe: FC = () =>  {
     return (

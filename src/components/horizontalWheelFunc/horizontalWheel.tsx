@@ -58,12 +58,12 @@ const setListenerDesktopHorizontalWheel = (element: any) => {
 type coordinates = {x: number, y: number};
 interface argumentsTapWheel {
     element: HTMLElement,
-    sensetivity?: number, 
+    sensitivity?: number,
     sprayingTime?: number, 
     ratio?: number
 }
 
-function setListenerTapHorizontalWheel( {element, sensetivity = 20, sprayingTime = 10, ratio = 5}: argumentsTapWheel ) {
+function setListenerTapHorizontalWheel( {element, sensitivity = 20, sprayingTime = 10, ratio = 5}: argumentsTapWheel ) {
     const startValues = {
         sprayingTime: sprayingTime
     }
@@ -122,7 +122,7 @@ function setListenerTapHorizontalWheel( {element, sensetivity = 20, sprayingTime
         let delta: 1 | -1 | 0 = 0;
 
         if(Math.abs(d.x) > Math.abs(d.y)) {
-            if(Math.abs(d.x) > sensetivity) {
+            if(Math.abs(d.x) > sensitivity) {
                 if(d.x > 0) {
                     delta = -1;
                 } else {

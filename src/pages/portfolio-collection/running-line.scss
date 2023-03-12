@@ -1,0 +1,74 @@
+$duration: 50s;
+
+.running-line {
+    width: 100vw;
+    position: relative;
+    gap: 4rem;
+    font-size: 1.5rem;
+    & > * {
+        width: 100%;
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        gap: 4rem;
+        animation: tickerAnimation $duration linear infinite forwards;
+        & > & {
+            width: max-content;
+        }
+    }
+    &__1 {
+        left: -100%;
+    }
+    &__2 {
+        left: 0;
+    }
+    &__3 {
+        left: 100%;
+    }
+
+    // modifications
+    &_back {
+        & > * {
+            animation: tickerAnimationBack $duration linear infinite forwards;
+        }
+    }
+}
+
+@keyframes tickerAnimation {
+    0% {
+        transform: translate(100%, 0);
+    }
+    25% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-100%, 0);
+    }
+    75% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(100%, 0);
+    }
+}
+@keyframes tickerAnimationBack {
+    0% {
+        transform: translate(-100%, 0);
+    }
+    25% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(100%, 0);
+    }
+    75% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100%, 0);
+    }
+}

@@ -1,23 +1,19 @@
 import { CSSProperties, FC, PointerEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+// own modules
+import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
+import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoPluginFlex";
 import Header from "../../components/header/Header";
 import Social from "../../components/social/Social";
 import { cacheImages, getData } from "../../services/service";
 import { getNumFromStr } from "../../components/collagePhotoPlugin/techFunctions";
-import {Spinner} from "../../components/loading/Spinner";
-
+import { Spinner } from "../../components/loading/Spinner";
+import Modal from "../../components/modal/Modal";
 //styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
-
 //types
 import { TCollectionPhoto } from "../../components/types/types";
-import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
-import {createCollageGrid} from "../../components/collagePhotoPlugin/collagePhotoPluginGrid";
-import Modal from "../../components/modal/Modal";
-import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoPluginFlex";
-import { Spinner2 } from "../../components/loading/Spinner2";
 
 interface IProps {
     collectionsPhotoProp: TCollectionPhoto[];
@@ -57,18 +53,12 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
         setCollageWrapper(document.querySelector(".portfolio-collection__wrapper-photos") as HTMLElement);
         if(wrapperCollage) {
             setListenerDesktopHorizontalWheel(wrapperCollage);
-            setListenerTapHorizontalWheel({element: wrapperCollage, sensetivity: 20, sprayingTime: 5, ratio: 5});
+            setListenerTapHorizontalWheel({element: wrapperCollage, sensitivity: 20, sprayingTime: 5, ratio: 5});
         }
 
         console.log("mount")
     }, [])
 
-    // useEffect(() => {
-    //     // if(collageWrapper) {
-    //     //     console.log("once!")
-    //     //     collageWrapper.addEventListener("transitionend", transitionEndFunc);
-    //     // }
-    // }, [collageWrapper])
 
     useEffect(() => {
         if(collectionsPhoto != null) {
@@ -238,7 +228,7 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                 </div>
 
                 {
-                    isContentReady == false ? <Spinner2 textProp="ищу фотографии" /> : null
+                    isContentReady == false ? <Spinner textProp="ищу фотографии" /> : null
                 }
 
                 <div style={isContentReady ? {transition: "opacity 0.2s"} : {opacity: "0", height: 0, zIndex: -100}}>  
@@ -306,9 +296,9 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
                     </main>
                 </div>
 
-                <div className="container">
+                <footer>
                     <Social/>
-                </div>
+                </footer>
             </div>
         </>
     )

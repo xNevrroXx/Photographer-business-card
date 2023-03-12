@@ -7,7 +7,7 @@ import AboutMe from '../pages/about-me/AboutMe';
 import Contacts from '../pages/contacts/Contacts';
 import NotFound from '../pages/not-found/NotFound';
 import PortfolioCollections from '../pages/portfolio-collections/PortfolioCollections';
-import { RedirectToCollection } from '../pages/portfolio-collection/PortfolioCollectionClass';
+import PortfolioCollection from "../pages/portfolio-collection/PortfolioCollection2";
 // types
 import { TCollectionPhoto } from '../components/types/types';
 // styles
@@ -49,7 +49,7 @@ const App: FC = () => {
 
 	return (
 		<BrowserRouter>
-			<div className="App" onClick={onCloseMobileMenu}>
+			<div className="app" onClick={onCloseMobileMenu}>
 				<Routes>
 					<Route path="/" element={<Navigate to="/about-me" />} />
 					<Route path="/about-me" element={<AboutMe/>}  />
@@ -57,7 +57,7 @@ const App: FC = () => {
 					<Route path="/contacts" element={<Contacts/>} />
 
 					{/* <Route path="/PhotoCollections/:collectionName" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto} urlJson={urlJson} />}/> */}
-					<Route path="/photo-collections/:nameCollection" element={<RedirectToCollection collectionsPhotoProp={collectionsPhoto} urlJson={import.meta.env.VITE_JSON_URL} />} />
+					<Route path="/photo-collections/:nameCollection" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto}/>} />
 
 					<Route path="*" element={<NotFound/>} ></Route>
 				</Routes>

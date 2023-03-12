@@ -1,11 +1,11 @@
 const getData = async (url: string) => {
-    const result = await fetch(url);
+    const response = await fetch(url);
 
-    if(!result.ok) {
-        console.log(`Could not fetch ${url} with status ${result.status}`);
+    if(!response.ok) {
+        throw new Error(`Could not fetch ${url} with status ${response.status}`);
     }
 
-    return result.json();
+    return response.json();
 }
 
 const cacheImages = async (arrayUrls: {url: string}[]) => {

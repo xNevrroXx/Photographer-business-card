@@ -26,7 +26,7 @@ const PortfolioCollections: FC<IProps> = ({collectionsPhotoProp}) => {
                     setCollectionsPhoto(response);
                 });
         }
-    }, [collectionsPhoto])
+    }, [collectionsPhotoProp])
 
     const collectionsPhotoElems = useMemo(() =>
         collectionsPhoto.map((collection, index) => {
