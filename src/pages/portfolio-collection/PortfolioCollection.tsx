@@ -1,306 +1,152 @@
-import { CSSProperties, FC, PointerEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {FC, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 // own modules
-import { setLoopHorizontalWheel, setListenerDesktopHorizontalWheel, setListenerTapHorizontalWheel } from "../../components/horizontalWheelFunc/horizontalWheel";
-import createCollageFlex from "../../components/collagePhotoPlugin/collagePhotoPluginFlex";
-import Header from "../../components/header/Header";
+import {TilesCreator} from "../../components/tilesCreator/TilesCreator";
 import Social from "../../components/social/Social";
-import { cacheImages, getData } from "../../services/service";
-import { getNumFromStr } from "../../components/collagePhotoPlugin/techFunctions";
-import { Spinner } from "../../components/loading/Spinner";
 import Modal from "../../components/modal/Modal";
+import {getData} from "../../services/service";
+import {Spinner} from "../../components/loading/Spinner";
+import Header from "../../components/header/Header";
+import {useActualBreakpoint} from "../../hooks/useActualBreakpoint";
+import runningLinesCreator from "../../components/runningLinesCreator/runningLinesCreator";
+import {listImageNodes} from "../../components/listImageNodes/listImageNodes";
 //styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
-//types
-import { TCollectionPhoto } from "../../components/types/types";
+// types
+import {TCollectionPhoto} from "../../components/types/TCollectionPhoto";
+import {IBreakpointsStyles} from "../../types/IBreakpointsStyles";
 
 interface IProps {
-    collectionsPhotoProp: TCollectionPhoto[];
-    urlJson: string;
+    collectionsPhotoProp: TCollectionPhoto[]
 }
+const responsiveTilesDefaultValue: IBreakpointsStyles = {
 
-const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp, urlJson}) => {
-    const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>([]),
-          [isLoading, setIsLoading] = useState<boolean>(false),
-          [collectionObj, setCollectionObj] = useState<TCollectionPhoto>(),
-          [listSubtitles, setListSubtitles] = useState<string[]>([]),
-          [styleSubtitles, setStyleSubtitles] = useState<CSSProperties>({display: "flex", width: "max-content"}),
-          [styleCollageContainer, setStyleCollageContainer] = useState<{width: string}>({width: ""}),
-          [zoomImage, setZoomImage] = useState<{isOpen: boolean, urlImage: string}>({isOpen: false, urlImage: ""}),
-          [isContentReady, setIsContentReady] = useState<boolean>(false),
-          [isSetLoopWheel, setIsSetLoopWheel] = useState<boolean>(false),
-          [collageWrapper, setCollageWrapper] = useState<HTMLElement>()
-
-    const nameUrl = useParams().collectionName;
-
-    useEffect(() => {
-        if(collectionsPhotoProp.length == 0)
-        {
-            getData(urlJson)
-            .then((result: {collections: TCollectionPhoto[]}) => {
-                const collectionsPhotoTemp: TCollectionPhoto[] = result.collections;
-
-                setCollectionsPhoto(collectionsPhotoTemp);
-            });
-        }
-        else 
-        {
-            setCollectionsPhoto(collectionsPhotoProp);
-        }
-
-        const wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
-        setCollageWrapper(document.querySelector(".portfolio-collection__wrapper-photos") as HTMLElement);
-        if(wrapperCollage) {
-            setListenerDesktopHorizontalWheel(wrapperCollage);
-            setListenerTapHorizontalWheel({element: wrapperCollage, sensitivity: 20, sprayingTime: 5, ratio: 5});
-        }
-
-        console.log("mount")
-    }, [])
-
+    800: {
+        heightRow: 220,
+        countRows: 2,
+    },
+    1000: {
+        heightRow: 250,
+        countRows: 2,
+        rowGap: 5,
+        columnGap: 8
+    },
+}
+const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
+    const navigate = useNavigate();
+    const {nameCollection} = useParams();
+    const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>(collectionsPhotoProp);
+    const [targetCollection, setTargetCollection] = useState<TCollectionPhoto | null>(null);
+    const isFetchedDataRef = useRef<boolean>(false);
+    const [isNeedCheckAvailability, setIsNeedCheckAvailability] = useState<boolean>(false); // back to the first page if the collection is not available(if some error occurred)
+    const [zoomImage, setZoomImage] = useState<{isOpen: boolean, urlImage: string}>({isOpen: false, urlImage: ""});
+    const [isShowSpinner, setIsShowSpinner] = useState<boolean>(false); // todo set true
+    const actualBreakpointTiles = useActualBreakpoint(responsiveTilesDefaultValue);
 
     useEffect(() => {
-        if(collectionsPhoto != null) {
-            console.log(1)
+        if (isFetchedDataRef.current) return;
+        isFetchedDataRef.current = true;
 
-            const collectionTemp = collectionsPhoto.find(element => element.nameUrl == nameUrl);
-    
-            if(collectionTemp != undefined) {                
-                setCollectionObj(collectionTemp);
-                
-                cacheImages(collectionTemp.images)
-                    .catch(console.log)
-                    .finally(() => {
-                        setIsLoading(true);
-                    })
-            }
-        }
-    }, [collectionsPhoto])  
- 
-    useEffect(() => {
-        if(collectionObj != null) {
-            console.log(2);
+        if (!collectionsPhotoProp || collectionsPhotoProp.length === 0) {
+            getData(import.meta.env.VITE_JSON_URL)
+                .then((result: { collections: TCollectionPhoto[] }) => {
+                    const collectionsPhotoTemp: TCollectionPhoto[] = result.collections;
 
-            createCollageFlex({
-                selectorContainer: ".portfolio-collection__wrapper-photos",
-                responsive: {
-                    300: {
-                        heightRow: "150px",
-                        rowGap: 5,
-                        columnGap: 0,
-                        widthColumn: "80vw"
-                    },
-                    500: {
-                        heightRow: "220px",
-                        rowGap: 0,
-                        columnGap: 0,
-                        widthColumn: "80vw"
-                    },
-                    800: {
-                        heightRow: "220px",
-                        rowGap: 0,
-                        columnGap: 0,
-                        countRows: 2
-                    },
-                    1000: {
-                        heightRow: "250px",
-                        rowGap: 5,
-                        columnGap: 8,
-                        // countColumns: "auto-fit",
-                        countRows: 2
-                    },
-                    1500: {
-                        heightRow: "300px",
-                        rowGap: 5,
-                        columnGap: 2,
-                        // countColumns: "auto-fit",
-                        countRows: 2
-                    }
-                }
-            });
-        
-            let subtitlesTemp: string[] = [collectionObj.name];
-            if(window.innerWidth > 800) {
-                for(let i = 0; i < collectionObj.images.length; i++) {
-                    subtitlesTemp[i] = collectionObj.name;
-                }
-            }
-            setListSubtitles(subtitlesTemp);
-
-            if(collageWrapper) {
-                collageWrapper.addEventListener("transitionend", transitionEndFunc);
-            }
-        }
-    }, [isLoading])
-
-    const transitionEndFunc = () => {
-        const widthCollageContainer = window.getComputedStyle(collageWrapper!).width;
-        if(widthCollageContainer != styleCollageContainer.width) {
-            setStyleCollageContainer({
-                width: widthCollageContainer,
-            })
+                    setCollectionsPhoto(collectionsPhotoTemp);
+                });
         }
 
-        collageWrapper?.removeEventListener("transitionend", transitionEndFunc);
-    };
+        setTimeout(() => {
+            setIsNeedCheckAvailability(true);
+        }, 8000)
+    }, []);
 
     useEffect(() => {
-        console.log(3)
-        const collageContainer: HTMLElement | null = document.querySelector(".collage");
-            //   wrapperCollage: HTMLElement | null = document.querySelector(".portfolio-collection__wrapper-collage");
+        if (isNeedCheckAvailability && !targetCollection) {
+            const answer = confirm("Что-то пошло не так. Перейти на главную страницу?");
 
-        if(collageContainer && styleCollageContainer.width) {
-            const coumputedWidthCollageContainer: any = styleCollageContainer.width;
-
-            setStyleSubtitles({
-                display: "flex",
-                width: `${getNumFromStr(coumputedWidthCollageContainer) / listSubtitles.length + "px"}`
-            });
-
-            if(getNumFromStr(coumputedWidthCollageContainer) > window.innerWidth && getNumFromStr(coumputedWidthCollageContainer) > 1000 && !isSetLoopWheel) {
-                setIsSetLoopWheel(true);
-                setLoopWheelSubtitles();
+            if (answer) {
+                navigate("/about-me");
             }
-            animateDisappear();
         }
-    }, [styleCollageContainer])
+    }, [isNeedCheckAvailability])
 
-    const setLoopWheelSubtitles = () => {
-        const elements: NodeListOf<HTMLElement> | null = document.querySelectorAll(".portfolio-collection__list-subtitles");
-                
-        elements.forEach((element, index) => {
-            if(window.innerWidth > getNumFromStr(styleCollageContainer.width)) return;
-            if(index == 0) setLoopHorizontalWheel(element, "left", -(getNumFromStr(styleCollageContainer.width) - window.innerWidth), 0);
-            else setLoopHorizontalWheel(element, "right", 0, -(getNumFromStr(styleCollageContainer.width) - window.innerWidth));
-        })
-    }
+    useEffect(() => {
+        const targetCollection = collectionsPhoto.find(collection => collection.nameUrl === nameCollection);
+        if (!targetCollection) return;
 
-    function animateDisappear() {
-        const spinner: HTMLElement | null = document.querySelector(".spinner");
+        setTargetCollection(targetCollection);
+    }, [collectionsPhoto])
 
-        if(spinner) {
-            spinner.style.opacity = "0";
-            setTimeout(() => {
-                setIsContentReady(true);
-            }, 1000);
-        }
-    }
-    const onCloseModal = () => {
+    const onCloseModal = useCallback(() => {
         setZoomImage({
-            ...zoomImage,
+            urlImage: "",
             isOpen: false
         })
-    }
-    const onOpenModal = (url: string) => {
+    }, [])
+
+    const onOpenModal = useCallback((url: string) => {
         setZoomImage({
             urlImage: url,
             isOpen: true
         })
-    }
-    const setListenerPointerUpZoomImage = (e: PointerEvent) => {
-        const element = e.currentTarget as HTMLElement;
+    }, [])
+
+    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
+        const element = event.currentTarget;
         const url = element.getAttribute("data-url-image");
-        const pointDown = {x: e.clientX, y: e.clientY};
-        
-        element.setPointerCapture(e.pointerId);
-        element.addEventListener("pointerup", checkCoincidence);
-        
-        function checkCoincidence(e: any) {
-            const pointUp = {x: e.clientX, y: e.clientY};
 
-            if(pointUp.x == pointDown.x && pointUp.y == pointDown.y && url) {
-                onOpenModal(url);
-            }
+        if (!url) throw new Error("url is not defined");
 
-            element.releasePointerCapture(e.pointerId);
-            element.removeEventListener("pointerup", checkCoincidence);
+        onOpenModal(url);
+    }, [targetCollection])
+
+    const runningLines: {toRightSide: ReturnType<typeof runningLinesCreator>, toLeftSide: ReturnType<typeof runningLinesCreator>} | null = useMemo(() => {
+        if (!targetCollection) return null;
+
+        return {
+            toRightSide: runningLinesCreator(5, "toRight", targetCollection!.name),
+            toLeftSide: runningLinesCreator(5, "toLeft", targetCollection!.name)
         }
-    }
+    }, [targetCollection])
+
+    const listImages = useMemo(() => {
+        if (!actualBreakpointTiles && targetCollection) return listImageNodes({ targetCollection, onOpenModalWithImage });
+        else if (!targetCollection || !actualBreakpointTiles) return;
+
+        return listImageNodes({ targetCollection, onOpenModalWithImage, height: actualBreakpointTiles.heightRow });
+    }, [actualBreakpointTiles, targetCollection])
 
     return (
-        <>
-            {zoomImage.isOpen ? <Modal url={zoomImage.urlImage} onCloseModal={onCloseModal} /> : null}
+        <div className="portfolio-collection">
+            <div className="container">
+                <Header/>
+            </div>
 
-            <div className="portfolio-collection">
-                <div className="container">
-                    <Header/>
-                </div>
+            { isShowSpinner && <Spinner textProp="ищу фотографии" /> }
+            { runningLines && <div className="running-line">{runningLines.toRightSide}</div> }
+            { zoomImage.isOpen && <Modal url={zoomImage.urlImage} onCloseModal={onCloseModal}/> }
 
-                {
-                    isContentReady == false ? <Spinner textProp="ищу фотографии" /> : null
-                }
+            {
+                !actualBreakpointTiles && listImages ? <div className="portfolio-collection__wrapper-photos">{listImages.elems}</div> :
+                targetCollection && actualBreakpointTiles && listImages &&
+                <TilesCreator
+                    ContainerTagName="main"
+                    className="portfolio-collection__wrapper-photos"
+                    elements={listImages}
+                    styles={actualBreakpointTiles}
+                />
+            }
 
-                <div style={isContentReady ? {transition: "opacity 0.2s"} : {opacity: "0", height: 0, zIndex: -100}}>  
-                    <main className="portfolio-collection__wrapper-list-subtitles" >
-                        {
-                            listSubtitles.length > 0 ? (
-                                <div className="portfolio-collection__list-subtitles" style={{width: styleCollageContainer.width}}>
-                                    {
-                                        listSubtitles.map((subtitle, index) => 
-                                            <div
-                                                className="portfolio-collection__wrapper-subtitle" 
-                                                style={styleSubtitles}
-                                                key={`upSubtitle-${index}`}
-                                            >
-                                                <div className="portfolio-collection__subtitle">
-                                                    {subtitle}
-                                                </div>
-                                            </div>
-                                        )}
-                                </div>
-                            ) : null
-                        }
-                    </main>
-                    <main className="portfolio-collection__wrapper-collage" >
-                        {
-                            <div className="portfolio-collection__wrapper-photos"
-                                style={styleCollageContainer}
-                            >
-                                {
-                                    collectionObj != undefined ? (
-                                        collectionObj.images.map((image, index) => (
-                                            <div
-                                                className="portfolio-collection__wrapper-photo"
-                                                key={`image-${index}`}
-                                                data-url-image={image.url}
-                                                onPointerDown={setListenerPointerUpZoomImage}    
-                                                >
-                                                <img src={image.url} alt={collectionObj.name} className="portfolio-collection__photo" />
-                                            </div>
-                                        ))
-                                    ) : null
-                                }
-                            </div>
-                        }
-                    </main>
-                    <main className="portfolio-collection__wrapper-list-subtitles portfolio-collection__wrapper-list-subtitles_left">
-                    {
-                        listSubtitles.length > 0 ? (
-                            <div className="portfolio-collection__list-subtitles" style={{width: styleCollageContainer.width}}>
-                                {
-                                    listSubtitles.map((subtitle, index) => 
-                                    <div 
-                                        className="portfolio-collection__wrapper-subtitle" 
-                                        style={styleSubtitles}
-                                        key={`downSubtitle-${index}`}
-                                    >
-                                            <div className="portfolio-collection__subtitle">
-                                                {subtitle}
-                                            </div>
-                                        </div>
-                                    )}
-                            </div>
-                        ) : null    
-                    }
-                    </main>
-                </div>
+            {runningLines && <div className="running-line running-line_back">{runningLines.toLeftSide}</div>}
 
+            <div className="container">
                 <footer>
                     <Social/>
                 </footer>
             </div>
-        </>
+        </div>
     )
 }
 

@@ -1,5 +1,5 @@
-import {FC, MouseEvent, useCallback, useEffect, useState} from 'react';
-import {BrowserRouter, Route, Routes, Navigate, useLocation} from 'react-router-dom';
+import { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 // own modules
 import { getData } from '../services/service';
 //pages
@@ -7,12 +7,13 @@ import AboutMe from '../pages/about-me/AboutMe';
 import Contacts from '../pages/contacts/Contacts';
 import NotFound from '../pages/not-found/NotFound';
 import PortfolioCollections from '../pages/portfolio-collections/PortfolioCollections';
-import PortfolioCollection from "../pages/portfolio-collection/PortfolioCollection2";
+import PortfolioCollection from "../pages/portfolio-collection/PortfolioCollection";
 // types
-import { TCollectionPhoto } from '../components/types/types';
+import { TCollectionPhoto } from '../components/types/TCollectionPhoto';
 // styles
 import "./app.scss";
 import "./app_Media.scss";
+import {listImageNodes} from "../components/listImageNodes/listImageNodes";
 
 const App: FC = () => {
 	// const location = useLocation();
@@ -65,10 +66,5 @@ const App: FC = () => {
 		</BrowserRouter>
 	);
 }
-
-// const View: FC = () => {
-
-// 	return 
-// }
 
 export default App;

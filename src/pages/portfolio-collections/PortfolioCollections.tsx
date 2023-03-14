@@ -8,7 +8,7 @@ import {getData} from "../../services/service";
 import "./portfolio-collections.scss";
 import "./portfolio-collections_Media.scss";
 // types
-import { TCollectionPhoto } from "../../components/types/types";
+import { TCollectionPhoto } from "../../components/types/TCollectionPhoto";
 
 interface IProps {
     collectionsPhotoProp: TCollectionPhoto[]

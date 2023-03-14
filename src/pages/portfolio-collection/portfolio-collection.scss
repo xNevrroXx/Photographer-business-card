@@ -1,6 +1,6 @@
 .portfolio-collection {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
     padding-top: 65px;
     padding-bottom: 50px;
     overflow: hidden;
@@ -8,14 +8,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    main {
-        width: 100vw;
-        overflow: hidden;
-        
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
     &__list-subtitles {
         height: 22px;
         width: 100%;
@@ -49,18 +41,15 @@
         padding-bottom: 5px;
         z-index: 10;
     }
-    &__wrapper-photos {
-        width: 100px;
-        transition: width 0.1s;
-    }
+    //&__wrapper-photos {
+    //    width: 100px;
+    //}
     &__wrapper-photo {
         height: 100px;
-        width: 100vw;
-        transition: width 1ms;
         width: max-content;
         z-index: 10;
         transition: 0.2s all;
-        &:hover {
+        &:hover, &:focus, &:active {
             cursor: url("../../resources/icon-zoom-in.png"), auto;
             z-index: 15;    
             transform: scale(1.05);
@@ -69,25 +58,6 @@
     &__photo {
         z-index: 10;
         height: 100%;
-        object-fit: cover;
-    }
-}
-
-@media screen and (max-width: 800px) {
-    .portfolio-collection {
-        min-height: 100vh;
-        height: 100%;
-        .portfolio-collection__wrapper-photos {
-            width: 100%;
-            align-content: center;
-            justify-content: center;
-        }
-        &__photo {
-            width: 100%;
-            height: auto;
-        }
-        &__wrapper-photo {
-            height: auto;
-        }
+        object-fit: contain;
     }
 }
