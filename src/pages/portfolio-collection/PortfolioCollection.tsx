@@ -1,5 +1,7 @@
-import {FC, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {FC, forwardRef, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import {gsap} from "gsap";
+import {ScrollTrigger} from "gsap/ScrollTrigger";
 // own modules
 import {TilesCreator} from "../../components/tilesCreator/TilesCreator";
 import Social from "../../components/social/Social";
@@ -10,31 +12,46 @@ import Header from "../../components/header/Header";
 import {useActualBreakpoint} from "../../hooks/useActualBreakpoint";
 import runningLinesCreator from "../../components/runningLinesCreator/runningLinesCreator";
 import {listImageNodes} from "../../components/listImageNodes/listImageNodes";
+import {useHorizontalScroll} from "../../hooks/useHorizontalScroll";
+import useAnimationFromTo from "../../hooks/useAnimationFromTo";
 //styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
 // types
 import {TCollectionPhoto} from "../../components/types/TCollectionPhoto";
-import {IBreakpointsStyles} from "../../types/IBreakpointsStyles";
+import {IBreakpointsStyles, IBreakpointStyles} from "../../types/IBreakpointsStyles";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface IProps {
     collectionsPhotoProp: TCollectionPhoto[]
 }
 const responsiveTilesDefaultValue: IBreakpointsStyles = {
-
     800: {
-        heightRow: 220,
+        heightRow: 150,
         countRows: 2,
+        rowGap: 1,
+        columnGap: 1
     },
     1000: {
         heightRow: 250,
         countRows: 2,
         rowGap: 5,
-        columnGap: 8
+        columnGap: 5
     },
 }
 const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
     const navigate = useNavigate();
+    const scrollRef = useHorizontalScroll(".portfolio-collection__scrolling-wrapper");
+    const fadeOutAnimationRef = useAnimationFromTo({
+        from: {
+            opacity: 0
+        },
+        to: {
+            opacity: 1,
+            duration: 3
+        }
+    });
     const {nameCollection} = useParams();
     const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>(collectionsPhotoProp);
     const [targetCollection, setTargetCollection] = useState<TCollectionPhoto | null>(null);
@@ -61,7 +78,6 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
             setIsNeedCheckAvailability(true);
         }, 8000)
     }, []);
-
     useEffect(() => {
         if (isNeedCheckAvailability && !targetCollection) {
             const answer = confirm("Что-то пошло не так. Перейти на главную страницу?");
@@ -71,7 +87,6 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
             }
         }
     }, [isNeedCheckAvailability])
-
     useEffect(() => {
         const targetCollection = collectionsPhoto.find(collection => collection.nameUrl === nameCollection);
         if (!targetCollection) return;
@@ -85,23 +100,12 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
             isOpen: false
         })
     }, [])
-
     const onOpenModal = useCallback((url: string) => {
         setZoomImage({
             urlImage: url,
             isOpen: true
         })
     }, [])
-
-    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
-        const element = event.currentTarget;
-        const url = element.getAttribute("data-url-image");
-
-        if (!url) throw new Error("url is not defined");
-
-        onOpenModal(url);
-    }, [targetCollection])
-
     const runningLines: {toRightSide: ReturnType<typeof runningLinesCreator>, toLeftSide: ReturnType<typeof runningLinesCreator>} | null = useMemo(() => {
         if (!targetCollection) return null;
 
@@ -111,33 +115,29 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
         }
     }, [targetCollection])
 
-    const listImages = useMemo(() => {
-        if (!actualBreakpointTiles && targetCollection) return listImageNodes({ targetCollection, onOpenModalWithImage });
-        else if (!targetCollection || !actualBreakpointTiles) return;
-
-        return listImageNodes({ targetCollection, onOpenModalWithImage, height: actualBreakpointTiles.heightRow });
-    }, [actualBreakpointTiles, targetCollection])
-
     return (
         <div className="portfolio-collection">
             <div className="container">
                 <Header/>
             </div>
 
-            { isShowSpinner && <Spinner textProp="ищу фотографии" /> }
             { runningLines && <div className="running-line">{runningLines.toRightSide}</div> }
             { zoomImage.isOpen && <Modal url={zoomImage.urlImage} onCloseModal={onCloseModal}/> }
 
-            {
-                !actualBreakpointTiles && listImages ? <div className="portfolio-collection__wrapper-photos">{listImages.elems}</div> :
-                targetCollection && actualBreakpointTiles && listImages &&
-                <TilesCreator
-                    ContainerTagName="main"
-                    className="portfolio-collection__wrapper-photos"
-                    elements={listImages}
-                    styles={actualBreakpointTiles}
-                />
-            }
+            <div className="portfolio-collection__scrolling-wrapper">
+                { isShowSpinner ? <Spinner textProp="ищу фотографии" /> :   (
+                    <PhotoView
+                        ref={el => {
+                            // fadeOutAnimationRef.current = el;
+                            scrollRef.current = el;
+                        }}
+                        targetCollection={targetCollection}
+                        actualBreakpointTiles={actualBreakpointTiles}
+                        onOpenModal={onOpenModal}
+                        />
+                    )
+                }
+            </div>
 
             {runningLines && <div className="running-line running-line_back">{runningLines.toLeftSide}</div>}
 
@@ -149,5 +149,43 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
         </div>
     )
 }
+
+interface IPhotoViewProps {
+    actualBreakpointTiles: IBreakpointStyles | null,
+    targetCollection: TCollectionPhoto | null,
+    onOpenModal: (url: string) => void
+}
+const PhotoView = forwardRef<HTMLDivElement | null, IPhotoViewProps>(({actualBreakpointTiles, targetCollection, onOpenModal}, ref) => {
+    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
+        const element = event.currentTarget;
+        const url = element.getAttribute("data-url-image");
+
+        if (!url) throw new Error("url is not defined");
+
+        onOpenModal(url);
+    }, [targetCollection])
+
+    const listImages = useMemo(() => {
+        if (!actualBreakpointTiles && targetCollection) return listImageNodes({ targetCollection, onOpenModalWithImage });
+        else if (!targetCollection || !actualBreakpointTiles) return;
+
+        return listImageNodes({ targetCollection, onOpenModalWithImage, height: actualBreakpointTiles.heightRow });
+    }, [actualBreakpointTiles, targetCollection])
+
+
+    if (!actualBreakpointTiles && listImages) {
+        return <div className="portfolio-collection__wrapper-photos" ref={ref}>{listImages}</div>
+    }
+    else if (targetCollection && actualBreakpointTiles && listImages) {
+        return (
+            <TilesCreator
+                ref={ref}
+                className="portfolio-collection__wrapper-photos"
+                elements={listImages}
+                styles={actualBreakpointTiles}
+            />)
+    }
+    return null;
+})
 
 export default PortfolioCollection;

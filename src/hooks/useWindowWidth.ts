@@ -4,12 +4,12 @@ const useWindowWidth = (): number => {
     const [width, setWidth] = useState(window.innerWidth);
 
     useLayoutEffect(() => {
-        function updateResize() {
+        function updateWidth() {
             setWidth(window.innerWidth);
         }
-        window.addEventListener("resize", updateResize);
-        updateResize();
-        return () => window.removeEventListener("resize", updateResize);
+        window.addEventListener("resize", updateWidth);
+        updateWidth();
+        return () => window.removeEventListener("resize", updateWidth);
     }, [])
     return width;
 }

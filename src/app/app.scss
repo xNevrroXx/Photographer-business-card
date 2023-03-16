@@ -4,17 +4,26 @@
     z-index: 1;
 	margin: 0 auto;
 	width: 100%;
-	background: url("../resources/background2.jpg") center (center / cover) no-repeat;
-    &::before {
-		pointer-events: none;
-		display: block;
-		position: absolute;
-		content: '';
+	overflow-x: hidden;
+	&__background-fixed-image {
+		position: fixed;
 		left: 0;
-		right: 0;
 		top: 0;
-		bottom: 0;
-		z-index: -1;
-		box-shadow: inset 0px 0px 500px 60px #94835f;
-    }
+		width: 100vw;
+		height: 100vh;
+		background: url("../resources/background2.jpg") center (center / cover) no-repeat;
+
+		&::before {
+			pointer-events: none;
+			display: block;
+			position: absolute;
+			content: '';
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			z-index: -1;
+			box-shadow: inset 0px 0px 500px 60px #94835f;
+		}
+	}
 }

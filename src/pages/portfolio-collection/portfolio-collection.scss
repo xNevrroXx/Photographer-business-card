@@ -1,13 +1,19 @@
 .portfolio-collection {
+    overflow: hidden;
     position: relative;
     min-height: 100vh;
     padding-top: 65px;
     padding-bottom: 50px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    &__scrolling-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        padding-left: 5vw;
+    }
     &__list-subtitles {
         height: 22px;
         width: 100%;
@@ -46,7 +52,6 @@
     //}
     &__wrapper-photo {
         height: 100px;
-        width: max-content;
         z-index: 10;
         transition: 0.2s all;
         &:hover, &:focus, &:active {
@@ -56,6 +61,8 @@
         }
     }
     &__photo {
+        max-height: 100vh;
+        max-width: 100vw;
         z-index: 10;
         height: 100%;
         object-fit: contain;

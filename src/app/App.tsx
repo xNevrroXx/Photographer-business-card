@@ -13,7 +13,6 @@ import { TCollectionPhoto } from '../components/types/TCollectionPhoto';
 // styles
 import "./app.scss";
 import "./app_Media.scss";
-import {listImageNodes} from "../components/listImageNodes/listImageNodes";
 
 const App: FC = () => {
 	// const location = useLocation();
@@ -51,13 +50,12 @@ const App: FC = () => {
 	return (
 		<BrowserRouter>
 			<div className="app" onClick={onCloseMobileMenu}>
+				<div className="app__background-fixed-image"/>
 				<Routes>
 					<Route path="/" element={<Navigate to="/about-me" />} />
 					<Route path="/about-me" element={<AboutMe/>}  />
-					<Route path="/photo-collections" element={<PortfolioCollections collectionsPhotoProp={collectionsPhoto} />} />
 					<Route path="/contacts" element={<Contacts/>} />
-
-					{/* <Route path="/PhotoCollections/:collectionName" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto} urlJson={urlJson} />}/> */}
+					<Route path="/photo-collections" element={<PortfolioCollections collectionsPhotoProp={collectionsPhoto} />} />
 					<Route path="/photo-collections/:nameCollection" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto}/>} />
 
 					<Route path="*" element={<NotFound/>} ></Route>

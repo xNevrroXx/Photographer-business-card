@@ -1,7 +1,7 @@
-import { RefObject, useLayoutEffect, useRef } from "react";
+import { MutableRefObject, useLayoutEffect, useRef } from "react";
 
-function useResizeObserver<T extends HTMLElement>(callback: (target: T, entry: ResizeObserverEntry) => void): RefObject<T> {
-    const ref = useRef<T>(null);
+function useResizeObserver<T extends HTMLElement>(callback: (target: T | null, entry: ResizeObserverEntry) => void): MutableRefObject<T | null> {
+    const ref = useRef<T | null>(null);
 
     useLayoutEffect(() => {
         const element = ref.current;

@@ -1,10 +1,11 @@
-import {FC, useCallback, useEffect, useState} from "react";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 // own modules
-import {useResizeObserver} from "../../hooks/useResizeObserver";
+import { useResizeObserver } from "../../hooks/useResizeObserver";
+import { useHorizontalScroll } from "../../hooks/useHorizontalScroll";
 // types
-import {ITilesProps} from "../../types/ITilesCreator";
+import { ITilesProps } from "../../types/ITilesCreator";
 
-const TilesCreator: FC<ITilesProps> = ({ContainerTagName = "div", elements, className, styles}) => {
+const TilesCreator = forwardRef<HTMLDivElement | null, ITilesProps>(({elements, className, styles}, ref) => {
     const [maxWidthContainer, setMaxWidthContainer] = useState<number>();
     const [widthContainer, setWidthContainer] = useState<number>();
     const [elementsByRows, setElementsByRows] = useState<JSX.Element[] | null>(null);
@@ -15,7 +16,8 @@ const TilesCreator: FC<ITilesProps> = ({ContainerTagName = "div", elements, clas
         setWidthContainer(maxWidthContainer / (styles.countRows || 2));
     }, [maxWidthContainer])
 
-    const onResize = useCallback((target: HTMLDivElement) => {
+    const onResize = useCallback((target: HTMLDivElement | null) => {
+        if (!target) return;
         const children = Array.from(target.querySelectorAll("*")).filter(elem => elem.parentElement === target);
         const childrenImages = Array.from(target.querySelectorAll("img"));
         const isImagesReady = childrenImages.every(imageElem => {
@@ -40,7 +42,7 @@ const TilesCreator: FC<ITilesProps> = ({ContainerTagName = "div", elements, clas
                 let computedWidthRow = 0;
                 const row: JSX.Element[] = [];
                 for (j; j < children.length && width > computedWidthRow + +getComputedStyle(children[j]).getPropertyValue("width").slice(0, -2); j++) {
-                    row.push(elements.elems[j]);
+                    row.push(elements[j]);
                     computedWidthRow += +getComputedStyle(children[j]).getPropertyValue("width").slice(0, -2);
                 }
                 elementsByRows1.push(
@@ -63,12 +65,15 @@ const TilesCreator: FC<ITilesProps> = ({ContainerTagName = "div", elements, clas
         }
     }, [widthContainer, maxWidthContainer, elementsByRows])
 
-    const ref = useResizeObserver(onResize);
-
+    const resizeObserverRef = useResizeObserver(onResize);
     return (
-        <ContainerTagName
-            ref={ref}
+        <div
+            ref={el => {
+                    resizeObserverRef.current = el;
+                }
+            }
             style={{
+                height: (styles.heightRow * (styles.countRows || 2)) + ( (styles.rowGap ? styles.rowGap : 0) * (styles.countRows ? styles.countRows - 1 : 0)),
                 flexWrap: elementsByRows ? "wrap" : "nowrap",
                 width: widthContainer ? widthContainer + "px" : "auto",
                 display: "flex", flexDirection: "row",
@@ -77,10 +82,10 @@ const TilesCreator: FC<ITilesProps> = ({ContainerTagName = "div", elements, clas
             }}
             className={className + " tiles"}
         >
-            { elementsByRows ? elementsByRows : elements.elems}
-        </ContainerTagName>
+            { elementsByRows ? elementsByRows : elements}
+        </div>
     )
-}
+})
 
 export {TilesCreator};
 export default TilesCreator;
