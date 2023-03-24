@@ -1,25 +1,24 @@
-import {FC, forwardRef, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {FC, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {gsap} from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 // own modules
-import {TilesCreator} from "../../components/tilesCreator/TilesCreator";
 import Social from "../../components/social/Social";
 import Modal from "../../components/modal/Modal";
+import CollectionPhotoTiles from "../../components/collectionPhotoTiles/CollectionPhotoTiles";
+import Header from "../../components/header/Header";
 import {getData} from "../../services/service";
 import {Spinner} from "../../components/loading/Spinner";
-import Header from "../../components/header/Header";
 import {useActualBreakpoint} from "../../hooks/useActualBreakpoint";
 import runningLinesCreator from "../../components/runningLinesCreator/runningLinesCreator";
-import {listImageNodes} from "../../components/listImageNodes/listImageNodes";
 import {useHorizontalScroll} from "../../hooks/useHorizontalScroll";
-import useAnimationFromTo from "../../hooks/useAnimationFromTo";
+import {useMutationObserver} from "../../hooks/useMutationObserver";
+// types
+import {TCollectionPhoto} from "../../components/types/TCollectionPhoto";
+import {IBreakpointsStyles} from "../../types/IBreakpointsStyles";
 //styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
-// types
-import {TCollectionPhoto} from "../../components/types/TCollectionPhoto";
-import {IBreakpointsStyles, IBreakpointStyles} from "../../types/IBreakpointsStyles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,25 +41,23 @@ const responsiveTilesDefaultValue: IBreakpointsStyles = {
 }
 const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
     const navigate = useNavigate();
-    const scrollRef = useHorizontalScroll(".portfolio-collection__scrolling-wrapper");
-    const fadeOutAnimationRef = useAnimationFromTo({
-        from: {
-            opacity: 0
-        },
-        to: {
-            opacity: 1,
-            duration: 3
-        }
-    });
+    const mutationObserverRef = useMutationObserver({callback: onMutationObserver})
+    const [isTilesCreated, setIsTilesCreated] = useState<boolean>(false);
+    const scrollRef = useHorizontalScroll(".tiles", isTilesCreated);
     const {nameCollection} = useParams();
     const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>(collectionsPhotoProp);
     const [targetCollection, setTargetCollection] = useState<TCollectionPhoto | null>(null);
     const isFetchedDataRef = useRef<boolean>(false);
     const [isNeedCheckAvailability, setIsNeedCheckAvailability] = useState<boolean>(false); // back to the first page if the collection is not available(if some error occurred)
     const [zoomImage, setZoomImage] = useState<{isOpen: boolean, urlImage: string}>({isOpen: false, urlImage: ""});
-    const [isShowSpinner, setIsShowSpinner] = useState<boolean>(false); // todo set true
+    const [isShowSpinner, setIsShowSpinner] = useState<boolean>(true); // todo set true
     const actualBreakpointTiles = useActualBreakpoint(responsiveTilesDefaultValue);
 
+    useEffect(() => {
+        if (!isTilesCreated) return;
+
+        setIsShowSpinner(false);
+    }, [isTilesCreated])
     useEffect(() => {
         if (isFetchedDataRef.current) return;
         isFetchedDataRef.current = true;
@@ -94,6 +91,9 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
         setTargetCollection(targetCollection);
     }, [collectionsPhoto])
 
+    function onMutationObserver (mutationRecords: MutationRecord[]) {
+        setIsTilesCreated(true);
+    }
     const onCloseModal = useCallback(() => {
         setZoomImage({
             urlImage: "",
@@ -116,76 +116,36 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
     }, [targetCollection])
 
     return (
-        <div className="portfolio-collection">
-            <div className="container">
-                <Header/>
-            </div>
+        <div style={{width: "100%", height: "100%"}}>
+            <div className="portfolio-collection" ref={el => {
+                mutationObserverRef.current = el;
+                scrollRef.current = el;
+            }}>
+                <div className="container">
+                    <Header/>
+                </div>
 
-            { runningLines && <div className="running-line">{runningLines.toRightSide}</div> }
-            { zoomImage.isOpen && <Modal url={zoomImage.urlImage} onCloseModal={onCloseModal}/> }
+                { zoomImage.isOpen && <Modal url={zoomImage.urlImage} onCloseModal={onCloseModal}/> }
+                { isShowSpinner && <Spinner textProp="ищу фотографии" /> }
 
-            <div className="portfolio-collection__scrolling-wrapper">
-                { isShowSpinner ? <Spinner textProp="ищу фотографии" /> :   (
-                    <PhotoView
-                        ref={el => {
-                            // fadeOutAnimationRef.current = el;
-                            scrollRef.current = el;
-                        }}
+                { runningLines && <div className="running-line">{runningLines.toRightSide}</div> }
+                <div className="portfolio-collection__scrolling-wrapper">
+                    <CollectionPhotoTiles
                         targetCollection={targetCollection}
                         actualBreakpointTiles={actualBreakpointTiles}
                         onOpenModal={onOpenModal}
-                        />
-                    )
-                }
-            </div>
+                    />
+                </div>
+                {runningLines && <div className="running-line running-line_back">{runningLines.toLeftSide}</div>}
 
-            {runningLines && <div className="running-line running-line_back">{runningLines.toLeftSide}</div>}
-
-            <div className="container">
-                <footer>
-                    <Social/>
-                </footer>
+                <div className="container">
+                    <footer>
+                        <Social/>
+                    </footer>
+                </div>
             </div>
         </div>
     )
 }
-
-interface IPhotoViewProps {
-    actualBreakpointTiles: IBreakpointStyles | null,
-    targetCollection: TCollectionPhoto | null,
-    onOpenModal: (url: string) => void
-}
-const PhotoView = forwardRef<HTMLDivElement | null, IPhotoViewProps>(({actualBreakpointTiles, targetCollection, onOpenModal}, ref) => {
-    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
-        const element = event.currentTarget;
-        const url = element.getAttribute("data-url-image");
-
-        if (!url) throw new Error("url is not defined");
-
-        onOpenModal(url);
-    }, [targetCollection])
-
-    const listImages = useMemo(() => {
-        if (!actualBreakpointTiles && targetCollection) return listImageNodes({ targetCollection, onOpenModalWithImage });
-        else if (!targetCollection || !actualBreakpointTiles) return;
-
-        return listImageNodes({ targetCollection, onOpenModalWithImage, height: actualBreakpointTiles.heightRow });
-    }, [actualBreakpointTiles, targetCollection])
-
-
-    if (!actualBreakpointTiles && listImages) {
-        return <div className="portfolio-collection__wrapper-photos" ref={ref}>{listImages}</div>
-    }
-    else if (targetCollection && actualBreakpointTiles && listImages) {
-        return (
-            <TilesCreator
-                ref={ref}
-                className="portfolio-collection__wrapper-photos"
-                elements={listImages}
-                styles={actualBreakpointTiles}
-            />)
-    }
-    return null;
-})
 
 export default PortfolioCollection;

@@ -57,35 +57,18 @@
             "name": "They call me Love",
             "nameUrl": "they-call-me-love",
             "mainImgUrl": "/content/videos/myNameIsLove.mp4",
-            "images": [                {
-                    "url": "/content/photos/photos_1.jpg"
+            "images": [
+                {
+                    "url": "/content/photos/1.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_2.jpg"
+                    "url": "/content/photos/2.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_3.jpg"
+                    "url": "/content/photos/3.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_4.jpg"
-                },
-                {
-                    "url": "/content/photos/photos_5.jpg"
-                },
-                {
-                    "url": "/content/photos/photos_6.jpg"
-                },
-                {
-                    "url": "/content/photos/photos_7.jpg"
-                },
-                {
-                    "url": "/content/photos/photos_8.jpg"
-                },
-                {
-                    "url": "/content/photos/photos_9.jpg"
-                },
-                {
-                    "url": "/content/photos/photos_10.jpg"
+                    "url": "/content/photos/3.jpg"
                 }
             ]
         },
@@ -94,17 +77,51 @@
             "name": "Привет из 90-х",
             "nameUrl": "Greetings from the 90s",
             "mainImgUrl": "/content/videos/90-e.mp4",
-            "images": [                {
-                    "url": "/content/photos/photos_1.jpg"
+            "images": [
+                {
+                    "url": "/content/photos/1.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_2.jpg"
+                    "url": "/content/photos/2.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_3.jpg"
+                    "url": "/content/photos/3.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_4.jpg"
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/1.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
+                },
+                {
+                    "url": "/content/photos/2.jpg"
+                },
+                {
+                    "url": "/content/photos/3.jpg"
+                },
+                {
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
+                },
+                {
+                    "url": "/content/photos/1.jpg"
+                },
+                {
+                    "url": "/content/photos/2.jpg"
+                },
+                {
+                    "url": "/content/photos/3.jpg"
+                },
+                {
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
                 }
             ]
         },
@@ -113,26 +130,51 @@
             "name": "Один дома",
             "nameUrl": "alone-at-home",
             "mainImgUrl": "/content/videos/aloneAtHome.mp4",
-            "images": [                {
-                    "url": "/content/photos/photos_1.jpg"
+            "images": [
+                {
+                    "url": "/content/photos/1.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_2.jpg"
+                    "url": "/content/photos/2.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_3.jpg"
+                    "url": "/content/photos/3.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_4.jpg"
+                    "url": "/content/photos/4.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_5.jpg"
+                    "url": "/content/photos/1.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_6.jpg"
+                    "url": "/content/photos/5.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_7.jpg"
+                    "url": "/content/photos/2.jpg"
+                },
+                {
+                    "url": "/content/photos/3.jpg"
+                },
+                {
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
+                },
+                {
+                    "url": "/content/photos/1.jpg"
+                },
+                {
+                    "url": "/content/photos/2.jpg"
+                },
+                {
+                    "url": "/content/photos/3.jpg"
+                },
+                {
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
                 }
             ]
         },
@@ -141,33 +183,51 @@
             "name": "Can't help falling in love with ME",
             "nameUrl": "cant-help-falling-in-love-with-me",
             "mainImgUrl": "/content/videos/loveYourself.mp4",
-            "images": [                
+            "images": [
                 {
-                    "url": "/content/photos/photos_1.jpg"
+                    "url": "/content/photos/1.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_2.jpg"
+                    "url": "/content/photos/2.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_3.jpg"
+                    "url": "/content/photos/3.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_4.jpg"
+                    "url": "/content/photos/4.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_5.jpg"
+                    "url": "/content/photos/1.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_6.jpg"
+                    "url": "/content/photos/5.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_7.jpg"
+                    "url": "/content/photos/2.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_8.jpg"
+                    "url": "/content/photos/3.jpg"
                 },
                 {
-                    "url": "/content/photos/photos_9.jpg"
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
+                },
+                {
+                    "url": "/content/photos/1.jpg"
+                },
+                {
+                    "url": "/content/photos/2.jpg"
+                },
+                {
+                    "url": "/content/photos/3.jpg"
+                },
+                {
+                    "url": "/content/photos/4.jpg"
+                },
+                {
+                    "url": "/content/photos/5.jpg"
                 }
             ]
         }

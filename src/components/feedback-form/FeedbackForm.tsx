@@ -1,11 +1,9 @@
 import { Component } from "react";
 import $ from "jquery";
-
+import Validate from "../../services/validateClass";
 //styles
 import "./feedback-form.scss";
 import "./feedback-form_Media.scss";
-import Validate from "../../services/validateClass";
-
 //types
 type linkMethods = "email" | "telephone";
 
@@ -14,7 +12,7 @@ interface IProps {
 }
 
 interface IState {
-    prefferedLinkMethod: linkMethods,
+    preferredLinkMethod: linkMethods,
     name: string,
     email: string,
     phone: string,
@@ -30,7 +28,7 @@ class FeedbackForm extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            prefferedLinkMethod: "telephone",
+            preferredLinkMethod: "telephone",
             name: "",
             email: "",
             phone: "",
@@ -40,12 +38,12 @@ class FeedbackForm extends Component<IProps, IState> {
 
     componentDidMount() {
         if(FeedbackForm.defaultProps.prefferedLinkMethod !== this.props.prefferedLinkMethod)
-            this.setState({prefferedLinkMethod: this.props.prefferedLinkMethod})
+            this.setState({preferredLinkMethod: this.props.prefferedLinkMethod})
     }
 
     resetForm = () => {
         this.setState({
-            prefferedLinkMethod: "telephone",
+            preferredLinkMethod: "telephone",
             name: "",
             email: "",
             phone: "",
@@ -57,14 +55,6 @@ class FeedbackForm extends Component<IProps, IState> {
         
         const nameState: string = e.target.name,
               newValue: any = [e.target.value];
-        // if( nameState === "prefferedLinkMethod" ||
-        //     nameState === "name" ||
-        //     nameState === "email" ||
-        //     nameState === "telephone" ||
-        //     nameState === "letter" ) 
-        //     {
-        //         this.setState({ [nameState]: newValue });
-        //     }
         
         switch(nameState) {
             case "name": 
@@ -80,10 +70,10 @@ class FeedbackForm extends Component<IProps, IState> {
                 this.setState({letter: newValue});
                 break;
             case "radioEmail":
-                this.setState({prefferedLinkMethod: "email"});
+                this.setState({preferredLinkMethod: "email"});
                 break;
             case "radioTelephone":
-                this.setState({prefferedLinkMethod: "telephone"});
+                this.setState({preferredLinkMethod: "telephone"});
                 break;
         }
     }
@@ -158,7 +148,7 @@ class FeedbackForm extends Component<IProps, IState> {
     }
 
     render() {
-        const {prefferedLinkMethod, name, email, phone, letter} = this.state;
+        const {preferredLinkMethod, name, email, phone, letter} = this.state;
         
         return (
             <form
@@ -188,7 +178,7 @@ class FeedbackForm extends Component<IProps, IState> {
                         id="radioEmail"
                         type="radio"
                         name="radioEmail" 
-                        checked={prefferedLinkMethod === "email"} 
+                        checked={preferredLinkMethod === "email"}
                         onChange={(e) => this.onValueChange(e)} 
                     />
                     <label htmlFor="radioEmail">email</label>
@@ -197,7 +187,7 @@ class FeedbackForm extends Component<IProps, IState> {
                         id="radioTelephone"
                         type="radio" 
                         name="radioTelephone" 
-                        checked={prefferedLinkMethod === "telephone"} 
+                        checked={preferredLinkMethod === "telephone"}
                         onChange={(e) => this.onValueChange(e)} 
                     />
                     <label htmlFor="radioTelephone">звонок</label>
@@ -206,7 +196,7 @@ class FeedbackForm extends Component<IProps, IState> {
                 <input 
                     type="text" 
                     name="phone" 
-                    required={prefferedLinkMethod === "telephone" ? true : false} 
+                    required={preferredLinkMethod === "telephone" ? true : false}
                     placeholder="8(999)999-99-99" 
                     value={phone} 
                     onChange={(e) => this.onValueChange(e)}
@@ -215,7 +205,7 @@ class FeedbackForm extends Component<IProps, IState> {
                 <input 
                     type="text" 
                     name="email"
-                    required={prefferedLinkMethod === "email" ? true : false} 
+                    required={preferredLinkMethod === "email" ? true : false}
                     placeholder="email@mail.com" 
                     value={email} 
                     onChange={(e) => this.onValueChange(e)}

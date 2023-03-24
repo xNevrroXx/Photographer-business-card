@@ -8,7 +8,7 @@ interface IParameters {
     to: gsap.TweenVars
 }
 const useAnimationFromTo = ({from, to}: IParameters) => {
-    const ref = useRef<HTMLElement | null>(null);
+    const ref = useRef<HTMLDivElement | null>(null);
 
     useLayoutEffect(() => {
         const animation = gsap.fromTo(ref.current, from, to);

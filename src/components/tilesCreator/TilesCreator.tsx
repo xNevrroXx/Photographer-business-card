@@ -1,11 +1,11 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import React, {FC, useCallback, useEffect, useState} from "react";
 // own modules
 import { useResizeObserver } from "../../hooks/useResizeObserver";
 import { useHorizontalScroll } from "../../hooks/useHorizontalScroll";
 // types
 import { ITilesProps } from "../../types/ITilesCreator";
 
-const TilesCreator = forwardRef<HTMLDivElement | null, ITilesProps>(({elements, className, styles}, ref) => {
+const TilesCreator: FC<ITilesProps> = (({elements, className, styles}) => {
     const [maxWidthContainer, setMaxWidthContainer] = useState<number>();
     const [widthContainer, setWidthContainer] = useState<number>();
     const [elementsByRows, setElementsByRows] = useState<JSX.Element[] | null>(null);
@@ -36,7 +36,7 @@ const TilesCreator = forwardRef<HTMLDivElement | null, ITilesProps>(({elements, 
             setMaxWidthContainer(newWidth);
         }
         else if (width === widthContainer && !elementsByRows) {
-            const elementsByRows1: JSX.Element[] = [];
+            const elementsByRowsTemp: JSX.Element[] = [];
             let j = 0;
             for (let i = 0; i < (styles.countRows || 2); i++) {
                 let computedWidthRow = 0;
@@ -45,7 +45,7 @@ const TilesCreator = forwardRef<HTMLDivElement | null, ITilesProps>(({elements, 
                     row.push(elements[j]);
                     computedWidthRow += +getComputedStyle(children[j]).getPropertyValue("width").slice(0, -2);
                 }
-                elementsByRows1.push(
+                elementsByRowsTemp.push(
                     <div
                         key={i + "row-tile-elems"}
                         style={{
@@ -61,7 +61,7 @@ const TilesCreator = forwardRef<HTMLDivElement | null, ITilesProps>(({elements, 
                 );
             }
 
-            setElementsByRows(elementsByRows1);
+            setElementsByRows(elementsByRowsTemp);
         }
     }, [widthContainer, maxWidthContainer, elementsByRows])
 

@@ -8,8 +8,7 @@
 @font-face {
     font-family: 'Aquarelle';
     src: url('../fonts/Aquarelle.eot');
-    src: url('../fonts/Aquarelle.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Aquarelle.woff2') format('woff2'),
+    src: url('../fonts/Aquarelle.woff2') format('woff2'),
         url('../fonts/Aquarelle.woff') format('woff'),
         url('../fonts/Aquarelle.ttf') format('truetype');
     font-weight: 500;
