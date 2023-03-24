@@ -11,8 +11,7 @@
     &__scrolling-wrapper {
         display: flex;
         justify-content: flex-start;
-        width: 100%;
-        padding-left: 5vw;
+        width: 100vw;
     }
     &__list-subtitles {
         height: 22px;
@@ -47,9 +46,10 @@
         padding-bottom: 5px;
         z-index: 10;
     }
-    //&__wrapper-photos {
-    //    width: 100px;
-    //}
+    &__wrapper-photos {
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
     &__wrapper-photo {
         height: 100px;
         z-index: 10;
