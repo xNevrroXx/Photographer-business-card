@@ -132,7 +132,7 @@ class FeedbackForm extends Component<IProps, IState> {
 
         $.ajax({
             type: "POST",
-            url: "mailer.php", //Change
+            url: "mail.php", //Change
             data: formElement.serialize()
         }).done(() =>  {
             console.log(formElement.serialize());
@@ -158,7 +158,7 @@ class FeedbackForm extends Component<IProps, IState> {
             >
                 {/* Hidden Required Fields*/}
                 <input type="hidden" name="project_name" value="Konstantin Photo" />
-                <input type="hidden" name="admin_email" value="bif27948@uooos.com" />
+                <input type="hidden" name="admin_email" value="govorov.business@gmail.com" />
                 <input type="hidden" name="form_subject" value="Contact page" />
                 {/* <!-- END Hidden Required Fields --> */}
 
