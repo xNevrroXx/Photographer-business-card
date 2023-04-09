@@ -1,4 +1,4 @@
-import {FC, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {FC, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {gsap} from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
@@ -12,13 +12,13 @@ import {Spinner} from "../../components/spinner/Spinner";
 import {useActualBreakpoint} from "../../hooks/useActualBreakpoint";
 import runningLinesCreator from "../../components/runningLinesCreator/runningLinesCreator";
 import {useHorizontalScroll} from "../../hooks/useHorizontalScroll";
+import {useWindowWidth} from "../../hooks/useWindowWidth";
 // types
 import {TCollectionPhoto} from "../../components/types/TCollectionPhoto";
 import {IBreakpointsStyles} from "../../types/IBreakpointsStyles";
 //styles
 import "./portfolio-collection.scss";
 import "./portfolio-collection_Media.scss";
-import {useWindowWidth} from "../../hooks/useWindowWidth";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,6 +117,14 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
             toLeftSide: runningLinesCreator(5, "toLeft", targetCollection!.name)
         }
     }, [targetCollection])
+    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
+        const element = event.currentTarget;
+        const url = element.getAttribute("data-url-image");
+
+        if (!url) throw new Error("url is not defined");
+
+        onOpenModal(url);
+    }, [targetCollection])
 
     return (
         <div style={{width: "100%", height: "100%"}}>
@@ -128,20 +136,38 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
                 </div>
 
                 { zoomImage.isOpen && <Modal url={zoomImage.urlImage} onCloseModal={onCloseModal}/> }
-                { !isTargetCollectionFound && <Spinner textProp="ищу фотографии" /> }
+                { !isTargetCollectionFound && actualBreakpointTiles && <Spinner textProp="ищу фотографии" /> }
                 { isTargetCollectionFound && !isTilesCreated && <Spinner textProp="создаю разметку" /> }
 
                 { runningLines && <div className="running-line">{runningLines.toRightSide}</div> }
-                { targetCollection && actualBreakpointTiles &&
-                    <div className="portfolio-collection__scrolling-wrapper">
-                        <TilesCreator
-                            className="portfolio-collection__wrapper-photos"
-                            targetCollection={targetCollection}
-                            onOpenModal={onOpenModal}
-                            styles={actualBreakpointTiles}
-                            onReady={onTilesCreated}
-                        />
-                    </div>
+                { targetCollection &&
+                    (actualBreakpointTiles ?
+                            <div className="portfolio-collection__scrolling-wrapper">
+                                <TilesCreator
+                                    className="portfolio-collection__wrapper-photos"
+                                    targetCollection={targetCollection}
+                                    onOpenModalWithImage={onOpenModalWithImage}
+                                    styles={actualBreakpointTiles}
+                                    onReady={onTilesCreated}
+                                />
+                            </div> :
+                            <div className="portfolio-collection__wrapper-photos">
+                                {targetCollection.images.map((image, index) => (
+                                    <div
+                                        key={`image-${index}`}
+                                        tabIndex={0}
+                                        className="portfolio-collection__wrapper-photo"
+                                        data-url-image={image.url}
+                                        onClick={onOpenModalWithImage}
+                                    >
+                                        <img
+                                            src={image.url}
+                                            alt={targetCollection.name + " image " + index}
+                                            className="portfolio-collection__photo"/>
+                                    </div>
+                                ))}
+                            </div>
+                    )
                 }
                 {runningLines && <div className="running-line running-line_back">{runningLines.toLeftSide}</div>}
 

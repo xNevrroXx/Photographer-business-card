@@ -11,10 +11,10 @@
             gap: 2rem;
         }
         &__photo {
-            height: auto;
             width: 100%;
         }
         &__wrapper-photo {
+            height: max-content;
             width: 80vw;
         }
     }

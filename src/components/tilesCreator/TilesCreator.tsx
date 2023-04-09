@@ -1,4 +1,4 @@
-import React, {FC, forwardRef, RefObject, useCallback, useEffect, useRef, useState} from "react";
+import React, {forwardRef, RefObject, useEffect, useState} from "react";
 // types
 import { ITilesProps } from "../../types/ITilesCreator";
 import {useWindowWidth} from "../../hooks/useWindowWidth";
@@ -16,7 +16,7 @@ const checkImageLoaded = (path: string): Promise<HTMLImageElement> =>
         img.src = path;
     })
 const TilesCreator = forwardRef<RefObject<HTMLDivElement>, ITilesProps> (
-    ({targetCollection, styles, onOpenModal, onReady, className}, ref) => {
+    ({targetCollection, styles, onOpenModalWithImage, onReady, className}, ref) => {
     const windowWidth = useWindowWidth();
     const [makeUseEffectOnce, setMakeUseEffectOnce] = useState<boolean>(false);
     const [computedImagesSizes, setComputedImagesSizes] = useState<IImageInfo[] | null>(null);
@@ -110,15 +110,6 @@ const TilesCreator = forwardRef<RefObject<HTMLDivElement>, ITilesProps> (
 
         onReady();
     }, [computedWidthContainer, imagesByRows, windowWidth, styles])
-
-    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
-        const element = event.currentTarget;
-        const url = element.getAttribute("data-url-image");
-
-        if (!url) throw new Error("url is not defined");
-
-        onOpenModal(url);
-    }, [targetCollection])
 
     if (!imagesByRows || !computedWidthContainer) return null;
 
