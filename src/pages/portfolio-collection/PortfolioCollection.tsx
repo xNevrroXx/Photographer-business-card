@@ -47,7 +47,7 @@ const PortfolioCollection: FC<IProps> = ({collectionsPhotoProp}) => {
     const windowWidth = useWindowWidth();
     const [isTargetCollectionFound, setIsTargetCollectionFound] = useState<boolean>(false);
     const [isTilesCreated, setIsTilesCreated] = useState<boolean>(false);
-    const scrollRef = useHorizontalScroll(".tiles", isTilesCreated);
+    const scrollRef = useHorizontalScroll(".tiles", isTilesCreated, [actualBreakpointTiles, windowWidth]);
     const [collectionsPhoto, setCollectionsPhoto] = useState<TCollectionPhoto[]>(collectionsPhotoProp);
     const [targetCollection, setTargetCollection] = useState<TCollectionPhoto | null>(null);
     const [isNeedCheckAvailability, setIsNeedCheckAvailability] = useState<boolean>(false); // back to the first page if the collection is not available(if some error occurred)

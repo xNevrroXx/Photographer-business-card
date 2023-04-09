@@ -14,10 +14,10 @@ const useHorizontalScroll = (scrollingContainerSelector: string, isCreatedScroll
 
     useLayoutEffect(() => {
         const containerEl = containerRef.current;
-        if (!containerEl) return;
+        if ( !containerEl || !isCreatedScrollContainer ) return;
 
         const context = gsap.context(self => {
-            if (!isCreatedScrollContainer || !self.selector) return;
+            if (!self.selector) return;
             const scrollingElement = self.selector(scrollingContainerSelector)[0];
             if (!scrollingElement) return;
             const scrollingValuePx: number = scrollingElement.offsetWidth - window.innerWidth;
@@ -34,9 +34,9 @@ const useHorizontalScroll = (scrollingContainerSelector: string, isCreatedScroll
                     pin: true
                 }
             })
-        }, containerEl!);
+        }, containerEl);
 
-        return () => context.kill()
+        return () => context.revert();
     }, [scrollingContainerSelector, isCreatedScrollContainer, ...deps]);
 
     return containerRef;

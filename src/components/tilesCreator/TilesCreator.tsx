@@ -24,9 +24,9 @@ const TilesCreator = forwardRef<RefObject<HTMLDivElement>, ITilesProps> (
     const [imagesByRows, setImagesByRows] = useState<string[][] | null>(null);
 
     useEffect(() => {
-        setMakeUseEffectOnce(false);
         setComputedWidthContainer(null);
         setImagesByRows(null);
+        setMakeUseEffectOnce(false);
     }, [windowWidth])
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const TilesCreator = forwardRef<RefObject<HTMLDivElement>, ITilesProps> (
             .then((images) => {
                 onLoadImages(images);
             })
-    }, [windowWidth])
+    }, [styles])
 
     useEffect(() => {
         if (!computedImagesSizes) return;
@@ -103,13 +103,13 @@ const TilesCreator = forwardRef<RefObject<HTMLDivElement>, ITilesProps> (
 
         setImagesByRows(imagesByRowsTemp)
         setComputedWidthContainer(computedWidthContainerTemp);
-    }, [computedImagesSizes, windowWidth])
+    }, [computedImagesSizes, windowWidth, styles])
 
     useEffect(() => {
         if (!computedWidthContainer || !imagesByRows || !onReady) return;
 
         onReady();
-    }, [computedWidthContainer, imagesByRows, windowWidth])
+    }, [computedWidthContainer, imagesByRows, windowWidth, styles])
 
     const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
         const element = event.currentTarget;
