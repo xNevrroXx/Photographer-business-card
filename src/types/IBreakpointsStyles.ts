@@ -3,7 +3,7 @@ export interface IBreakpointStyles {
     heightRow: number,
     /*width tiles container in the vw units*/
     // widthContainer: number
-    countRows?: number,
+    countRows: number,
     rowGap?: number
     columnGap?: number,
 }

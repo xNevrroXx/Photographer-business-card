@@ -1,9 +1,10 @@
 import {IBreakpointStyles} from "./IBreakpointsStyles";
-import {listImageNodes} from "../components/listImageNodes/listImageNodes";
-import {LegacyRef, MutableRefObject} from "react";
+import {TCollectionPhoto} from "../components/types/TCollectionPhoto";
 
 export interface ITilesProps {
-    elements: ReturnType<typeof listImageNodes>,
+    onOpenModal: (url: string) => void,
+    targetCollection: TCollectionPhoto,
+    styles: IBreakpointStyles,
     className?: string,
-    styles: IBreakpointStyles
+    onReady?: () => void
 }

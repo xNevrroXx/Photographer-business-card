@@ -1,18 +1,19 @@
-import { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
+import {FC, lazy, MouseEvent, Suspense, useCallback, useEffect, useState} from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 // own modules
 import { getData } from '../services/service';
-//pages
-import AboutMe from '../pages/about-me/AboutMe';
-import Contacts from '../pages/contacts/Contacts';
-import NotFound from '../pages/not-found/NotFound';
-import PortfolioCollections from '../pages/portfolio-collections/PortfolioCollections';
-import PortfolioCollection from "../pages/portfolio-collection/PortfolioCollection";
+import { Spinner } from "../components/spinner/Spinner";
 // types
 import { TCollectionPhoto } from '../components/types/TCollectionPhoto';
 // styles
 import "./app.scss";
 import "./app_Media.scss";
+//pages
+const AboutMe = lazy(() => import('../pages/about-me/AboutMe'));
+const Contacts = lazy(() => import('../pages/contacts/Contacts'));
+const NotFound = lazy(() => import('../pages/not-found/NotFound'));
+const PortfolioCollections = lazy(() => import('../pages/portfolio-collections/PortfolioCollections'));
+const PortfolioCollection = lazy(() => import( "../pages/portfolio-collection/PortfolioCollection"));
 
 const App: FC = () => {
 	// const location = useLocation();
@@ -51,15 +52,17 @@ const App: FC = () => {
 		<BrowserRouter>
 			<div className="app" onClick={onCloseMobileMenu}>
 				<div className="app__background-fixed-image"/>
-				<Routes>
-					<Route path="/" element={<Navigate to="/about-me" />} />
-					<Route path="/about-me" element={<AboutMe/>}  />
-					<Route path="/contacts" element={<Contacts/>} />
-					<Route path="/photo-collections" element={<PortfolioCollections collectionsPhotoProp={collectionsPhoto} />} />
-					<Route path="/photo-collections/:nameCollection" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto}/>} />
+				<Suspense fallback={<Spinner textProp="Загружаю контент" />}>
+					<Routes>
+						<Route path="/" element={<Navigate to="/about-me" />} />
+						<Route path="/about-me" element={<AboutMe/>}  />
+						<Route path="/contacts" element={<Contacts/>} />
+						<Route path="/photo-collections" element={<PortfolioCollections collectionsPhotoProp={collectionsPhoto} />} />
+						<Route path="/photo-collections/:nameCollection" element={<PortfolioCollection collectionsPhotoProp={collectionsPhoto}/>} />
 
-					<Route path="*" element={<NotFound/>} ></Route>
-				</Routes>
+						<Route path="*" element={<NotFound/>} ></Route>
+					</Routes>
+				</Suspense>
 			</div>
 		</BrowserRouter>
 	);

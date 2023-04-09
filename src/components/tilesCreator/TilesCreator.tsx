@@ -1,88 +1,176 @@
-import React, {FC, useCallback, useEffect, useState} from "react";
-// own modules
-import { useResizeObserver } from "../../hooks/useResizeObserver";
-import { useHorizontalScroll } from "../../hooks/useHorizontalScroll";
+import React, {FC, forwardRef, RefObject, useCallback, useEffect, useRef, useState} from "react";
 // types
 import { ITilesProps } from "../../types/ITilesCreator";
+import {useWindowWidth} from "../../hooks/useWindowWidth";
+interface IImageInfo {
+    path: string,
+    width: number,
+    height: number
+}
+const checkImageLoaded = (path: string): Promise<HTMLImageElement> =>
+    new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject();
 
-const TilesCreator: FC<ITilesProps> = (({elements, className, styles}) => {
-    const [maxWidthContainer, setMaxWidthContainer] = useState<number>();
-    const [widthContainer, setWidthContainer] = useState<number>();
-    const [elementsByRows, setElementsByRows] = useState<JSX.Element[] | null>(null);
+        img.src = path;
+    })
+const TilesCreator = forwardRef<RefObject<HTMLDivElement>, ITilesProps> (
+    ({targetCollection, styles, onOpenModal, onReady, className}, ref) => {
+    const windowWidth = useWindowWidth();
+    const [makeUseEffectOnce, setMakeUseEffectOnce] = useState<boolean>(false);
+    const [computedImagesSizes, setComputedImagesSizes] = useState<IImageInfo[] | null>(null);
+    const [computedWidthContainer, setComputedWidthContainer] = useState<number | null>(null);
+    const [imagesByRows, setImagesByRows] = useState<string[][] | null>(null);
 
     useEffect(() => {
-        if (!maxWidthContainer) return;
+        setMakeUseEffectOnce(false);
+        setComputedWidthContainer(null);
+        setImagesByRows(null);
+    }, [windowWidth])
 
-        setWidthContainer(maxWidthContainer / (styles.countRows || 2));
-    }, [maxWidthContainer])
+    useEffect(() => {
+        if (makeUseEffectOnce) return;
+        setMakeUseEffectOnce(true);
+        function onLoadImages (images: HTMLImageElement[]) {
+            const computedImagesSizes: IImageInfo[] = [];
 
-    const onResize = useCallback((target: HTMLDivElement | null) => {
-        if (!target) return;
-        const children = Array.from(target.querySelectorAll("*")).filter(elem => elem.parentElement === target);
-        const childrenImages = Array.from(target.querySelectorAll("img"));
-        const isImagesReady = childrenImages.every(imageElem => {
-            return imageElem && imageElem.complete && getComputedStyle(imageElem).getPropertyValue("width") !== "0px"
-        });
+            images.forEach((image, index) => {
+                const path = image.src;
+                const widthImg = image.width;
+                const heightImg = image.height;
 
-        if (!isImagesReady) return;
+                const normalizeCoefficient = heightImg / styles.heightRow;
+                const computedWidth = widthImg / normalizeCoefficient;
+                const computedHeight = heightImg / normalizeCoefficient;
 
-        const width = Math.round(+getComputedStyle(target).getPropertyValue("width").slice(0, -2));
-        let newWidth = width;
-        while (newWidth % (styles.countRows || 2) !== 0) {
-            newWidth++;
+                computedImagesSizes.push({
+                    path: path,
+                    width: computedWidth,
+                    height: computedHeight
+                })
+            })
+
+            setComputedImagesSizes(computedImagesSizes);
         }
 
-        if ( !maxWidthContainer || (newWidth > maxWidthContainer) && (maxWidthContainer !== newWidth / (styles.countRows || 2)) ) {
-            setMaxWidthContainer(newWidth);
-        }
-        else if (width === widthContainer && !elementsByRows) {
-            const elementsByRowsTemp: JSX.Element[] = [];
-            let j = 0;
-            for (let i = 0; i < (styles.countRows || 2); i++) {
-                let computedWidthRow = 0;
-                const row: JSX.Element[] = [];
-                for (j; j < children.length && width > computedWidthRow + +getComputedStyle(children[j]).getPropertyValue("width").slice(0, -2); j++) {
-                    row.push(elements[j]);
-                    computedWidthRow += +getComputedStyle(children[j]).getPropertyValue("width").slice(0, -2);
-                }
-                elementsByRowsTemp.push(
-                    <div
-                        key={i + "row-tile-elems"}
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexWrap: "nowrap",
-                            justifyContent: "space-between",
-                            columnGap: styles.columnGap ? styles.columnGap : 0,
-                            rowGap: styles.rowGap ? styles.rowGap : 0
-                        }}>
-                        {row}
-                    </div>
-                );
-            }
+        Promise
+            .all(targetCollection.images.map(imageInfo => imageInfo.url).map(checkImageLoaded))
+            .then((images) => {
+                onLoadImages(images);
+            })
+    }, [windowWidth])
 
-            setElementsByRows(elementsByRowsTemp);
-        }
-    }, [widthContainer, maxWidthContainer, elementsByRows])
+    useEffect(() => {
+        if (!computedImagesSizes) return;
+        type TAccTypeElem = {width: number, images: IImageInfo[]};
 
-    const resizeObserverRef = useResizeObserver(onResize);
+        let fullWidth: number = 0;
+        let averageComputedWidthContainer: Exclude<typeof computedWidthContainer, null>;
+        let computedWidthContainerTemp: Exclude<typeof computedWidthContainer, null>;
+        let maxWidthRowInfo: TAccTypeElem;
+        let imagesByRowsInfo: TAccTypeElem[];
+        let imagesByRowsTemp: Exclude<typeof imagesByRows, null>;
+
+        for (const key in computedImagesSizes) {
+            const imageInfo = computedImagesSizes[key];
+            fullWidth += imageInfo.width;
+        }
+        averageComputedWidthContainer = fullWidth / styles.countRows;
+        imagesByRowsInfo =
+            computedImagesSizes
+                .reduce((accumulator, imgInfo, currentIndex) => {
+                    let currentLengthAcc = accumulator.length - 1;
+                    if (averageComputedWidthContainer < (accumulator[currentLengthAcc].width + imgInfo.width - (imgInfo.width * 0.5) )) {
+                        const newValueAcc = {width: 0, images: []} as TAccTypeElem;
+                        accumulator.push(newValueAcc);
+                        currentLengthAcc++;
+                    }
+                    accumulator[currentLengthAcc] = {
+                        width: (accumulator[currentLengthAcc].width || 0) + imgInfo.width,
+                        images: accumulator[currentLengthAcc].images ? [...accumulator[currentLengthAcc].images, imgInfo] : [...accumulator[currentLengthAcc].images]
+                    }
+
+                    return accumulator;
+                }, [{width: 0, images: []}] as TAccTypeElem[]);
+
+        maxWidthRowInfo =
+            imagesByRowsInfo
+            .sort((rowsInfo, nextRowsInfo) => nextRowsInfo.width - rowsInfo.width)[0];
+
+        imagesByRowsTemp = imagesByRowsInfo.map(rowsInfo => rowsInfo.images.map(rowInfo => rowInfo.path));
+        computedWidthContainerTemp = maxWidthRowInfo.width + (styles.columnGap || 0) * maxWidthRowInfo.images.length;
+
+        setImagesByRows(imagesByRowsTemp)
+        setComputedWidthContainer(computedWidthContainerTemp);
+    }, [computedImagesSizes, windowWidth])
+
+    useEffect(() => {
+        if (!computedWidthContainer || !imagesByRows || !onReady) return;
+
+        onReady();
+    }, [computedWidthContainer, imagesByRows, windowWidth])
+
+    const onOpenModalWithImage = useCallback((event: React.MouseEvent) => {
+        const element = event.currentTarget;
+        const url = element.getAttribute("data-url-image");
+
+        if (!url) throw new Error("url is not defined");
+
+        onOpenModal(url);
+    }, [targetCollection])
+
+    if (!imagesByRows || !computedWidthContainer) return null;
+
     return (
         <div
-            ref={el => {
-                    resizeObserverRef.current = el;
-                }
-            }
             style={{
                 height: (styles.heightRow * (styles.countRows || 2)) + ( (styles.rowGap ? styles.rowGap : 0) * (styles.countRows ? styles.countRows - 1 : 0)),
-                flexWrap: elementsByRows ? "wrap" : "nowrap",
-                width: widthContainer ? widthContainer + "px" : "auto",
-                display: "flex", flexDirection: "row",
+                flexWrap: "nowrap",
+                minWidth: computedWidthContainer + "px",
+                width: "max-content",
+                display: "flex",
+                flexDirection: "column",
                 columnGap: styles.columnGap ? styles.columnGap : 0,
                 rowGap: styles.rowGap ? styles.rowGap : 0,
             }}
-            className={className + " tiles"}
+            className={"tiles " + className}
         >
-            { elementsByRows ? elementsByRows : elements}
+            {
+                imagesByRows.map((images, index) => (
+                    <div
+                        key={"row" + index}
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            flexDirection: "row",
+                            flexWrap: "nowrap",
+                            width: computedWidthContainer,
+                            height: styles.heightRow,
+                            gap: styles.columnGap
+                        }}
+                    >
+                        {images.map((image, index) => (
+                            <div
+                                key={`image-${index}`}
+                                tabIndex={0}
+                                className="portfolio-collection__wrapper-photo"
+                                data-url-image={image}
+                                onClick={onOpenModalWithImage}
+                                style={{
+                                    height: styles.heightRow,
+                                }}
+                            >
+                                <img
+                                    height={styles.heightRow + "px"}
+                                    src={image}
+                                    alt={targetCollection.name + " image " + index}
+                                    className="portfolio-collection__photo"/>
+                            </div>
+                        ))}
+                    </div>
+                ))
+            }
         </div>
     )
 })
